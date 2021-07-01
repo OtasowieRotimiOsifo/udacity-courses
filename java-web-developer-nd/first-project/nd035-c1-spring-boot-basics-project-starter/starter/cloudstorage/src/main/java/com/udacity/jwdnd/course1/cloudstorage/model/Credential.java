@@ -11,10 +11,11 @@ import lombok.ToString;
 @NoArgsConstructor
 @EqualsAndHashCode
 @ToString
-public class Credentials {
-	private @Getter @Setter int credentialId;
+public class Credential {
+	private @Getter @Setter int credentialid;
 	private @Getter @Setter String url;
-	private @Getter @Setter String userName;
+	private @Getter @Setter String username;
 	private @Getter @Setter String key;
 	private @Getter @Setter String password;
+	private @Getter @Setter int userid; 
 }

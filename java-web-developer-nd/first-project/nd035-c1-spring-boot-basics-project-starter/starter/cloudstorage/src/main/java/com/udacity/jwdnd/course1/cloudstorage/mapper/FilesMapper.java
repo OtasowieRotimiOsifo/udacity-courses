@@ -27,11 +27,11 @@ public interface FilesMapper {
 	FileObject findByFileName(String filename);
 	
 	@Insert("INSERT INTO FILES (filename, filesize, contenttype, userid, filedata) VALUES(#{filename}, #{filesize}, #{contenttype}, #{userid}, #{filedata})")
-	public int insertFiles(FileObject fileObject);
+	public int insertFile(FileObject fileObject);
 	
 	@Delete("DELETE FROM FILES WHERE filename = #{filename}")
 	public int deleteByFileId(String filename);
 	
 	@Update("UPDATE FILES SET filename = #{filename}, filesize = #{filesize}, contenttype = #{contenttype}, userid = #{userid}, lastname = #{lastname} WHERE fileid = #{fileid}")
-	public int updateUser(FileObject fileObject);
+	public int updateFile(FileObject fileObject);
 }

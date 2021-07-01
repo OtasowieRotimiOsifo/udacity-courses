@@ -11,35 +11,27 @@ import org.springframework.stereotype.Repository;
 
 import com.udacity.jwdnd.course1.cloudstorage.model.Notes;
 
-import lombok.Getter;
-import lombok.Setter;
-
-
 @Mapper
 @Repository
 public interface NotesMapper {
 	@Select("SELECT * FROM NOTES")
-	List<Notes> findAllFiles();
+	List<Notes> findAllNotes();
 
 	@Select("SELECT * FROM NOTES WHERE noteid = #{noteid}")
-	Notes findByFileId(int noteid);
+	Notes findByNoteId(int noteid);
 
-	@Select("SELECT * FROM NOTES WHERE noteid = #{noteid}")
-	List<Notes> findByUserId(int noteid);
+	@Select("SELECT * FROM NOTES WHERE userid = #{userid}")
+	List<Notes> findByUserId(int userid);
 	
 	@Select("SELECT * FROM NOTES WHERE notetitle = #{notetitle}")
-	Notes findByFileName(String notetitle);
-	/*
-	 * ;
-	private @Getter @Setter int ;
-	private @Getter @Setter String notedescription
-	 */
+	Notes findByTitle(String notetitle);
+	
 	@Insert("INSERT INTO NOTES (notetitle, notedescription, userid) VALUES(#{notetitle}, #{notedescription}, #{userid})")
-	public int insertFiles(Notes notes);
+	public int insertNotes(Notes notes);
 	
 	@Delete("DELETE FROM NOTES WHERE notetitle = #{notetitle}")
-	public int deleteByFileId(String notetitle);
+	public int deleteByTitle(String notetitle);
 	
 	@Update("UPDATE NOTES SET notetitle = #{notetitle}, notedescription = #{notedescription}, userid = #{userid} WHERE noteid = #{noteid}")
-	public int updateUser(Notes notes);
+	public int updateNote(Notes notes);
 }
