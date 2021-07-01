@@ -12,10 +12,10 @@ import lombok.ToString;
 @EqualsAndHashCode
 @ToString
 public class User {
-	private @Getter @Setter Integer userId;
+	private @Getter @Setter Integer userid;
 	private @Getter @Setter String username;
 	private @Getter @Setter String salt;
 	private @Getter @Setter String password;
-	private @Getter @Setter String firstName;
-	private @Getter @Setter String lastName;
+	private @Getter @Setter String firstname;
+	private @Getter @Setter String lastname;
 }

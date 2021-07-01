@@ -13,6 +13,7 @@ import lombok.ToString;
 @ToString
 public class Notes {
 	private @Getter @Setter int nodeId;
-	private @Getter @Setter String title;
-	private @Getter @Setter String notContent;
+	private @Getter @Setter String notetitle;
+	private @Getter @Setter int userid;
+	private @Getter @Setter String notedescription;
 }
