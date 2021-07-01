@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
@@ -15,7 +14,7 @@ import lombok.ToString;
 public class FileObject {
 	private @Getter @Setter int fileId;
 	private @Getter @Setter String fileName;
-	private @Getter @Setter long fileSize;
+	private @Getter @Setter String fileSize;
 	private @Getter @Setter String contenttype;
 	private @Getter @Setter byte[] content;
 }
