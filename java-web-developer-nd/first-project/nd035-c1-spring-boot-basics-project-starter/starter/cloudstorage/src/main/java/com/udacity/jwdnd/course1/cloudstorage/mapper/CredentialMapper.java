@@ -33,7 +33,7 @@ public interface CredentialMapper {
 	public int insertCredential(Credential credential);
 	
 	@Delete("DELETE FROM CREDENTIALS WHERE credentialid = #{credentialid}")
-	public int deleteByCredentialId(String notetitle);
+	public int deleteByCredentialId(int credentialId);
 	
 	@Update("UPDATE CREDENTIALS SET url = #{url}, username = #{username}, key = #{key}, password = #{password}, userid = #{userid} WHERE credentialid = #{credentialid}")
 	public int updateCredential(Credential credential);
