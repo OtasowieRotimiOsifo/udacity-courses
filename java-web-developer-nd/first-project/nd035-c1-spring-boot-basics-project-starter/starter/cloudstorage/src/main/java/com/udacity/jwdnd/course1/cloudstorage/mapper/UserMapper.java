@@ -13,7 +13,7 @@ import com.udacity.jwdnd.course1.cloudstorage.model.User;
 
 @Mapper
 @Repository
-public interface UsersMapper {
+public interface UserMapper {
 	@Select("SELECT * FROM USERS")
 	List<User> findAllUsers();
 
