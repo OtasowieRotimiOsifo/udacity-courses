@@ -12,10 +12,10 @@ import lombok.ToString;
 @EqualsAndHashCode
 @ToString
 public class FileObject {
-	private @Getter @Setter int fileid;
+	private @Getter @Setter Integer fileid;
 	private @Getter @Setter String filename;
 	private @Getter @Setter String filesize;
 	private @Getter @Setter String contenttype;
-	private @Getter @Setter int userid;
+	private @Getter @Setter Integer userid;
 	private @Getter @Setter byte[] filedata;
 }

@@ -13,7 +13,7 @@ import com.udacity.jwdnd.course1.cloudstorage.model.FileObject;
 
 @Mapper
 @Repository
-public interface FilesMapper {
+public interface FileMapper {
 	@Select("SELECT * FROM FILES")
 	List<FileObject> findAllFiles();
 

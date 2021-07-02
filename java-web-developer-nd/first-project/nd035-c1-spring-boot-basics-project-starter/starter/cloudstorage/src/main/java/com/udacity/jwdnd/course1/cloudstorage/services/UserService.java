@@ -22,7 +22,11 @@ public class UserService {
         return userMapper.findByUserName(username) == null;
     }
     
-    public int createUser(User user) {
+    public User getUser(String username) {
+        return userMapper.findByUserName(username);
+    }
+    
+    public Integer createUser(User user) {
         SecureRandom random = new SecureRandom();
         byte[] salt = new byte[16];
         random.nextBytes(salt);
@@ -31,7 +35,7 @@ public class UserService {
         return userMapper.insertUsers(new User(null, user.getUsername(), encodedSalt, hashedPassword, user.getFirstname(), user.getLastname()));
     }
 
-    public User getUser(String username) {
-        return userMapper.findByUserName(username);
+    public Integer deleteUser(String username) {
+    	return userMapper.deleteByUserName(username);
     }
 }

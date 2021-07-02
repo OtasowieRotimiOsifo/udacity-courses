@@ -11,9 +11,9 @@ import lombok.ToString;
 @NoArgsConstructor
 @EqualsAndHashCode
 @ToString
-public class Notes {
-	private @Getter @Setter int nodeId;
+public class Note {
+	private @Getter @Setter Integer nodeId;
 	private @Getter @Setter String notetitle;
-	private @Getter @Setter int userid;
 	private @Getter @Setter String notedescription;
+	private @Getter @Setter Integer userid;
 }

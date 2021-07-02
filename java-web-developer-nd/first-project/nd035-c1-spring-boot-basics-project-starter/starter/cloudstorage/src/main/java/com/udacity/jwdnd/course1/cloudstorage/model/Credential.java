@@ -12,10 +12,10 @@ import lombok.ToString;
 @EqualsAndHashCode
 @ToString
 public class Credential {
-	private @Getter @Setter int credentialid;
+	private @Getter @Setter Integer credentialid;
 	private @Getter @Setter String url;
 	private @Getter @Setter String username;
 	private @Getter @Setter String key;
 	private @Getter @Setter String password;
-	private @Getter @Setter int userid; 
+	private @Getter @Setter Integer userid; 
 }
