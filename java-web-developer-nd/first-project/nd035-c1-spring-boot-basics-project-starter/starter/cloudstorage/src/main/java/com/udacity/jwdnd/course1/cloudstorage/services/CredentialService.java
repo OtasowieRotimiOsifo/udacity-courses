@@ -78,6 +78,10 @@ public class CredentialService {
 		return credentialmapper.deleteByCredentialId(credentialId);
 	}
 	
+	public boolean credentialExists(int credentialid) {
+		return credentialmapper.findByCredentialsId(credentialid) != null;
+	}
+	
 	private String encryptPassword(String plainTextPassword) {
 		String key = generateRandomBase64Token(16);
 		return encryptionService.encryptValue(plainTextPassword, key);

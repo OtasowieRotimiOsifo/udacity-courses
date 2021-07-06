@@ -23,6 +23,10 @@ public class NoteService {
         return noteMapper.findByTitle(title);
     }
     
+    public Note getNotesById(int noteid) {
+        return noteMapper.findByNoteId(noteid);
+    }
+    
     public List<Note> getNotesByuser(String username) {
     	Integer userid = userMapper.findByUserName(username).getUserid(); 
         return noteMapper.findByUserId(userid);
@@ -42,5 +46,13 @@ public class NoteService {
     
     public Integer deleteNote(String title) {
     	return noteMapper.deleteByTitle(title);
+    }
+    
+    public Integer deleteNote(int noteid) {
+    	return noteMapper.dele;
+    }
+    
+    public boolean noteExists(int noteid) {
+    	return noteMapper.findByNoteId(noteid) != null;
     }
 }

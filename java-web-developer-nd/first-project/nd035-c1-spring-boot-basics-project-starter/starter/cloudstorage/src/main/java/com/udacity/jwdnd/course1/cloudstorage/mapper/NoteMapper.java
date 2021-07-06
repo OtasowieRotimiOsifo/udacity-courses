@@ -32,6 +32,9 @@ public interface NoteMapper {
 	@Delete("DELETE FROM NOTES WHERE notetitle = #{notetitle}")
 	public int deleteByTitle(String notetitle);
 	
+	@Delete("DELETE FROM NOTES WHERE noteid = #{noteid}")
+	public int deleteById(int noteid);
+	
 	@Update("UPDATE NOTES SET notetitle = #{notetitle}, notedescription = #{notedescription}, userid = #{userid} WHERE noteid = #{noteid}")
 	public int updateNote(Note note);
 }

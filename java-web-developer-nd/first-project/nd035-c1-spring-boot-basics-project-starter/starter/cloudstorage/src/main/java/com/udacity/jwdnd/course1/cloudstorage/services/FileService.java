@@ -55,6 +55,32 @@ public class FileService {
 
 	}
 
+	public Integer addFile(MultipartFile multiFileObject, Integer userid) {
+		FileObject fileObject = new FileObject();
+		try {
+
+			fileObject.setContenttype(multiFileObject.getContentType());
+
+			fileObject.setFileid(null);
+
+			fileObject.setFiledata(multiFileObject.getBytes());
+
+			fileObject.setFilename(multiFileObject.getOriginalFilename());
+
+			Long fileSize = multiFileObject.getSize();
+			fileObject.setFilesize(fileSize.toString());
+
+			fileObject.setUserid(userid);
+
+			return fileMapper.insertFile(fileObject);
+
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+
+	}
+	
 	public Integer deleteFile(String fileName) {
 		return fileMapper.deleteByFileId(fileName);
 	}

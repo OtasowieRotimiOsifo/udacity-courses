@@ -12,7 +12,7 @@ import lombok.ToString;
 @EqualsAndHashCode
 @ToString
 public class Note {
-	private @Getter @Setter Integer nodeId;
+	private @Getter @Setter Integer noteId;
 	private @Getter @Setter String notetitle;
 	private @Getter @Setter String notedescription;
 	private @Getter @Setter Integer userid;
