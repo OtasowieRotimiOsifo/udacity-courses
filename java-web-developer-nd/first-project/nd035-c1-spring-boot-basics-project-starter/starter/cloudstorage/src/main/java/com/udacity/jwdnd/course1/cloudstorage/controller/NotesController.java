@@ -20,7 +20,7 @@ public class NotesController {
 		String result = "";
 		Integer output = -1;
 		
-		if(notesService.noteExists(note.getNoteId()) {
+		if(notesService.noteExists(note.getNoteId())) {
 			output = notesService.updateNote(note);
 		} else {
 			output = notesService.addNote(note);
@@ -40,7 +40,7 @@ public class NotesController {
 		
 		String result = "";
 		
-		if(!notesService.noteExists(noteid) {
+		if(!notesService.noteExists(noteid)) {
 			result = "redirect:/result?error";
 		}
 		

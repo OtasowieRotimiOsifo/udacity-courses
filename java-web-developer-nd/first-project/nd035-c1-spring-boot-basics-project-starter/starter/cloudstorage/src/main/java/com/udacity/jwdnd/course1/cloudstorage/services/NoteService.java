@@ -49,7 +49,7 @@ public class NoteService {
     }
     
     public Integer deleteNote(int noteid) {
-    	return noteMapper.dele;
+    	return noteMapper.deleteById(noteid);
     }
     
     public boolean noteExists(int noteid) {
