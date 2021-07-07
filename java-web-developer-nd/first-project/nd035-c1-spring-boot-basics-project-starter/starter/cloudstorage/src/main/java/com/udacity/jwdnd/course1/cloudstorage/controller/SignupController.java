@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.udacity.jwdnd.course1.cloudstorage.model.User;
 import com.udacity.jwdnd.course1.cloudstorage.services.UserService;
 
-@Controller()
+@Controller
 @RequestMapping("/signup")
 public class SignupController {
 
@@ -25,7 +25,7 @@ public class SignupController {
         return "signup";
     }
 
-    @PostMapping()
+    @PostMapping()  
     public String signupUser(@ModelAttribute User user, Model model) {
         String signupError = null;
 

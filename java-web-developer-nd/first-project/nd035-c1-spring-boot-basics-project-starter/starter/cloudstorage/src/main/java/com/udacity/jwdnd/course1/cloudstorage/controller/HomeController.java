@@ -11,6 +11,7 @@ import com.udacity.jwdnd.course1.cloudstorage.model.User;
 import com.udacity.jwdnd.course1.cloudstorage.services.CredentialService;
 import com.udacity.jwdnd.course1.cloudstorage.services.FileService;
 import com.udacity.jwdnd.course1.cloudstorage.services.NoteService;
+import com.udacity.jwdnd.course1.cloudstorage.services.UserService;
 
 @Controller
 @RequestMapping("/home")
@@ -24,14 +25,20 @@ public class HomeController {
 	@Autowired
 	private FileService fileService;
 	
+	@Autowired
+	private UserService userService;
+	
 	@GetMapping()
 	public ModelAndView getHomePage(Authentication authentication) throws Exception {
-		User user = (User) authentication.getPrincipal();
+		//(User) authentication.getPrincipal();
+		
+		String username = (String)authentication.getPrincipal();
+		User user = userService.getUser(username);
 		
 		ModelAndView modelAndView = new ModelAndView("home");
-		modelAndView.addObject("Notes", noteService.getNotesByuser(user.getUsername()));
-		modelAndView.addObject("credentials", credentialService.getCredentialsForUser(user.getUsername()));
-		modelAndView.addObject("files", fileService.findByUserId(user.getUsername()));
+		modelAndView.addObject("Notes", noteService.getNotesByuser(user.getUserid()));
+		modelAndView.addObject("credentials", credentialService.getCredentialsForUser(username));
+		modelAndView.addObject("files", fileService.findByUserId(username));
 		
 		return modelAndView;
 	}
