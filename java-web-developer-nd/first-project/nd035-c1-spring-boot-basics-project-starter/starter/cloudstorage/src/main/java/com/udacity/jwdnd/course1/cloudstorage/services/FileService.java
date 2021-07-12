@@ -28,11 +28,10 @@ public class FileService {
 		return fileMapper.findByFileId(fileid);
 	}
 	
-	public List<FileObject> findByUserId(String username) {
-		Integer userid = userMapper.findByUserName(username).getUserid();
+	public List<FileObject> findByUserId(int userid) {
 		return fileMapper.findByUserId(userid);
 	}
-
+	
 	public Integer addFile(MultipartFile multiFileObject, String username) {
 		FileObject fileObject = new FileObject();
 		try {

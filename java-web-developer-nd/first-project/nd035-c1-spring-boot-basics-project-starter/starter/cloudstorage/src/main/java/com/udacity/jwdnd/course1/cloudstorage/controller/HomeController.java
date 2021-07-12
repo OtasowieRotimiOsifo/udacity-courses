@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.ui.Model;
 
 import com.udacity.jwdnd.course1.cloudstorage.model.User;
 import com.udacity.jwdnd.course1.cloudstorage.services.CredentialService;
@@ -38,10 +39,15 @@ public class HomeController {
 		User user = userService.getUser(username);
 		
 		ModelAndView modelAndView = new ModelAndView("home");
-		modelAndView.addObject("Notes", noteService.getNotesByuser(user.getUserid()));
-		modelAndView.addObject("credentials", credentialService.getCredentialsForUser(username));
-		modelAndView.addObject("files", fileService.findByUserId(username));
+		if(user != null) {
+			modelAndView.addObject("Notes", noteService.getNotesByuser(user.getUserid()));
+			modelAndView.addObject("credentials", credentialService.getCredentialsForUser(username));
+			modelAndView.addObject("files", fileService.findByUserId(user.getUserid()));
+			
+		}
+		
 		
 		return modelAndView;
 	}
+	
 }
