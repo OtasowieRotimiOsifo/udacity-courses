@@ -16,6 +16,10 @@ public class FileObject {
 	private @Getter @Setter String filename;
 	private @Getter @Setter String filesize;
 	private @Getter @Setter String contenttype;
-	private @Getter @Setter Integer userid;
+	private @Getter @Setter int userid;
 	private @Getter @Setter byte[] filedata;
+	
+	public String fileIdAsString() {
+		return fileid.toString();
+	}
 }

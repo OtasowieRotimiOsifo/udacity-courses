@@ -24,6 +24,10 @@ public class FileService {
 		return fileMapper.findByFileName(filename);
 	}
 
+	public FileObject findByFileId(int fileid) {
+		return fileMapper.findByFileId(fileid);
+	}
+	
 	public List<FileObject> findByUserId(String username) {
 		Integer userid = userMapper.findByUserName(username).getUserid();
 		return fileMapper.findByUserId(userid);
@@ -81,7 +85,7 @@ public class FileService {
 
 	}
 	
-	public Integer deleteFile(String fileName) {
-		return fileMapper.deleteByFileId(fileName);
+	public Integer deleteFileById(Integer id) {
+		return fileMapper.deleteByFileId(id);
 	}
 }
