@@ -113,7 +113,6 @@ public class FilesController {
 		Integer output = fileService.deleteFileById(idLoc);
 		
 		if(output >= 0) {
-			 redirectAttributes.addFlashAttribute("tab", "nav-files-tab");
 		     redirectAttributes.addFlashAttribute("success", true);
 			result = "redirect:/home";
 		}
