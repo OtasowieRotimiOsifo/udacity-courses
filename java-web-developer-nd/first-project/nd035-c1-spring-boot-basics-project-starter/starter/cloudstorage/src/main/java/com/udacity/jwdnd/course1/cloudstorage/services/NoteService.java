@@ -35,6 +35,10 @@ public class NoteService {
         return noteMapper.insertNotes(new Note(null, note.getNotetitle(), note.getNotedescription(), note.getUserid()));
     }
 
+    public Integer addNote(Note note, int userid) {      
+        return noteMapper.insertNotes(new Note(null, note.getNotetitle(), note.getNotedescription(), userid));
+    }
+    
     public Integer updateNote(Note note) {      
         return noteMapper.updateNote(note);
     }

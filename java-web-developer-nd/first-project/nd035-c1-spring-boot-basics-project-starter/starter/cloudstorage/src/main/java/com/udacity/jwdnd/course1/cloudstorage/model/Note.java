@@ -9,11 +9,15 @@ import lombok.ToString;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode
+//@EqualsAndHashCode
 @ToString
 public class Note {
 	private @Getter @Setter Integer noteId;
 	private @Getter @Setter String notetitle;
 	private @Getter @Setter String notedescription;
 	private @Getter @Setter Integer userid;
+	
+	public String getIdAsString() {
+		return noteId.toString();
+	}
 }

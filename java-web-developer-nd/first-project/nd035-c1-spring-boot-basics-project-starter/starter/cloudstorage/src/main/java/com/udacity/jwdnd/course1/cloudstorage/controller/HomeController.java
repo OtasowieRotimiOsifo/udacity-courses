@@ -40,7 +40,7 @@ public class HomeController {
 		
 		ModelAndView modelAndView = new ModelAndView("home");
 		if(user != null) {
-			modelAndView.addObject("Notes", noteService.getNotesByuser(user.getUserid()));
+			modelAndView.addObject("notes", noteService.getNotesByuser(user.getUserid()));
 			modelAndView.addObject("credentials", credentialService.getCredentialsForUser(username));
 			modelAndView.addObject("files", fileService.findByUserId(user.getUserid()));
 			

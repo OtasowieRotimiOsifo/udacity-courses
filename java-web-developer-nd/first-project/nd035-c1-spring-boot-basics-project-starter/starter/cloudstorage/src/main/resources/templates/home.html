@@ -59,8 +59,8 @@
                             </table>
                         </div>
                     </div>
-                    <div class="tab-pane fade" id="nav-notes" role="tabpanel" aria-labelledby="nav-notes-tab">
-                        <button style="margin: 0.25em;" type="button" class="btn btn-info float-right" onclick="showNoteModal()">
+                     <div class="tab-pane fade" id="nav-notes" role="tabpanel" aria-labelledby="nav-notes-tab">
+                        <button id="newnote" style="margin: 0.25em;" type="button" class="btn btn-info float-right" onclick="showNoteModal()">
                             + Add a New Note
                         </button>
 
@@ -74,13 +74,15 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
+                                    <tr th:each="note:${notes}">
+                                    
                                         <td>
-                                            <button type="button" class="btn btn-success">Edit</button>
-                                            <a class="btn btn-danger">Delete</a>
+                                            <button name="edit" id="edit" type="button" class="btn btn-success" th:onclick="javascript:showNoteModal([[${note}]])" >
+                                        Edit</button>
+                                            <a th:href="@{/notes/delete/__${note.getIdAsString()}__}" class="btn btn-danger">Delete</a>
                                         </td>
-                                        <th scope="row">Example Note Title</th>
-                                        <td>Example Note Description </td>
+                                        <th scope="row"  th:text="${note.notetitle}">Example Note Title</th>
+                                        <td  th:text="${note.notedescription}">Example Note Description </td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -96,7 +98,7 @@
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <form action="#" method="POST">
+                                        <form th:action="@{/notes}" method="POST">
                                             <input type="hidden" name="noteId" id="note-id">
                                             <div class="form-group">
                                                 <label for="note-title" class="col-form-label">Title</label>
@@ -192,10 +194,12 @@
         <!--For opening the note modal-->
         <script type="text/javascript">
             // For opening the note modal
-            function showNoteModal(noteId, noteTitle, noteDescription) {
-                $('#note-id').val(noteId ? noteId : '');
-                $('#note-title').val(noteTitle ? noteTitle : '');
-                $('#note-description').val(noteDescription ? noteDescription : '');
+            // function showNoteModal(noteId, noteTitle, noteDescription)
+            function showNoteModal(note) {
+            	//console.log(note.notedescription);
+                $('#note-id').val(note && note.noteId ? note.noteId: 0);
+                $('#note-title').val(note && note.notetitle ? note.notetitle : '');
+                $('#note-description').val(note && note.notedescription ? note.notedescription: '');
                 $('#noteModal').modal('show');
             }
 
