@@ -12,8 +12,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.security.core.Authentication;
 
 import com.udacity.jwdnd.course1.cloudstorage.model.Note;
@@ -32,7 +35,16 @@ public class NotesController {
 	@Autowired
 	private UserService userService;
 	
-	
+	@RequestMapping(method = RequestMethod.GET)
+    public ResponseEntity<List<Note>> getNotes() {
+    	List<Note> notes = notesService.getAllNotes();
+    	 HttpHeaders httpHeaders = new HttpHeaders();
+         httpHeaders.setCacheControl("must-revalidate, post-check=0, pre-check=0");
+         
+         ResponseEntity<List<Note>> serverResponse = new ResponseEntity<List<Note>>(notes, httpHeaders, HttpStatus.OK);
+         return serverResponse;
+    }
+    
 	@PostMapping("/notes")
 	public String createOrUppdate(Authentication authentication, Note note, Model model) {
 		logger.info("Note: {}", note);
