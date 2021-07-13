@@ -105,7 +105,7 @@ public class FilesController {
 	}
 	
 	@RequestMapping(value = {"/files/delete/{id}"}, method = RequestMethod.GET)
-	public String deleteFile(@PathVariable(name = "id") String id,  RedirectAttributes redirectAttributes) {
+	public String deleteFile(@PathVariable(name = "id") String id, Model model) {
 		logger.info("File id = {}", id);
 		String result = "";
 		
@@ -113,11 +113,12 @@ public class FilesController {
 		Integer output = fileService.deleteFileById(idLoc);
 		
 		if(output >= 0) {
-		     redirectAttributes.addFlashAttribute("success", true);
-			result = "redirect:/home";
+			model.addAttribute("success", true);
+			result = "result";
 		}
 		else {
-			result = "redirect:/home";
+			model.addAttribute("error", "Error in deleting the file");
+			result = "result";
 		}
 	
 		return result;
