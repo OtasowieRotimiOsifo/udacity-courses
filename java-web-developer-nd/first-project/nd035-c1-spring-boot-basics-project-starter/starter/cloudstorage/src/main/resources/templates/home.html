@@ -65,7 +65,7 @@
                         </button>
 
                         <div class="table-responsive">
-                            <table class="table table-striped" id="userTable">
+                            <table class="table table-striped" th:object="${notess}" id="userTable">
                                 <thead>
                                     <tr>
                                         <th style="width: 20%" scope="col"></th>
@@ -75,7 +75,7 @@
                                 </thead>
                                 <tbody>
                                     <tr th:each="note:${notes}">
-                                    <span class="notetitle" th:text="${note.notetitle}">Username</span>: <span class="description" th:text="${note.notedescription}">Hello, world!</span>
+                                  
                                         <td>
                                             <button name="edit" id="edit" type="button" class="btn btn-success" th:onclick="javascript:showNoteModal([[${note}]])" >
                                         Edit</button>
@@ -135,14 +135,14 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
+                                <tr th:each="credential:${credentials}">
                                     <td>
-                                        <button type="button" class="btn btn-success">Edit</button>
-                                        <a class="btn btn-danger">Delete</a>
+                                        <button name="edit-credential" id="edit-credential" type="button" th:onclick="javascript:showCredentialModal([[${credential}]])" class="btn btn-success">Edit</button>
+                                        <a  id="delete-credential" th:href="@{/credentials/delete(id=${credential.credentialid})}" class="btn btn-danger">Delete</a>
                                     </td>
-                                    <th scope="row">Example Credential URL</th>
-                                    <td>Example Credential Username</td>
-                                    <td>Example Credential Password</td>
+                                    <th scope="row" th:text="${credential.url}">Example Credential URL</th>
+                                    <td th:text="${credential.username}">Example Credential Username</td>
+                                    <td th:text="${credential.password}">Example Credential Password</td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -158,10 +158,10 @@
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <form action="#" method="POST">
-                                            <input type="hidden" name="credentialId" id="credential-id">
+                                        <form action="#" th:action="@{/credentials}" method="POST">
+                                            <input type="hidden" name="credentialid" id="credential-id">
                                             <div class="form-group">
-                                                <label for="note-title" class="col-form-label">URL</label>
+                                                <label for="credential-title" class="col-form-label">URL</label>
                                                 <input type="text" name= "url" class="form-control" id="credential-url" maxlength="100" required>
                                             </div>
                                             <div class="form-group">
@@ -194,9 +194,8 @@
         <!--For opening the note modal-->
         <script type="text/javascript">
             // For opening the note modal
-            // function showNoteModal(noteId, noteTitle, noteDescription)
             function showNoteModal(note) {
-            	//console.log(note.notedescription);
+            	console.log(note);
                 $('#note-id').val(note && note.noteid ? note.noteid: 0);
                 $('#note-title').val(note && note.notetitle ? note.notetitle : '');
                 $('#note-description').val(note && note.notedescription ? note.notedescription: '');
@@ -204,11 +203,12 @@
             }
 
             // For opening the credentials modal
-            function showCredentialModal(credentialId, url, username, password) {
-                $('#credential-id').val(credentialId ? credentialId : '');
-                $('#credential-url').val(url ? url : '');
-                $('#credential-username').val(username ? username : '');
-                $('#credential-password').val(password ? password : '');
+            //function showCredentialModal(credentialId, url, username, password)
+            function showCredentialModal(credential) {
+                $('#credential-id').val(credential && credential.credentialid ? credential.credentialid : 0);
+                $('#credential-url').val(credential && credential.url ? credential.url : '');
+                $('#credential-username').val(credential && credential.username ? credential.username : '');
+                $('#credential-password').val(credential && credential.password ? credential.password : '');
                 $('#credentialModal').modal('show');
             }
         </script>

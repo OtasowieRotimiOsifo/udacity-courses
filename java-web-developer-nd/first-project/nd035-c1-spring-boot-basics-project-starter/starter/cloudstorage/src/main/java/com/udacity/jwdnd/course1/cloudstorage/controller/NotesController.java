@@ -94,11 +94,10 @@ public class NotesController {
 	}
 	
 	@GetMapping("/notes/delete")
-	//@RequestMapping(value = {"/notes/delete/{id}"}, method = RequestMethod.GET)
 	public String deleteCredential(@RequestParam("id") int id, Model model) {
 		
 		logger.info("Note id in delete: {}", id);
-		//Integer idLoc = Integer.parseInt(id);
+	
 		if(!notesService.noteExists(id)) {
 			model.addAttribute("error", "Note does not exist");
 		    return "result";
