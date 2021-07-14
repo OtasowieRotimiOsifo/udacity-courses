@@ -1,17 +1,23 @@
 package com.udacity.jwdnd.course1.cloudstorage;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.jupiter.api.*;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.JavascriptExecutor;
+
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
-import org.openqa.selenium.support.ui.WebDriverWait;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class CloudStorageApplicationTests {
@@ -71,73 +77,66 @@ class CloudStorageApplicationTests {
 	@Test
 	public void getUserSignup()  {
 		
-		driver.get(baseURL + "/signup");
-
-		SignupPage signupPage = new SignupPage(driver);
-		signupPage.signup(UserData.firstname, UserData.lastname, UserData.username, UserData.password);
-		
-		WebElement loginLink = driver.findElement(By.xpath("//a[contains(text(),'Login')]"));
-    	loginLink.click(); //redirection after signup
-    	
-		String currentUrl = driver.getCurrentUrl();
-		driver.get(currentUrl);
+		RegistrationManager.registerUserAndRedirectToLogin(driver, baseURL);
 		Assertions.assertEquals("Login", driver.getTitle()); 
 	}
 	
 	@Test
 	public void getSignupAndLogin() {
-		driver.get(baseURL + "/signup");
-
-		SignupPage signupPage = new SignupPage(driver);
-		signupPage.signup(UserData.firstname, UserData.lastname, UserData.username, UserData.password);
 		
-		WebElement loginLink = driver.findElement(By.xpath("//a[contains(text(),'Login')]"));
-    	loginLink.click(); //redirection after signup
-    	
-		String currentUrl = driver.getCurrentUrl();
-		driver.get(currentUrl);
+		//Register a user
+		RegistrationManager.registerUserAndRedirectToLogin(driver, baseURL);
 		Assertions.assertEquals("Login", driver.getTitle()); 
 		
-		//login from the login page
-		LoginPage loginPage = new LoginPage(driver);
-		loginPage.login(UserData.username, UserData.password);
-		
-		currentUrl = driver.getCurrentUrl();
-		driver.get(currentUrl);
-		logger.info("currentUrl: {}", currentUrl);
+		//login for the registered user
+		LoginManager.loginRegisteredUser(driver);
 		Assertions.assertEquals("Home", driver.getTitle()); 
 	}
 	
 	@Test
 	public void getSignupAndLoginAndLogout() {
-		driver.get(baseURL + "/signup");
+		
+		// Register a user
+		RegistrationManager.registerUserAndRedirectToLogin(driver, baseURL);
+		Assertions.assertEquals("Login", driver.getTitle());
 
-		SignupPage signupPage = new SignupPage(driver);
-		signupPage.signup(UserData.firstname, UserData.lastname, UserData.username, UserData.password);
-		
-		WebElement loginLink = driver.findElement(By.xpath("//a[contains(text(),'Login')]"));
-    	loginLink.click(); //redirection after signup
-    	
-		String currentUrl = driver.getCurrentUrl();
-		driver.get(currentUrl);
-		Assertions.assertEquals("Login", driver.getTitle()); 
-		
-		//login from the login page
-		LoginPage loginPage = new LoginPage(driver);
-		loginPage.login(UserData.username, UserData.password);
-		
-		currentUrl = driver.getCurrentUrl();
-		driver.get(currentUrl);
-		logger.info("currentUrl: {}", currentUrl);
-		Assertions.assertEquals("Home", driver.getTitle()); 
-		
-		//logout
-		LogoutPage logoutPage = new LogoutPage(driver);
-		logoutPage.logout();
-		
-		currentUrl = driver.getCurrentUrl();
-		driver.get(currentUrl);
-		logger.info("currentUrl: {}", currentUrl);
-		Assertions.assertEquals("Login", driver.getTitle()); 
+		// allow login for the registered user
+		LoginManager.loginRegisteredUser(driver);
+		Assertions.assertEquals("Home", driver.getTitle());
+
+		// logout the user
+		LogoutManager.logoutUser(driver);
+		Assertions.assertEquals("Login", driver.getTitle());
 	}
+	
+	@Test
+	public void checkTabsOnHomePage() {
+		
+		// Register a user
+		RegistrationManager.registerUserAndRedirectToLogin(driver, baseURL);
+		Assertions.assertEquals("Login", driver.getTitle());
+
+		// allow login for the registered user
+		LoginManager.loginRegisteredUser(driver);
+		Assertions.assertEquals("Home", driver.getTitle());
+		
+		//get tab elements by name after login
+		List<WebElement> tabs = new ArrayList<> ();
+		String [] tabNames = {"nav-files-tab", "nav-notes-tab", "nav-credentials-tab"};
+		for(String name: tabNames) {
+			 WebElement tab = getTabByName(driver, name);
+			 tabs.add(tab);
+		}
+		Assertions.assertEquals(3, tabs.size());
+		
+		// logout the user
+		LogoutManager.logoutUser(driver);
+		Assertions.assertEquals("Login", driver.getTitle());
+	}
+	
+	private WebElement getTabByName(WebDriver driverIn, String name) {
+		return driverIn.findElement(By.id(name));
+	}
+	
+	
 }
