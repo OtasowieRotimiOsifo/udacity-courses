@@ -109,18 +109,10 @@ public class CredentialService {
 		return encryptionService.encryptValue(plainTextPassword, key);
 	}
 
-	private String generateRandomSalt(int byteLength) { // stackoverflow
+	private String generateRandomSalt(int byteLength) { 
 		SecureRandom random = new SecureRandom();
         byte[] salt = new byte[byteLength];
         random.nextBytes(salt);
         return Base64.getEncoder().encodeToString(salt);
 	}
-	
-	private String generateRandomBase64Token(int byteLength) { // stackoverflow
-		SecureRandom secureRandom = new SecureRandom();
-		byte[] token = new byte[byteLength];
-		secureRandom.nextBytes(token);
-		return Base64.getUrlEncoder().withoutPadding().encodeToString(token);
-	}
-
 }

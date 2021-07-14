@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.security.core.Authentication;
 
@@ -62,23 +63,22 @@ public class CredentialsController {
 	}
 	
 	@GetMapping("/credentials/delete")
-	public String deleteCredential(int credentialid) {
-		
-		String result = "";
+	public String deleteCredential(@RequestParam("id") int credentialid, Model model) {
 		
 		if(!credentialService.credentialExists(credentialid)) {
-			result = "redirect:/result?error";
+			model.addAttribute("error", "Credential does not exist");
+			return "result";
 		}
 		
 		Integer output = credentialService.deleteCredential(credentialid);
 		
 		if(output >= 0) {
-			result = "redirect:/result?success";
+			model.addAttribute("success", true);
+			return "result";
 		}
 		else {
-			result = "redirect:/result?error";
+			model.addAttribute("error", "Unable to save your credential changes");
+			return "result";
 		}
-	
-		return result;
 	}
 }
