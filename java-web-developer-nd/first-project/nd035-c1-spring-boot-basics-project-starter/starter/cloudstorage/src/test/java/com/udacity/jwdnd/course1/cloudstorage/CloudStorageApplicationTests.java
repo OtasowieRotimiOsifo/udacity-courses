@@ -2,6 +2,7 @@ package com.udacity.jwdnd.course1.cloudstorage;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,9 +13,14 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.JavascriptExecutor;
-
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
+
+import com.udacity.jwdnd.course1.cloudstorage.model.Note;
+import com.udacity.jwdnd.course1.cloudstorage.services.NoteService;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +29,9 @@ import org.slf4j.LoggerFactory;
 class CloudStorageApplicationTests {
 
 	Logger logger = LoggerFactory.getLogger(CloudStorageApplicationTests.class);
+	
+	@Autowired
+	private NoteService notesService;
 	
 	@LocalServerPort
 	private int port;
@@ -134,8 +143,59 @@ class CloudStorageApplicationTests {
 		Assertions.assertEquals("Login", driver.getTitle());
 	}
 	
+	@Test
+	public void testAddNote() {
+		// Register a user
+		RegistrationManager.registerUserAndRedirectToLogin(driver, baseURL);
+		Assertions.assertEquals("Login", driver.getTitle());
+
+		// allow login for the registered user
+		LoginManager.loginRegisteredUser(driver);
+		Assertions.assertEquals("Home", driver.getTitle());
+		
+		WebElement notesTab = getTabByName(driver,"nav-notes-tab");
+		
+		WebDriverWait driverWait = new WebDriverWait (driver, 20);
+		
+		JavascriptExecutor jse =(JavascriptExecutor) driver;
+		jse.executeScript("arguments[0].click()", notesTab);
+		driverWait.withTimeout(Duration.ofSeconds(20));
+		
+		
+		By by = getBy("newnote");
+		WebElement addNoteButton = driver.findElement(by);
+		driverWait.until(ExpectedConditions.elementToBeClickable(addNoteButton)).click();
+		
+		by = getBy("note-title");
+		String title = "first-test";
+		driverWait.until(ExpectedConditions.elementToBeClickable(by)).sendKeys(title);
+		
+		String description = "a test that works";
+		WebElement notedescription = getTabByName(driver, "note-description");
+		notedescription.sendKeys(description);
+		
+		WebElement savechanges = getTabByName(driver, "save-changes");
+		savechanges.click();
+		Assertions.assertEquals("Result", driver.getTitle());
+		
+		Note note = notesService.getNotesByTitle(title);
+		Assertions.assertNotNull(note);
+		Assertions.assertEquals(title, note.getNotetitle());
+		Assertions.assertEquals(description, note.getNotedescription());
+		
+		HomePageRedirect.redirect(driver, baseURL);
+		// logout the user
+		LogoutManager.logoutUser(driver);
+		Assertions.assertEquals("Login", driver.getTitle());
+	}
+	
+	private By getBy(String name) {
+		return By.id(name);
+	}
+	
 	private WebElement getTabByName(WebDriver driverIn, String name) {
-		return driverIn.findElement(By.id(name));
+		By by = By.id(name);
+		return driverIn.findElement(by);
 	}
 	
 	
