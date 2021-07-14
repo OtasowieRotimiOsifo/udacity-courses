@@ -12,12 +12,12 @@ import lombok.ToString;
 //@EqualsAndHashCode
 @ToString
 public class Note {
-	private @Getter @Setter Integer noteId;
+	private @Getter @Setter Integer noteid;
 	private @Getter @Setter String notetitle;
 	private @Getter @Setter String notedescription;
 	private @Getter @Setter Integer userid;
 	
 	public String getIdAsString() {
-		return noteId.toString();
+		return noteid.toString();
 	}
 }

@@ -79,7 +79,7 @@
                                         <td>
                                             <button name="edit" id="edit" type="button" class="btn btn-success" th:onclick="javascript:showNoteModal([[${note}]])" >
                                         Edit</button>
-                                            <a th:href="@{/notes/delete/__${note.getIdAsString()}__}" class="btn btn-danger">Delete</a>
+                                            <a id="delete-note" th:href="@{/notes/delete(id=${note.noteid})}" class="btn btn-danger">Delete</a>
                                         </td>
                                         <th scope="row"  th:text="${note.notetitle}">Example Note Title</th>
                                         <td  th:text="${note.notedescription}">Example Note Description </td>
@@ -99,14 +99,14 @@
                                     </div>
                                     <div class="modal-body">
                                         <form th:action="@{/notes}" method="POST">
-                                            <input type="hidden" name="noteId" id="note-id">
+                                            <input type="hidden" name="noteid" id="note-id">
                                             <div class="form-group">
                                                 <label for="note-title" class="col-form-label">Title</label>
-                                                <input type="text" name= "noteTitle" class="form-control" id="note-title" maxlength="20" required>
+                                                <input type="text" name= "notetitle" class="form-control" id="note-title" maxlength="20" required>
                                             </div>
                                             <div class="form-group">
                                                 <label for="note-description" class="col-form-label">Description</label>
-                                                <textarea class="form-control" name="noteDescription" id="note-description" rows="5" maxlength="1000" required></textarea>
+                                                <textarea class="form-control" name="notedescription" id="note-description" rows="5" maxlength="1000" required></textarea>
                                             </div>
                                             <button id="noteSubmit" type="submit" class="d-none"></button>
                                         </form>
@@ -197,7 +197,7 @@
             // function showNoteModal(noteId, noteTitle, noteDescription)
             function showNoteModal(note) {
             	//console.log(note.notedescription);
-                $('#note-id').val(note && note.noteId ? note.noteId: 0);
+                $('#note-id').val(note && note.noteid ? note.noteid: 0);
                 $('#note-title').val(note && note.notetitle ? note.notetitle : '');
                 $('#note-description').val(note && note.notedescription ? note.notedescription: '');
                 $('#noteModal').modal('show');

@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -64,10 +65,10 @@ public class NotesController {
 	
 		
 		Integer output = -1;
-		if(note.getNoteId() != null) {
-			if(notesService.noteExists(note.getNoteId())) {
+		if(note.getNoteid() != null) {
+			if(notesService.noteExists(note.getNoteid())) {
 				
-				output = notesService.updateNote(note);
+				output = notesService.updateNote(note, user.getUserid());
 				
 			} else {
 				
@@ -93,23 +94,25 @@ public class NotesController {
 	}
 	
 	@GetMapping("/notes/delete")
-	public String deleteCredential(int noteid) {
+	//@RequestMapping(value = {"/notes/delete/{id}"}, method = RequestMethod.GET)
+	public String deleteCredential(@RequestParam("id") int id, Model model) {
 		
-		String result = "";
-		
-		if(!notesService.noteExists(noteid)) {
-			result = "redirect:/result?error";
+		logger.info("Note id in delete: {}", id);
+		//Integer idLoc = Integer.parseInt(id);
+		if(!notesService.noteExists(id)) {
+			model.addAttribute("error", "Note does not exist");
+		    return "result";
 		}
 		
-		Integer output = notesService.deleteNote(noteid);
+		Integer output = notesService.deleteNote(id);
 		
 		if(output >= 0) {
-			result = "redirect:/result?success";
+			model.addAttribute("success", true);
+			return "result";
 		}
 		else {
-			result = "redirect:/result?error";
+			model.addAttribute("error", "Delete failed");
+			return "result";
 		}
-	
-		return result;
 	}
 }
