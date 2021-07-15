@@ -33,12 +33,12 @@ public class CredentialsController {
 		
 		String username = (String) authentication.getPrincipal();
 		User user = userService.getUser(username);
-		String signupError = null;
+		String createError = null;
 
 		if (user == null) {
-			signupError = "No user found for this credential! ";
+			createError = "No user found for this credential! ";
 			
-			model.addAttribute("error", signupError);
+			model.addAttribute("error", createError);
 			return "result";
 		} 
 		
@@ -52,8 +52,8 @@ public class CredentialsController {
 		}
 		
 		if(output < 0) {
-			signupError = "unable to save credential! ";
-			model.addAttribute("error", signupError);
+			createError = "unable to save credential! ";
+			model.addAttribute("error", createError);
 			
 			return "result";
 		} else {

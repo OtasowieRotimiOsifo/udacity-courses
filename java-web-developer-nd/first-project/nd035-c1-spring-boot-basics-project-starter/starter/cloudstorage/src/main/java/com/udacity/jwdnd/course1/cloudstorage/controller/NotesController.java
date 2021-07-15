@@ -55,12 +55,12 @@ public class NotesController {
 
 		logger.info("User: {}", user);
 		
-		String signupError = null;
+		String createError = null;
 
 		if (user == null) {
-			signupError = "No user found for this note! ";
+			createError = "No user found for this note! ";
 			
-			model.addAttribute("error", signupError);
+			model.addAttribute("error", createError);
 		} 
 	
 		
@@ -82,9 +82,9 @@ public class NotesController {
 		}
 		
 		if(output < 0) {
-			signupError = "Error on insert or update! ";
+			createError = "Error on insert or update! ";
 			
-			model.addAttribute("error", signupError);
+			model.addAttribute("error", createError);
 			return "result";
 		} else {
 			model.addAttribute("success", true);
