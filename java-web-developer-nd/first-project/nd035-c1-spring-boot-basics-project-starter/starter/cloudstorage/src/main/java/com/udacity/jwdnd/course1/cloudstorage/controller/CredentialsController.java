@@ -48,7 +48,7 @@ public class CredentialsController {
 		if(credentialService.credentialExists(credential.getCredentialid())) {
 			output = credentialService.updatecredential(credential, userid);
 		} else {
-			output = credentialService.addCredential(credential);
+			output = credentialService.addCredential(credential,  userid);
 		}
 		
 		if(output < 0) {

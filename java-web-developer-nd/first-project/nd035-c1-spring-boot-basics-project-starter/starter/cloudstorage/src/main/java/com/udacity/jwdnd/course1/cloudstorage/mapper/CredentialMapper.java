@@ -20,11 +20,11 @@ public interface CredentialMapper {
 	@Select("SELECT * FROM CREDENTIALS WHERE credentialid = #{credentialid}")
 	Credential findByCredentialsId(int credentialid);
 
-	@Select("SELECT * FROM CREDENTIALS WHERE userid = #{userid}")
+	@Select("SELECT * FROM CREDENTIALS WHERE userid = #{userid}") //login user id
 	List<Credential> findByUserId(int userid);
 	
-	@Select("SELECT * FROM CREDENTIALS WHERE username = #{username}")
-	List<Credential> findByUserName(String username);
+	@Select("SELECT * FROM CREDENTIALS WHERE username = #{usernameInCredential}") //user name for the credential
+	Credential findByUserNameInCredential(String usernameInCredential); // returns just one credential
 	
 	@Select("SELECT * FROM CREDENTIALS WHERE key = #{key}")
 	Credential findByCredentialKey(String key);

@@ -43,14 +43,13 @@ public class CredentialService {
 		return credentials;
 	}
 
-	public List<Credential> getCredentialsForUser(String username) {
-		logger.info("username: {}", username);
-		List<Credential> credentials = credentialmapper.findByUserName(username);
-		logger.info("credentials: {}", credentials);
-		for (Credential credential : credentials) {
-			credential.setPassword(decryptPassword(credential.getPassword(), credential.getKey()));
-		}
-		return credentials;
+	public Credential getCredentialsWithUserNameInCredential(String usernameinCredential) {
+		logger.info("username: {}", usernameinCredential);
+		Credential credential = credentialmapper.findByUserNameInCredential(usernameinCredential);
+
+		credential.setPassword(decryptPassword(credential.getPassword(), credential.getKey()));
+
+		return credential;
 	}
 
 	public Credential findById(int id) {
@@ -60,6 +59,7 @@ public class CredentialService {
 	}
 
 	public Integer addCredential(Credential credential, int userid) {
+		logger.info("crednetial in add credential: {}", credential);
 		String key = generateRandomSalt(16);
 		String encryptedPassword = encryptPassword(credential.getPassword(), key);
 		credential.setPassword(encryptedPassword);
@@ -70,6 +70,7 @@ public class CredentialService {
 	}
 
 	public Integer addCredential(Credential credential) {
+		logger.info("crednetial in add credential: {}", credential);
 		String key = generateRandomSalt(16);
 		String encryptedPassword = encryptPassword(credential.getPassword(), key);
 		credential.setPassword(encryptedPassword);
@@ -105,7 +106,6 @@ public class CredentialService {
 	}
 
 	private String encryptPassword(String plainTextPassword, String key) {
-		//String key = generateRandomBase64Token(16);
 		return encryptionService.encryptValue(plainTextPassword, key);
 	}
 

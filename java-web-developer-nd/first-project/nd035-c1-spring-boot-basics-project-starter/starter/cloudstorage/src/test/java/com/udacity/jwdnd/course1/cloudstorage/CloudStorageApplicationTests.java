@@ -19,7 +19,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 
+import com.udacity.jwdnd.course1.cloudstorage.model.Credential;
 import com.udacity.jwdnd.course1.cloudstorage.model.Note;
+import com.udacity.jwdnd.course1.cloudstorage.services.CredentialService;
 import com.udacity.jwdnd.course1.cloudstorage.services.NoteService;
 
 import org.slf4j.Logger;
@@ -32,6 +34,9 @@ class CloudStorageApplicationTests {
 	
 	@Autowired
 	private NoteService notesService;
+	
+	@Autowired
+	private CredentialService credentialService;
 	
 	@LocalServerPort
 	private int port;
@@ -182,6 +187,58 @@ class CloudStorageApplicationTests {
 		Assertions.assertNotNull(note);
 		Assertions.assertEquals(title, note.getNotetitle());
 		Assertions.assertEquals(description, note.getNotedescription());
+		
+		HomePageRedirect.redirect(driver, baseURL);
+		// logout the user
+		LogoutManager.logoutUser(driver);
+		Assertions.assertEquals("Login", driver.getTitle());
+	}
+	
+	@Test
+	public void testAddCredential() {
+		// Register a user
+		RegistrationManager.registerUserAndRedirectToLogin(driver, baseURL);
+		Assertions.assertEquals("Login", driver.getTitle());
+
+		// allow login for the registered user
+		LoginManager.loginRegisteredUser(driver);
+		Assertions.assertEquals("Home", driver.getTitle());
+		
+		WebElement credentialsTab = getTabByName(driver,"nav-credentials-tab");
+		
+		WebDriverWait driverWait = new WebDriverWait (driver, 20);
+		
+		JavascriptExecutor jse =(JavascriptExecutor) driver;
+		jse.executeScript("arguments[0].click()", credentialsTab);
+		driverWait.withTimeout(Duration.ofSeconds(20));
+		
+		
+		By by = getBy("newcredential");
+		WebElement addCredentialButton = driver.findElement(by);
+		driverWait.until(ExpectedConditions.elementToBeClickable(addCredentialButton)).click();
+		
+		by = getBy("credential-url");
+		String url = "www.example.com";
+		driverWait.until(ExpectedConditions.elementToBeClickable(by)).sendKeys(url);
+		
+		String username = "Albireo";
+		WebElement credentialusername = getTabByName(driver, "credential-username");
+		credentialusername.sendKeys(username);
+		
+		String password = "cygnus";
+		WebElement credentialpassword = getTabByName(driver, "credential-password");
+		credentialpassword.sendKeys(password);
+		
+		WebElement savechanges = getTabByName(driver, "save-credential");
+		savechanges.click();
+		Assertions.assertEquals("Result", driver.getTitle());
+		
+		Credential credential = credentialService.getCredentialsWithUserNameInCredential(username);
+		Assertions.assertNotNull(credential);
+		logger.info("credential: {}", credential);
+		Assertions.assertEquals(url, credential.getUrl());
+		Assertions.assertEquals(username, credential.getUsername());
+		Assertions.assertEquals(password, credential.getPassword());
 		
 		HomePageRedirect.redirect(driver, baseURL);
 		// logout the user
