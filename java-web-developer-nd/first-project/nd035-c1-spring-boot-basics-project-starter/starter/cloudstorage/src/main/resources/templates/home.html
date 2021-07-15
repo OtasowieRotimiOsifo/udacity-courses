@@ -65,7 +65,7 @@
                         </button>
 
                         <div class="table-responsive">
-                            <table class="table table-striped" th:object="${notess}" id="userTable">
+                            <table class="table table-striped" th:object="${notes}" id="userTable">
                                 <thead>
                                     <tr>
                                         <th style="width: 20%" scope="col"></th>
@@ -74,9 +74,9 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr th:each="note:${notes}">
+                                    <tr th:each="note:${notes}" id="datarow">
                                   
-                                        <td>
+                                        <td id="tabledata">
                                             <button name="edit" id="edit" type="button" class="btn btn-success" th:onclick="javascript:showNoteModal([[${note}]])" >
                                         Edit</button>
                                             <a id="delete-note" th:href="@{/notes/delete(id=${note.noteid})}" class="btn btn-danger">Delete</a>
@@ -203,12 +203,11 @@
             }
 
             // For opening the credentials modal
-            //function showCredentialModal(credentialId, url, username, password)
             function showCredentialModal(credential) {
                 $('#credential-id').val(credential && credential.credentialid ? credential.credentialid : 0);
                 $('#credential-url').val(credential && credential.url ? credential.url : '');
                 $('#credential-username').val(credential && credential.username ? credential.username : '');
-                $('#credential-password').val(credential && credential.password ? credential.password : '');
+                $('#credential-password').val(credential && credential.unencodedpassword ? credential.unencodedpassword : '');
                 $('#credentialModal').modal('show');
             }
         </script>

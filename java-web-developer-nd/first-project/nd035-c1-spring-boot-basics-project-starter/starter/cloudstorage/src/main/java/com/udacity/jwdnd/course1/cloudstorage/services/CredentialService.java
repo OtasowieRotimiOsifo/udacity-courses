@@ -37,8 +37,9 @@ public class CredentialService {
 
 	public List<Credential> getCredentialsForUser(int userid) {
 		List<Credential> credentials = credentialmapper.findByUserId(userid);
-		for (Credential credential : credentials) {
-			credential.setPassword(decryptPassword(credential.getPassword(), credential.getKey()));
+		for(Credential credential: credentials) {
+			credential.setUnencodedpassword(decryptPassword(credential.getPassword(), credential.getKey()));
+	
 		}
 		return credentials;
 	}
@@ -47,14 +48,14 @@ public class CredentialService {
 		logger.info("username: {}", usernameinCredential);
 		Credential credential = credentialmapper.findByUserNameInCredential(usernameinCredential);
 
-		credential.setPassword(decryptPassword(credential.getPassword(), credential.getKey()));
-
+		credential.setUnencodedpassword(decryptPassword(credential.getPassword(), credential.getKey()));
+		
 		return credential;
 	}
 
 	public Credential findById(int id) {
 		Credential credential = credentialmapper.findByCredentialsId(id);
-		credential.setPassword(decryptPassword(credential.getPassword(), credential.getKey()));
+		credential.setUnencodedpassword(decryptPassword(credential.getPassword(), credential.getKey()));
 		return credential;
 	}
 

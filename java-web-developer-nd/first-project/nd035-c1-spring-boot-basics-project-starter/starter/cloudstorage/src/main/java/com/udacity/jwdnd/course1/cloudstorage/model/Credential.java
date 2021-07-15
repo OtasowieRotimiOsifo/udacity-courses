@@ -17,5 +17,6 @@ public class Credential {
 	private @Getter @Setter String username;
 	private @Getter @Setter String key;
 	private @Getter @Setter String password;
+	private @Getter @Setter String unencodedpassword;
 	private @Getter @Setter Integer userid; 
 }

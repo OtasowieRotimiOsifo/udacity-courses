@@ -18,8 +18,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.core.env.Environment;
 
+import com.udacity.jwdnd.course1.cloudstorage.config.ConfigStore;
+import com.udacity.jwdnd.course1.cloudstorage.config.PropertiesUtility;
 import com.udacity.jwdnd.course1.cloudstorage.model.FileObject;
 import com.udacity.jwdnd.course1.cloudstorage.model.User;
 import com.udacity.jwdnd.course1.cloudstorage.services.FileService;
@@ -34,6 +36,9 @@ public class FilesController {
 	
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	PropertiesUtility propertiesUtility;
 	
 	@RequestMapping(value = {"/files/{id}"}, method = RequestMethod.GET)
     public ResponseEntity<byte[]> view(@PathVariable(name = "id") String id) {
@@ -60,16 +65,26 @@ public class FilesController {
 		String username = (String) authentication.getPrincipal();
 		User user = userService.getUser(username);
 
-		String signupError = null;
+		String uploadError = null;
 
+		int max_size = Integer.parseInt( propertiesUtility.getProperty("spring.servlet.multipart.max-request-size").replaceAll("[^0-9]", ""));
+		if(multipartFile.getSize() > max_size) {
+			uploadError = "The file is larger than the allowed size! ";
+			
+			model.addAttribute("uploadError", uploadError);
+			return "result";
+		}
+		
 		if (user == null) {
-			signupError = "No user founf for this file! ";
+			uploadError = "No user found for this file! ";
 			
-			model.addAttribute("error", signupError);
+			model.addAttribute("error", uploadError);
+			return "result";
 		} else if (multipartFile != null && multipartFile.isEmpty()) {
-			signupError = "input file is empty or null! ";
+			uploadError = "No file selected for upload! ";
 			
-			model.addAttribute("error", signupError);
+			model.addAttribute("emptyUpload", uploadError);
+			return "result";
 		} else {
 			// check for existing file or duplicate
 			List<FileObject> fileObjects = fileService.findByUserId(user.getUserid());
@@ -83,25 +98,22 @@ public class FilesController {
 			}
 			
 			if (exists == true) {
-				signupError = "The file already exists!";
+				uploadError = "The file already exists!";
 			    
-				model.addAttribute("error", signupError);
+				model.addAttribute("error", uploadError);
+				return "result";
 			} else {
 				Integer output = fileService.addFile(multipartFile, user.getUserid());
 				if (output >= 0) {
-					signupError = null;
+					model.addAttribute("success", true);
+					return "result";
 				} else {
-					signupError = "There was error in upload of the file: " + multipartFile.getOriginalFilename() + "!";
-					model.addAttribute("saveError", signupError);
+					uploadError = "There was error in upload of the file: " + multipartFile.getOriginalFilename() + "!";
+					model.addAttribute("saveError", uploadError);
+					return "result";
 				}
 			}
 		}
-
-		if (signupError == null) {
-			model.addAttribute("success", true);
-		}
-
-		return "result";
 	}
 	
 	@RequestMapping(value = {"/files/delete/{id}"}, method = RequestMethod.GET)

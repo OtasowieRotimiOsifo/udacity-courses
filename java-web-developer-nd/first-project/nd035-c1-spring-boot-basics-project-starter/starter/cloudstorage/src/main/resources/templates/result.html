@@ -16,13 +16,22 @@
             </div>
             <div id="error-msg" th:if="${error}" class="alert alert-danger fill-parent">
                 <h1 class="display-5">Error</h1>
-                <span>Your changes were not saved. Click <a th:href="@{/home}">here</a> to continue.</span>
+                <span> Your changes were not saved. Click <a th:href="@{/home}">here</a> to continue.</span>
             </div>
             <div id="err-msg" th:if="${saveError}" class="alert alert-danger fill-parent">
                 <h1 class="display-5">Error</h1>
                 <span>Error with processing request</span>
                 <span>Click <a th:href="@{/home}">here</a> to continue.</span>
             </div>
+            <div id="error-msg" th:if="${uploadError}" class="alert alert-danger">
+                    <span th:text="${uploadError}"></span>
+                    <span>Click <a th:href="@{/home}">here</a> to continue.</span>
+            </div>
+            <div id="error-msg" th:if="${emptyUpload}" class="alert alert-danger">
+                    <span th:text="${emptyUpload}"></span>
+                    <span>Click <a th:href="@{/home}">here</a> to continue.</span>
+            </div>
+            
         </div>
     </body>
 </html>
