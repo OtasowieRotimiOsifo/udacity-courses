@@ -2,6 +2,9 @@ package com.udacity.jwdnd.course1.cloudstorage.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +20,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.HandlerExceptionResolver;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
 import com.udacity.jwdnd.course1.cloudstorage.config.PropertiesUtility;
 import com.udacity.jwdnd.course1.cloudstorage.model.FileObject;
@@ -26,7 +32,7 @@ import com.udacity.jwdnd.course1.cloudstorage.services.FileService;
 import com.udacity.jwdnd.course1.cloudstorage.services.UserService;
 
 @Controller
-public class FilesController {
+public class FilesController implements HandlerExceptionResolver {
 	Logger logger = LoggerFactory.getLogger(FilesController.class);
 
 	@Autowired
@@ -57,7 +63,7 @@ public class FilesController {
 	@PostMapping("/files")
 	public String addFile(Authentication authentication, @RequestParam("fileUpload") MultipartFile multipartFile,
 			Model model) {
-
+       try {
 		logger.info("multipartFile file name: = {}", multipartFile.getOriginalFilename());
 		logger.info("authentication = {}", authentication);
 		String username = (String) authentication.getPrincipal();
@@ -65,13 +71,13 @@ public class FilesController {
 
 		String uploadError = null;
 
-		int max_size = Integer.parseInt( propertiesUtility.getProperty("spring.servlet.multipart.max-request-size").replaceAll("[^0-9]", ""));
+		/*int max_size = Integer.parseInt( propertiesUtility.getProperty("spring.servlet.multipart.max-request-size").replaceAll("[^0-9]", ""));
 		if(multipartFile.getSize() > max_size) {
 			uploadError = "The file is larger than the allowed size! ";
 			
 			model.addAttribute("uploadError", uploadError);
 			return "result";
-		}
+		}*/
 		
 		if (user == null) {
 			uploadError = "No user found for this file! ";
@@ -112,6 +118,26 @@ public class FilesController {
 				}
 			}
 		}
+       } catch(Exception e) {
+
+			model.addAttribute("uploadError", "The file is larger than the allowed size! ");
+			return "result";
+       }
+	}
+	
+	@Override
+	public ModelAndView resolveException(
+	  HttpServletRequest request,
+	  HttpServletResponse response, 
+	  Object object,
+	  Exception exc) {   
+	     
+	    ModelAndView modelAndView = new ModelAndView("result");
+	    String max_size = propertiesUtility.getProperty("spring.servlet.multipart.max-request-size");
+	    if (exc instanceof MaxUploadSizeExceededException) {
+	        modelAndView.getModel().put("uploadError", "File size exceeds limit configure limit of: " + max_size);
+	    }
+	    return modelAndView;
 	}
 	
 	@RequestMapping(value = {"/files/delete/{id}"}, method = RequestMethod.GET)

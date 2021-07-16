@@ -109,6 +109,25 @@ class CloudStorageApplicationTests {
 	}
 	
 	@Test
+	public void testSignupAndLoginAndInvalidNav() {
+		
+		//Register a user
+		RegistrationManager.registerUserAndRedirectToLogin(driver, baseURL);
+		Assertions.assertEquals("Login", driver.getTitle()); 
+		
+		//login for the registered user
+		LoginManager.loginRegisteredUser(driver);
+		Assertions.assertEquals("Home", driver.getTitle()); 
+		driver.get( baseURL  + "/home/invalid");
+		Assertions.assertEquals("Error", driver.getTitle()); 
+		
+		HomePageRedirect.redirect(driver, baseURL); //redirect and logout the user
+		// logout the user
+		LogoutManager.logoutUser(driver);
+		Assertions.assertEquals("Login", driver.getTitle());
+	}
+	
+	@Test
 	public void getSignupAndLoginAndLogout() {
 		
 		// Register a user
