@@ -45,10 +45,19 @@ public class CredentialsController {
 		int userid = user.getUserid();
 		credential.setUserid(userid);
 		logger.info("credential: {}", credential);
-		if(credentialService.credentialExists(credential.getCredentialid())) {
+		if(credential.getCredentialid() != null) {
 			output = credentialService.updatecredential(credential, userid);
 		} else {
-			output = credentialService.addCredential(credential,  userid);
+			if(credentialService.credentialExists(credential.getUsername())) {
+				Credential credentialLoc = credentialService.getCredentialsWithUserNameInCredential(credential.getUsername());
+				credentialLoc.setPassword(credential.getPassword());
+				credentialLoc.setUrl(credential.getUrl());
+				credentialLoc.setUserid(credential.getUserid());
+				credentialLoc.setUsername(credential.getUsername());
+				output = credentialService.updatecredential(credentialLoc, userid);
+			} else {
+				output = credentialService.addCredential(credential,  userid);
+			}
 		}
 		
 		if(output < 0) {

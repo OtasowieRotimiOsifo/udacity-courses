@@ -48,13 +48,10 @@ public class NotesController {
     
 	@PostMapping("/notes")
 	public String createOrUppdate(Authentication authentication, Note note, Model model) {
-		logger.info("Note: {}", note);
-		
+
 		String username = (String) authentication.getPrincipal();
 		User user = userService.getUser(username);
 
-		logger.info("User: {}", user);
-		
 		String createError = null;
 
 		if (user == null) {
@@ -65,20 +62,22 @@ public class NotesController {
 	
 		
 		Integer output = -1;
-		if(note.getNoteid() != null) {
-			if(notesService.noteExists(note.getNoteid())) {
-				
-				output = notesService.updateNote(note, user.getUserid());
-				
-			} else {
-				
-				output = notesService.addNote(note, user.getUserid());
-				
-			}
+		if (note.getNoteid() != null) { // create or update?
+			logger.info("Note in update: {}", note);
+			note.setUserid(user.getUserid());
+			output = notesService.updateNote(note);
+
 		} else {
-			
-			output = notesService.addNote(note, user.getUserid());
-			
+			 if(notesService.noteExists(note.getNotetitle())) {
+				 Note noteLoc = notesService.getNotesByTitle(note.getNotetitle());
+				 noteLoc.setNotedescription(note.getNotedescription());
+				 logger.info("Note in update second logging: {}", noteLoc);
+				 output = notesService.updateNote(noteLoc);
+			 } else {
+				 logger.info("Note in add: {}", note);
+					note.setUserid(user.getUserid());
+					output = notesService.addNote(note, user.getUserid()); 
+			 }
 		}
 		
 		if(output < 0) {

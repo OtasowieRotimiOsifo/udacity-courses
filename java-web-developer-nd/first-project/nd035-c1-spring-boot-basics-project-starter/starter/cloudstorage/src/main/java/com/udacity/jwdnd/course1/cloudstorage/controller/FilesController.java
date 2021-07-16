@@ -18,9 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.core.env.Environment;
 
-import com.udacity.jwdnd.course1.cloudstorage.config.ConfigStore;
 import com.udacity.jwdnd.course1.cloudstorage.config.PropertiesUtility;
 import com.udacity.jwdnd.course1.cloudstorage.model.FileObject;
 import com.udacity.jwdnd.course1.cloudstorage.model.User;

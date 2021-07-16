@@ -16,11 +16,11 @@
             </div>
             <div id="error-msg" th:if="${error}" class="alert alert-danger fill-parent">
                 <h1 class="display-5">Error</h1>
-                <span> Your changes were not saved. Click <a th:href="@{/home}">here</a> to continue.</span>
+                <span th:text="${error}"> Your changes were not saved. Click <a th:href="@{/home}">here</a> to continue.</span>
             </div>
             <div id="err-msg" th:if="${saveError}" class="alert alert-danger fill-parent">
                 <h1 class="display-5">Error</h1>
-                <span>Error with processing request</span>
+                <span th:text="${saveError}">Error with processing request</span>
                 <span>Click <a th:href="@{/home}">here</a> to continue.</span>
             </div>
             <div id="error-msg" th:if="${uploadError}" class="alert alert-danger">

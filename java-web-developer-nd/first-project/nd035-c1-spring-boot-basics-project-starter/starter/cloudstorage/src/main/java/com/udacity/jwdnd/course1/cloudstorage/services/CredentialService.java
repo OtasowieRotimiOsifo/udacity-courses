@@ -106,6 +106,10 @@ public class CredentialService {
 		return credentialmapper.findByCredentialsId(credentialid) != null;
 	}
 
+	public boolean credentialExists(String userNameinCredential) {
+		return credentialmapper.findByUserNameInCredential(userNameinCredential) != null;
+	}
+	
 	private String encryptPassword(String plainTextPassword, String key) {
 		return encryptionService.encryptValue(plainTextPassword, key);
 	}

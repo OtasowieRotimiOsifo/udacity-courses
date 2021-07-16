@@ -44,6 +44,10 @@ public class NoteService {
         return noteMapper.updateNote(note);
     }
     
+    public Integer updateNote(Note note) { 
+        return noteMapper.updateNote(note);
+    }
+    
     public Integer deleteNote(String title) {
     	return noteMapper.deleteByTitle(title);
     }
@@ -52,7 +56,26 @@ public class NoteService {
     	return noteMapper.deleteById(noteid);
     }
     
+    public boolean noteExists(int noteid, String title) {
+    	if(noteMapper.findByNoteId(noteid) != null) {
+    		return true;
+    	} else if (noteMapper.findByTitle(title) != null) {
+    		return true;
+    	}
+    	return false;
+    }
+    
+    public boolean noteExists(String title) {
+    	if (noteMapper.findByTitle(title) != null) {
+    		return true;
+    	}
+    	return false;
+    }
+    
     public boolean noteExists(int noteid) {
-    	return noteMapper.findByNoteId(noteid) != null;
+    	if(noteMapper.findByNoteId(noteid) != null) {
+    		return true;
+    	} 
+    	return false;
     }
 }

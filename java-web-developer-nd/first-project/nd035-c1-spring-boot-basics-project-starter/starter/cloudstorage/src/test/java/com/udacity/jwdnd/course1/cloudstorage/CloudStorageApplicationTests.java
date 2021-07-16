@@ -144,7 +144,7 @@ class CloudStorageApplicationTests {
 		}
 		Assertions.assertEquals(3, tabs.size());
 		
-		// logout the user
+		 //logout the user
 		LogoutManager.logoutUser(driver);
 		Assertions.assertEquals("Login", driver.getTitle());
 	}
@@ -189,8 +189,9 @@ class CloudStorageApplicationTests {
 		Assertions.assertEquals(title, note.getNotetitle());
 		Assertions.assertEquals(description, note.getNotedescription());
 		
-		HomePageRedirect.redirect(driver, baseURL);
-		// logout the user
+		notesService.deleteNote(title); //remove the note before next test
+		
+		HomePageRedirect.redirect(driver, baseURL); //redirect and logout the user
 		LogoutManager.logoutUser(driver);
 		Assertions.assertEquals("Login", driver.getTitle());
 	}
@@ -220,8 +221,10 @@ class CloudStorageApplicationTests {
 		driverWait.until(ExpectedConditions.elementToBeClickable(addNoteButton)).click();
 		
 		by = getBy("note-title");
-		String title = "first-testx";
-		driverWait.until(ExpectedConditions.elementToBeClickable(by)).sendKeys(title);
+		String title = "first-test";
+		WebElement notetitle = getElementByName(driver, "note-title");
+		driverWait.until(ExpectedConditions.elementToBeClickable(notetitle));
+		notetitle.sendKeys(title);
 		
 		String description = "a test that works";
 		WebElement notedescription = getElementByName(driver, "note-description");
@@ -232,6 +235,7 @@ class CloudStorageApplicationTests {
 		Assertions.assertEquals("Result", driver.getTitle());
 		
 		Note note = notesService.getNotesByTitle(title);
+		logger.info("Note create in create and update test: {}", note);
 		Assertions.assertNotNull(note);
 		Assertions.assertEquals(title, note.getNotetitle());
 		Assertions.assertEquals(description, note.getNotedescription());
@@ -243,7 +247,7 @@ class CloudStorageApplicationTests {
 		jse.executeScript("arguments[0].click()", notesTab);
 		driverWait.withTimeout(Duration.ofSeconds(20));
 				
-		WebElement child = findChileElement(driver, "userTable", "td", "edit");
+		WebElement child = findChildElement(driver, "userTable", "td", "edit");
 		logger.info("child: {}", child.toString());
 		driverWait.until(ExpectedConditions.elementToBeClickable(child)).click();
 		notedescription = getElementByName(driver, "note-description");
@@ -252,23 +256,18 @@ class CloudStorageApplicationTests {
 		description = "a test that really works";
 		notedescription.sendKeys(description);
 		
-		WebElement titleElement = getElementByName(driver, "note-title");
-		String title1 = "first-test1";
-		driverWait.until(ExpectedConditions.elementToBeClickable(titleElement)).sendKeys(title);
-		titleElement.clear();
-		titleElement.sendKeys(title1);
-		
 		savechanges = getElementByName(driver, "save-changes");
 		savechanges.click();
 		Assertions.assertEquals("Result", driver.getTitle());
 		
-		note = notesService.getNotesByTitle(title1);
+		note = notesService.getNotesByTitle(title);
 		Assertions.assertNotNull(note);
-		Assertions.assertEquals(title1, note.getNotetitle());
+		Assertions.assertEquals(title, note.getNotetitle());
 		Assertions.assertEquals(description, note.getNotedescription());
 		
-		HomePageRedirect.redirect(driver, baseURL);
-		// logout the user
+		notesService.deleteNote(title); //remove the note before other tests
+		
+		HomePageRedirect.redirect(driver, baseURL); //redirect and logout the user
 		LogoutManager.logoutUser(driver);
 		Assertions.assertEquals("Login", driver.getTitle());
 	}
@@ -319,8 +318,9 @@ class CloudStorageApplicationTests {
 		Assertions.assertEquals(username, credential.getUsername());
 		Assertions.assertEquals(password, credential.getUnencodedpassword());
 		
-		HomePageRedirect.redirect(driver, baseURL);
-		// logout the user
+		credentialService.deleteCredential(credential.getCredentialid()); //remove credential after test.
+		
+		HomePageRedirect.redirect(driver, baseURL); //redirect and logout the user
 		LogoutManager.logoutUser(driver);
 		Assertions.assertEquals("Login", driver.getTitle());
 	}
@@ -352,7 +352,7 @@ class CloudStorageApplicationTests {
 		String url = "www.example.com";
 		driverWait.until(ExpectedConditions.elementToBeClickable(by)).sendKeys(url);
 		
-		String username = "Albireo1";
+		String username = "Albireo";
 		WebElement credentialusername = getElementByName(driver, "credential-username");
 		credentialusername.sendKeys(username);
 		
@@ -371,8 +371,37 @@ class CloudStorageApplicationTests {
 		Assertions.assertEquals(username, credential.getUsername());
 		Assertions.assertEquals(password, credential.getUnencodedpassword());
 		
-		HomePageRedirect.redirect(driver, baseURL);
-		// logout the user
+		HomePageRedirect.redirect(driver, baseURL); //redirect from the result page to the home page
+        Assertions.assertEquals("Home", driver.getTitle());
+        
+		//"credentialTable"
+		credentialsTab = getElementByName(driver,"nav-credentials-tab");
+		jse.executeScript("arguments[0].click()", credentialsTab);
+		driverWait.withTimeout(Duration.ofSeconds(20));
+			
+		WebElement child = findChildElement(driver, "credentialTable", "td", "editcredential");
+		logger.info("child: {}", child.toString());
+		driverWait.until(ExpectedConditions.elementToBeClickable(child)).click();
+		password = "cygnusAB";
+		credentialpassword = getElementByName(driver, "credential-password");
+		driverWait.until(ExpectedConditions.elementToBeClickable(credentialpassword));
+		credentialpassword.clear();
+		credentialpassword.sendKeys(password);
+		
+		savechanges = getElementByName(driver, "save-credential");
+		savechanges.click();
+		Assertions.assertEquals("Result", driver.getTitle());
+		
+		credential = credentialService.getCredentialsWithUserNameInCredential(username);
+		Assertions.assertNotNull(credential);
+		logger.info("credential: {}", credential);
+		Assertions.assertEquals(url, credential.getUrl());
+		Assertions.assertEquals(username, credential.getUsername());
+		Assertions.assertEquals(password, credential.getUnencodedpassword());
+		
+		credentialService.deleteCredential(credential.getCredentialid()); //remove credential after test.
+		
+		HomePageRedirect.redirect(driver, baseURL); //redirect and logout the user
 		LogoutManager.logoutUser(driver);
 		Assertions.assertEquals("Login", driver.getTitle());
 	}
@@ -387,7 +416,7 @@ class CloudStorageApplicationTests {
 		return driverIn.findElement(by);
 	}
 	
-	private WebElement findChileElement(WebDriver driverIn, String parentName, String tagName, String name) {
+	private WebElement findChildElement(WebDriver driverIn, String parentName, String tagName, String name) {
 		WebElement notesTable = driver.findElement(By.id(parentName));
 		List<WebElement> children = notesTable.findElements(By.tagName(tagName));
 				
