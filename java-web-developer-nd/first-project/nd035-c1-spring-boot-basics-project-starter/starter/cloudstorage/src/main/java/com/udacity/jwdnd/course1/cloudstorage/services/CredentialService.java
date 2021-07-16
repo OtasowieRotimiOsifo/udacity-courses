@@ -47,8 +47,9 @@ public class CredentialService {
 	public Credential getCredentialsWithUserNameInCredential(String usernameinCredential) {
 		logger.info("username: {}", usernameinCredential);
 		Credential credential = credentialmapper.findByUserNameInCredential(usernameinCredential);
-
-		credential.setUnencodedpassword(decryptPassword(credential.getPassword(), credential.getKey()));
+        if(credential != null) {
+        	credential.setUnencodedpassword(decryptPassword(credential.getPassword(), credential.getKey()));
+        }
 		
 		return credential;
 	}
