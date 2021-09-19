@@ -25,9 +25,9 @@ public class CarService {
     
     private PriceClient priceClient;
     
-    public CarService(CarRepository repository, WebClient maps, WebClient prices, ModelMapper mapper) {
+    public CarService(CarRepository repository, WebClient maps, WebClient pricing, ModelMapper mapper) {
     	this.mapsClient = new MapsClient(maps, mapper);
-    	this.priceClient = new PriceClient(prices);
+    	this.priceClient = new PriceClient(pricing);
         this.repository = repository;
     }
 
