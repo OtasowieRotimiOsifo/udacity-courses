@@ -126,7 +126,8 @@ public class CarControllerTest {
 		
 		Assert.assertEquals(actual, expected);
 		
-		 mvc.perform(get(new URI("/cars"))
+		URI uri = new URI("/cars");
+		 mvc.perform(get(uri)
 	                .accept(MediaType.APPLICATION_JSON_UTF8))
 	                .andExpect(status().isOk())
 	                .andExpect(jsonPath("$._embedded").exists())
