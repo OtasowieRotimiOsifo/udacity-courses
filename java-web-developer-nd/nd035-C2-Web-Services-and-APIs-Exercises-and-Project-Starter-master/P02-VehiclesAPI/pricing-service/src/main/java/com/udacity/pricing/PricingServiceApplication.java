@@ -10,11 +10,14 @@ import org.springframework.context.annotation.Bean;
 import com.udacity.pricing.domain.price.PriceRepository;
 import com.udacity.pricing.service.PricingService;
 
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+
 /**
  * Creates a Spring Boot Application to run the Pricing Service.
  */
 @SpringBootApplication
 @EnableEurekaClient
+@OpenAPIDefinition
 public class PricingServiceApplication {
 	
 	@Autowired
