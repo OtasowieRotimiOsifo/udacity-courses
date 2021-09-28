@@ -6,6 +6,9 @@ import com.udacity.vehicles.client.prices.PriceClient;
 import com.udacity.vehicles.domain.Location;
 import com.udacity.vehicles.domain.car.Car;
 import com.udacity.vehicles.domain.car.CarRepository;
+
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -17,6 +20,7 @@ import org.springframework.web.reactive.function.client.WebClient;
  * location and price data when desired.
  */
 @Service
+@Slf4j
 public class CarService {
 
     private final CarRepository repository;
@@ -49,6 +53,7 @@ public class CarService {
        
        
         String priceStr = this.priceClient.getPrice(car.getId());
+        log.info("priceStr = {}", priceStr);
         car.setPrice(priceStr);
        
         Location address = this.mapsClient.getAddress(car.getLocation());
