@@ -29,7 +29,6 @@ public class PricingService {
 	public PricingService(PriceRepository repository) {
 		this.repository = repository;
 		this.repository.saveAll(PRICES);
-		log.info("saving prices");
 	}
 	
     /**

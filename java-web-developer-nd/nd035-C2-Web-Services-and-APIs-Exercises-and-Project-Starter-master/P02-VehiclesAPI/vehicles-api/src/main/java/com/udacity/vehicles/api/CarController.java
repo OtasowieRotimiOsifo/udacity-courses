@@ -77,11 +77,9 @@ class CarController {
     ResponseEntity<?> post(@Valid @RequestBody Car car) throws URISyntaxException {
     	log.info("Car Id: {}, Car Price: {}", car.getId(), car.getPrice());
     	Car persisted = this.carService.save(car);
-    	//log.info("Persisted Id: {}, Persisted Price: {}", persisted.getId(), persisted.getPrice());
-        log.info("after persisted");
+    	log.info("Persisted Id: {}, Persisted Price: {}", persisted.getId(), persisted.getPrice());
     	Resource<Car> resource = assembler.toResource(persisted);
-        //log.info("Resource Id: {},Resource link: {}, Persisted Price: {}", resource.getId(), resource.getLink("/cars"), resource.getContent().getPrice());
-        log.info("After resources");
+        log.info("Resource Id: {},Resource link: {}, Persisted Price: {}", resource.getId(), resource.getLink("/cars"), resource.getContent().getPrice());
     	return ResponseEntity.created(new URI(resource.getId().expand().getHref())).body(resource);
     }
 

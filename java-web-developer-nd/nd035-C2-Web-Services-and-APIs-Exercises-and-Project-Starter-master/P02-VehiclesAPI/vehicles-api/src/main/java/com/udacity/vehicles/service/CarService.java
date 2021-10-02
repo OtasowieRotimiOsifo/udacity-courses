@@ -39,6 +39,16 @@ public class CarService {
      * @return a list of all vehicles in the CarRepository
      */
     public List<Car> list() {
+    	List<Car> cars = repository.findAll();
+    	for(Car car : cars) {
+    		String priceStr = this.priceClient.getPrice(car.getId());
+            log.info("priceStr = {}", priceStr);
+            car.setPrice(priceStr);
+            
+            Location address = this.mapsClient.getAddress(car.getLocation());
+            car.setLocation(address);
+    	}
+    	
         return repository.findAll();
     }
 
@@ -49,7 +59,6 @@ public class CarService {
      */
     public Car findById(Long id) {
     	Car car = this.repository.findById(id).orElseThrow(CarNotFoundException :: new);
-       
        
         String priceStr = this.priceClient.getPrice(car.getId());
         log.info("priceStr = {}", priceStr);
@@ -67,7 +76,7 @@ public class CarService {
      * @return the new/updated car is stored in the repository
      */
     public Car save(Car car) {
-    	log.info("Car in save: {}", car.getPrice());
+    	log.info("Car price in save: {}", car.getPrice());
         if (car.getId() != null) {
             return repository.findById(car.getId())
                     .map(carToBeUpdated -> {
@@ -76,9 +85,16 @@ public class CarService {
                         return repository.save(carToBeUpdated);
                     }).orElseThrow(CarNotFoundException::new);
         }
-        log.info("before save");
+        log.info("before saved car id = {}", car.getId());
         Car savedCar = repository.save(car);
-        log.info("saved car: {}", savedCar.getId());
+        
+        String priceStr = this.priceClient.getPrice(savedCar.getId());
+        log.info("priceStr = {}", priceStr);
+        savedCar.setPrice(priceStr);
+        
+        Location address = this.mapsClient.getAddress(savedCar.getLocation());
+        car.setLocation(address);
+        log.info("saved car id = {}", savedCar.getId());
         return savedCar;
     }
 
@@ -89,6 +105,6 @@ public class CarService {
     public void delete(Long id) {
     	Car car = this.repository.findById(id).orElseThrow(CarNotFoundException :: new);
     	
-    	this.repository.deleteById(id); 	
+    	this.repository.deleteById(car.getId()); 	
     }
 }
