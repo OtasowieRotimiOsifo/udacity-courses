@@ -6,6 +6,9 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 import com.udacity.vehicles.domain.car.Car;
 import com.udacity.vehicles.service.CarService;
+
+import lombok.extern.slf4j.Slf4j;
+
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -28,6 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
  * Implements a REST-based controller for the Vehicles API.
  */
 @RestController
+@Slf4j
 @RequestMapping("/cars")
 
 class CarController {
@@ -71,9 +75,14 @@ class CarController {
      */
     @PostMapping
     ResponseEntity<?> post(@Valid @RequestBody Car car) throws URISyntaxException {
+    	log.info("Car Id: {}, Car Price: {}", car.getId(), car.getPrice());
     	Car persisted = this.carService.save(car);
-        Resource<Car> resource = assembler.toResource(persisted);
-        return ResponseEntity.created(new URI(resource.getId().expand().getHref())).body(resource);
+    	//log.info("Persisted Id: {}, Persisted Price: {}", persisted.getId(), persisted.getPrice());
+        log.info("after persisted");
+    	Resource<Car> resource = assembler.toResource(persisted);
+        //log.info("Resource Id: {},Resource link: {}, Persisted Price: {}", resource.getId(), resource.getLink("/cars"), resource.getContent().getPrice());
+        log.info("After resources");
+    	return ResponseEntity.created(new URI(resource.getId().expand().getHref())).body(resource);
     }
 
     /**

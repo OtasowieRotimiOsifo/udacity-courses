@@ -3,23 +3,35 @@ package com.udacity.pricing.service;
 import com.udacity.pricing.domain.price.Price;
 import com.udacity.pricing.domain.price.PriceRepository;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.stereotype.Service;
+
 import lombok.extern.slf4j.Slf4j;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 
-
-
 /**
  * Implements the pricing service to get prices for each vehicle.
  */
+@Service
+@Slf4j
 public class PricingService {
 
+	private final PriceRepository repository;
+	
+	@Autowired
+	public PricingService(PriceRepository repository) {
+		this.repository = repository;
+		this.repository.saveAll(PRICES);
+		log.info("saving prices");
+	}
+	
     /**
      * Holds {ID: Price} pairings (current implementation allows for 25 vehicles)
      */
