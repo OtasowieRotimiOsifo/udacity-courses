@@ -77,14 +77,20 @@ public class CarService {
      */
     public Car save(Car car) {
     	log.info("Car price in save: {}", car.getPrice());
+    	
         if (car.getId() != null) {
-            return repository.findById(car.getId())
-                    .map(carToBeUpdated -> {
-                        carToBeUpdated.setDetails(car.getDetails());
-                        carToBeUpdated.setLocation(car.getLocation());
-                        return repository.save(carToBeUpdated);
-                    }).orElseThrow(CarNotFoundException::new);
+        	Car updatedExisting = updateExisting(car);
+			/*
+			 * return repository.findById(car.getId()).map(carToBeUpdated -> {
+			 * carToBeUpdated.setDetails(car.getDetails());
+			 * carToBeUpdated.setLocation(car.getLocation());
+			 * carToBeUpdated.setCondition(car.getCondition()); return
+			 * repository.save(carToBeUpdated); }).orElseThrow(CarNotFoundException::new);
+			 */
+        	Car persisted = repository.save(updatedExisting);
+        	return persisted;
         }
+        
         log.info("before saved car id = {}", car.getId());
         Car savedCar = repository.save(car);
         
@@ -93,7 +99,7 @@ public class CarService {
         savedCar.setPrice(priceStr);
         
         Location address = this.mapsClient.getAddress(savedCar.getLocation());
-        car.setLocation(address);
+        savedCar.setLocation(address);
         log.info("saved car id = {}", savedCar.getId());
         return savedCar;
     }
@@ -106,5 +112,22 @@ public class CarService {
     	Car car = this.repository.findById(id).orElseThrow(CarNotFoundException :: new);
     	
     	this.repository.deleteById(car.getId()); 	
+    }
+    
+    private Car updateExisting(Car updated) {
+    	Car existing = this.repository.findById(updated.getId()).orElseThrow(CarNotFoundException :: new);
+    	existing.setDetails(updated.getDetails());
+    	existing.setLocation(updated.getLocation());
+    	existing.setCondition(updated.getCondition());
+    	
+    	String priceStr = this.priceClient.getPrice(existing.getId());
+        log.info("copyCarData: priceStr = {}", priceStr);
+        existing.setPrice(priceStr);
+        
+        Location address = this.mapsClient.getAddress(updated.getLocation());
+        existing.setLocation(address);
+        log.info("copyCarData car address = {}", existing.getLocation().getAddress());
+        
+        return existing;
     }
 }
