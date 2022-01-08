@@ -34,6 +34,6 @@ public class Pet {
     private String notes;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "id", insertable=false, updatable=false)
     private Owner owner;
 }
