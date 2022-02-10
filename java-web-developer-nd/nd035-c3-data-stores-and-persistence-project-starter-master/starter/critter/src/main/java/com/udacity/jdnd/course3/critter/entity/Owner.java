@@ -16,6 +16,7 @@ import java.util.List;
 @EqualsAndHashCode
 public class Owner {
     @Id
+    @Column(nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
