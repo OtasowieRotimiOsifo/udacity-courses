@@ -20,13 +20,17 @@ public class Owner {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Column(nullable = false)
     private String name;
 
+    @Column(nullable = false)
     private String phoneNumber;
 
+    @Column(nullable = false)
     private String notes;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "owner", cascade = CascadeType.ALL, targetEntity = Pet.class)
+    @Column(nullable = false)
     private List<Pet> pets;
     public void addPet(Pet pet) {
         pets.add(pet);

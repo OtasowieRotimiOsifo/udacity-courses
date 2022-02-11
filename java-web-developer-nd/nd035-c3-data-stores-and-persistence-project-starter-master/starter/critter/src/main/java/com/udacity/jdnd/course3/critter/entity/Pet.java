@@ -21,6 +21,7 @@ import java.util.Set;
 public class Pet {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(nullable = false)
     private Long id;
 
     private String name;

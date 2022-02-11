@@ -8,10 +8,10 @@ http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibas
     <changeSet id="20220210" author="oosifo">
         <createTable tableName="owner">
             <column name="id" type="BIGINT(8)" autoIncrement="true">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="owner_id_pk" />
+                <constraints nullable="false" unique="true" primaryKey="true" primaryKeyName="owner_id_pk" />
             </column>
             <column name="name" type="varchar(250)">
-                <constraints nullable="false"/>
+                <constraints nullable="false" unique="true" />
             </column>
             <column name="phoneNumber" type="varchar(50)">
                 <constraints nullable="false"/>
@@ -19,7 +19,40 @@ http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibas
             <column name="notes" type="varchar(250)">
                 <constraints nullable="false"/>
             </column>
+            <column name="pets" type="BIGINT(8)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createTable tableName="pet">
+            <column name="id" type="BIGINT(8)" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pet_id_pk" />
+            </column>
+            <column name="name" type="varchar(250)">
+                <constraints nullable="false" unique="true" />
+            </column>
+            <column name="pet" type="varchar(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="birthDate" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="notes" type="varchar(250)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="owner" type="BIGINT(8)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createTable tableName="pet">
+            <column name="id" type="BIGINT(8)" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pet_id_pk" />
+            </column>
+            <column name="name" type="varchar(250)">
+                <constraints nullable="false" unique="true" />
+            </column>
         </createTable>
         <addAutoIncrement tableName="owner" columnName="id" columnDataType="bigint" startWith="1" incrementBy="1" />
+        <addAutoIncrement tableName="pet" columnName="id" columnDataType="bigint" startWith="1" incrementBy="1" />
+        <addAutoIncrement tableName="user" columnName="id" columnDataType="bigint" startWith="1" incrementBy="1" />
     </changeSet>
 </databaseChangeLog>
