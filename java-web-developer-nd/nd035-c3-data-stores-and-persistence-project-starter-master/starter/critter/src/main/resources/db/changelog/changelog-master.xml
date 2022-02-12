@@ -43,9 +43,40 @@ http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibas
                 <constraints nullable="false"/>
             </column>
         </createTable>
-        <createTable tableName="pet">
+        <createTable tableName="employee">
             <column name="id" type="BIGINT(8)" autoIncrement="true">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="pet_id_pk" />
+                <constraints nullable="false" unique="true" primaryKey="true" primaryKeyName="employee_id_pk" />
+            </column>
+            <column name="name" type="varchar(250)">
+                <constraints nullable="false" unique="true" />
+            </column>
+            <column name="aysAvailable" type="varchar(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="employeeSkills" type="varchar(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createTable tableName="schedule">
+            <column name="id" type="BIGINT(8)" autoIncrement="true">
+                <constraints nullable="false" unique="true" primaryKey="true" primaryKeyName="schedule_id_pk" />
+            </column>
+            <column name="employee" type="BIGINT(8)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="pets" type="BIGINT(8)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="birthDate" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="activities" type="varchar(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createTable tableName="user">
+            <column name="id" type="BIGINT(8)" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="user_id_pk" />
             </column>
             <column name="name" type="varchar(250)">
                 <constraints nullable="false" unique="true" />
@@ -54,5 +85,7 @@ http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibas
         <addAutoIncrement tableName="owner" columnName="id" columnDataType="bigint" startWith="1" incrementBy="1" />
         <addAutoIncrement tableName="pet" columnName="id" columnDataType="bigint" startWith="1" incrementBy="1" />
         <addAutoIncrement tableName="user" columnName="id" columnDataType="bigint" startWith="1" incrementBy="1" />
+        <addAutoIncrement tableName="employee" columnName="id" columnDataType="bigint" startWith="1" incrementBy="1" />
+        <addAutoIncrement tableName="schedule" columnName="id" columnDataType="bigint" startWith="1" incrementBy="1" />
     </changeSet>
 </databaseChangeLog>
