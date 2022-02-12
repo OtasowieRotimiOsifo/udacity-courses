@@ -11,4 +11,5 @@ import java.util.List;
 @Transactional
 public interface PetRepository extends JpaRepository<Pet, Long>{
     List<Pet> getPetByOwner(Long ownerId);
+    Pet getPetById(Long petId);
 }

@@ -11,5 +11,5 @@ import java.util.List;
 @Repository
 @Transactional
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
-    List<Employee> getEmployeesByDayAvailable(DayOfWeek day);
+    //List<Employee> getEmployeesByDayAvailable(DayOfWeek day);
 }
