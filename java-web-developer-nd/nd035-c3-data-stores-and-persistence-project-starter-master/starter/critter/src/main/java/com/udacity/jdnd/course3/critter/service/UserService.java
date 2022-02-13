@@ -21,19 +21,15 @@ public class UserService {
     PetRepository petRepository;
 
     @Transactional
-    public Customer save(Customer o, List<Long>petIds) {
-        if(o.getPets() != null) {
-            o.getPets().clear();
-        }
-
+    public Customer save(Customer c, List<Long>petIds) {
         for (Long petId : petIds) {
             Pet p = petRepository.getPetById(petId);
             if(p != null) {
-                o.getPets().add(p);
+                c.addPet(p);
             }
         }
 
-        return customerRepository.save(o);
+        return customerRepository.save(c);
     }
 
     public Optional<Customer> findCustomer(Long id) {

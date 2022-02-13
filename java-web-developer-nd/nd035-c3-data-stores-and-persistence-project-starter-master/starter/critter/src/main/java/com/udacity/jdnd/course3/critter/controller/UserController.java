@@ -4,8 +4,10 @@ import com.udacity.jdnd.course3.critter.dto.CustomerDTO;
 import com.udacity.jdnd.course3.critter.dto.EmployeeDTO;
 import com.udacity.jdnd.course3.critter.dto.EmployeeRequestDTO;
 import com.udacity.jdnd.course3.critter.entity.Customer;
+import com.udacity.jdnd.course3.critter.mapping.CustomerMapper;
+import com.udacity.jdnd.course3.critter.mapping.CustomerUpdater;
 import com.udacity.jdnd.course3.critter.service.UserService;
-import org.junit.jupiter.api.BeforeEach;
+import org.mapstruct.factory.Mappers;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +33,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    //@Autowired
-    private ModelMapper modelMapper = new ModelMapper();
+    CustomerMapper customerMapper = Mappers.getMapper(CustomerMapper .class);
 
     @PostMapping("/customer")
     public CustomerDTO saveCustomer(@RequestBody CustomerDTO customerDTO){
@@ -42,13 +43,14 @@ public class UserController {
         Customer c = null;
         if(op.isPresent()) {
             c = op.get();
-        } else {
-            c = modelMapper.map(customerDTO, Customer.class);
+            CustomerUpdater.updateCustomerFromDto(customerDTO, c);
         }
-        BeanUtils.copyProperties(customerDTO, 0, PROPERTIES_TO_IGNORE_ON_COPY);
+
+        ModelMapper modelMapper = new ModelMapper();
+        c = modelMapper.map(customerDTO, Customer.class);
         List<Long> petIds = Optional.ofNullable(customerDTO.getPetIds()).orElseGet(ArrayList::new);
         c = userService.save(c, petIds);
-        return copyCustomerToDTO(c);
+        return customerMapper.mapDtoFromCustomer(c);
     }
 
 

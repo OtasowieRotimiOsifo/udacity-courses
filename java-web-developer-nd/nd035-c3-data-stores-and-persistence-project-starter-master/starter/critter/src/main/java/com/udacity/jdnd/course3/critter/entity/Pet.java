@@ -11,10 +11,6 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "pet")
-@Getter
-@Setter
-@NoArgsConstructor
-@EqualsAndHashCode
 public class Pet {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,4 +30,12 @@ public class Pet {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id", insertable=false, updatable=false)
     private Customer customer;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 }
