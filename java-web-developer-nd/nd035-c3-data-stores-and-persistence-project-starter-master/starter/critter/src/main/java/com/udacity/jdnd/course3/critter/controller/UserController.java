@@ -44,10 +44,11 @@ public class UserController {
         if(op.isPresent()) {
             c = op.get();
             CustomerUpdater.updateCustomerFromDto(customerDTO, c);
+        } else {
+            ModelMapper modelMapper = new ModelMapper();
+            c = modelMapper.map(customerDTO, Customer.class);
         }
 
-        ModelMapper modelMapper = new ModelMapper();
-        c = modelMapper.map(customerDTO, Customer.class);
         List<Long> petIds = Optional.ofNullable(customerDTO.getPetIds()).orElseGet(ArrayList::new);
         c = userService.save(c, petIds);
         return customerMapper.mapDtoFromCustomer(c);
