@@ -19,7 +19,7 @@ import java.util.Set;
 @EqualsAndHashCode
 public class Schedule {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToMany(targetEntity = Employee.class)
@@ -28,7 +28,7 @@ public class Schedule {
     @ManyToMany(targetEntity = Pet.class)
     private List<Pet>  pets;
 
-    private LocalDate birthDate;
+    private LocalDate scheduleDate;
 
     @ElementCollection(targetClass = EmployeeSkill.class)
     @CollectionTable(name="activities")

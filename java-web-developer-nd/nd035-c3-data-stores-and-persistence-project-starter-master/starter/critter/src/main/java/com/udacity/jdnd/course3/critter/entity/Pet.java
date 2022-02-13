@@ -7,10 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "pet")
@@ -20,7 +17,7 @@ import java.util.Set;
 @EqualsAndHashCode
 public class Pet {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false)
     private Long id;
 
@@ -35,6 +32,6 @@ public class Pet {
     private String notes;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "owner_id", insertable=false, updatable=false)
-    private Owner owner;
+    @JoinColumn(name = "customer_id", insertable=false, updatable=false)
+    private Customer customer;
 }

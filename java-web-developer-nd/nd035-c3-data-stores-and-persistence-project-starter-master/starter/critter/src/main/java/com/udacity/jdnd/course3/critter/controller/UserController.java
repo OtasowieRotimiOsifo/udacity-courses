@@ -3,8 +3,10 @@ package com.udacity.jdnd.course3.critter.controller;
 import com.udacity.jdnd.course3.critter.dto.CustomerDTO;
 import com.udacity.jdnd.course3.critter.dto.EmployeeDTO;
 import com.udacity.jdnd.course3.critter.dto.EmployeeRequestDTO;
-import com.udacity.jdnd.course3.critter.entity.Owner;
+import com.udacity.jdnd.course3.critter.entity.Customer;
 import com.udacity.jdnd.course3.critter.service.UserService;
+import org.junit.jupiter.api.BeforeEach;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -29,21 +31,31 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    //@Autowired
+    private ModelMapper modelMapper = new ModelMapper();
+
     @PostMapping("/customer")
     public CustomerDTO saveCustomer(@RequestBody CustomerDTO customerDTO){
         Long id = Optional.ofNullable(customerDTO.getId()).orElse(Long.valueOf(-1));
-        Owner o = userService.findCustomer(id).orElseGet(Owner::new);
+
+        Optional<Customer> op = userService.findCustomer(id);
+        Customer c = null;
+        if(op.isPresent()) {
+            c = op.get();
+        } else {
+            c = modelMapper.map(customerDTO, Customer.class);
+        }
         BeanUtils.copyProperties(customerDTO, 0, PROPERTIES_TO_IGNORE_ON_COPY);
         List<Long> petIds = Optional.ofNullable(customerDTO.getPetIds()).orElseGet(ArrayList::new);
-        o = userService.save(o, petIds);
-        return copyCustomerToDTO(o);
+        c = userService.save(c, petIds);
+        return copyCustomerToDTO(c);
     }
 
 
     @GetMapping("/customer")
     public List<CustomerDTO> getAllCustomers(){
-        List<Owner> owners = userService.getAllCustomers();
-        return copyCustomersToDTOs(owners);
+        List<Customer> customers = userService.getAllCustomers();
+        return copyCustomersToDTOs(customers);
     }
 
     @GetMapping("/customer/pet/{petId}")
@@ -71,21 +83,21 @@ public class UserController {
         throw new UnsupportedOperationException();
     }
 
-    private CustomerDTO copyCustomerToDTO(Owner o){
+    private CustomerDTO copyCustomerToDTO(Customer c){
         CustomerDTO dto = new CustomerDTO();
-        BeanUtils.copyProperties(o, dto);
-        o.getPets().forEach( pet -> {
+        BeanUtils.copyProperties(c, dto);
+        c.getPets().forEach( pet -> {
             dto.getPetIds().add(pet.getId());
         });
         return dto;
     }
 
-    private List<CustomerDTO> copyCustomersToDTOs (List<Owner> owners) {
-        List dtos = new ArrayList<CustomerDTO>();
+    private List<CustomerDTO> copyCustomersToDTOs (List<Customer> customers) {
+        List dtoArrayList = new ArrayList<CustomerDTO>();
         // convert to DTO
-        owners.forEach( c -> {
-            dtos.add(this.copyCustomerToDTO((Owner)c));
+        customers.forEach(c -> {
+            dtoArrayList.add(this.copyCustomerToDTO((Customer)c));
         });
-        return dtos;
+        return dtoArrayList;
     }
 }

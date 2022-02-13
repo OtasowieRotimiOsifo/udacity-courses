@@ -13,6 +13,7 @@ public class CustomerDTO {
     private String notes;
     private List<Long> petIds;
 
+    public CustomerDTO() {}
     public long getId() {
         return id;
     }

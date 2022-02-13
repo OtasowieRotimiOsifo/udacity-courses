@@ -6,18 +6,19 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "owner")
+@Table(name = "customer")
 @Getter
 @Setter
 @NoArgsConstructor
 @EqualsAndHashCode
-public class Owner {
+public class Customer {
     @Id
     @Column(nullable = false)
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
@@ -29,9 +30,9 @@ public class Owner {
     @Column(nullable = false)
     private String notes;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "owner", cascade = CascadeType.ALL, targetEntity = Pet.class)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "customer", cascade = CascadeType.ALL, targetEntity = Pet.class)
     @Column(nullable = false)
-    private List<Pet> pets;
+    private List<Pet> pets = new ArrayList<>();
     public void addPet(Pet pet) {
         pets.add(pet);
     }

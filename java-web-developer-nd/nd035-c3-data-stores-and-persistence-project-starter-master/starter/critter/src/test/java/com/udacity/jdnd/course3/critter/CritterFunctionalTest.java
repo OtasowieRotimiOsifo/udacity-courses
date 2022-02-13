@@ -9,7 +9,9 @@ import com.udacity.jdnd.course3.critter.dto.*;
 import com.udacity.jdnd.course3.critter.model.EmployeeSkill;
 import com.udacity.jdnd.course3.critter.model.PetType;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,6 +43,13 @@ public class CritterFunctionalTest {
 
     @Autowired
     private ScheduleController scheduleController;
+
+    private ModelMapper mapper;
+
+    @BeforeEach
+    public void setup() {
+        this.mapper = new ModelMapper();
+    }
 
     @Test
     public void testCreateCustomer(){
@@ -208,7 +217,7 @@ public class CritterFunctionalTest {
 
         /*
             We now have 3 schedule entries. The third schedule entry has the same employees as the 1st schedule
-            and the same pets/owners as the second schedule. So if we look up schedule entries for the employee from
+            and the same pets/customers as the second schedule. So if we look up schedule entries for the employee from
             schedule 1, we should get both the first and third schedule as our result.
          */
 
@@ -251,6 +260,7 @@ public class CritterFunctionalTest {
         CustomerDTO customerDTO = new CustomerDTO();
         customerDTO.setName("TestEmployee");
         customerDTO.setPhoneNumber("123-456-789");
+        customerDTO.setId(1l);
         return customerDTO;
     }
 

@@ -10,6 +10,6 @@ import java.util.List;
 @Repository
 @Transactional
 public interface PetRepository extends JpaRepository<Pet, Long>{
-    List<Pet> getPetByOwner(Long ownerId);
+    //List<Pet> getPetByOwner(Long ownerId);
     Pet getPetById(Long petId);
 }
