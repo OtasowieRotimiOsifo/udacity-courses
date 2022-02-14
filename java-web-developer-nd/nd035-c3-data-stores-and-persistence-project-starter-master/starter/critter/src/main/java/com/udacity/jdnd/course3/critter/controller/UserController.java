@@ -4,10 +4,10 @@ import com.udacity.jdnd.course3.critter.dto.CustomerDTO;
 import com.udacity.jdnd.course3.critter.dto.EmployeeDTO;
 import com.udacity.jdnd.course3.critter.dto.EmployeeRequestDTO;
 import com.udacity.jdnd.course3.critter.entity.Customer;
+import com.udacity.jdnd.course3.critter.entity.Employee;
 import com.udacity.jdnd.course3.critter.mapping.CustomerMapper;
-import com.udacity.jdnd.course3.critter.mapping.CustomerUpdater;
+import com.udacity.jdnd.course3.critter.mapping.EmployeeMapper;
 import com.udacity.jdnd.course3.critter.service.UserService;
-import org.mapstruct.factory.Mappers;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,25 +33,28 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    CustomerMapper customerMapper = Mappers.getMapper(CustomerMapper .class);
+    @Autowired
+    CustomerMapper customerMapper;
+
+    @Autowired
+    EmployeeMapper employeeMapper;
 
     @PostMapping("/customer")
     public CustomerDTO saveCustomer(@RequestBody CustomerDTO customerDTO){
         Long id = Optional.ofNullable(customerDTO.getId()).orElse(Long.valueOf(-1));
-
+        ModelMapper modelMapper = new ModelMapper();
         Optional<Customer> op = userService.findCustomer(id);
         Customer c = null;
         if(op.isPresent()) {
             c = op.get();
-            CustomerUpdater.updateCustomerFromDto(customerDTO, c);
+            customerMapper.updateCustomerFromDto(customerDTO, c);
         } else {
-            ModelMapper modelMapper = new ModelMapper();
             c = modelMapper.map(customerDTO, Customer.class);
         }
 
         List<Long> petIds = Optional.ofNullable(customerDTO.getPetIds()).orElseGet(ArrayList::new);
-        c = userService.save(c, petIds);
-        return customerMapper.mapDtoFromCustomer(c);
+        c = userService.save(c);
+        return modelMapper.map(c, CustomerDTO.class);
     }
 
 
@@ -68,12 +71,28 @@ public class UserController {
 
     @PostMapping("/employee")
     public EmployeeDTO saveEmployee(@RequestBody EmployeeDTO employeeDTO) {
-        throw new UnsupportedOperationException();
+        Long id = Optional.ofNullable(employeeDTO.getId()).orElse(Long.valueOf(-1));
+        ModelMapper modelMapper = new ModelMapper();
+        Employee e = userService.findEmployee(id);
+        if(e != null) {
+            employeeMapper.updateEmployeeFromDto(employeeDTO, e);
+        } else {
+            e = modelMapper.map(employeeDTO, Employee.class);
+        }
+
+       // List<Long> petIds = Optional.ofNullable(customerDTO.getPetIds()).orElseGet(ArrayList::new);
+        e = userService.save(e);
+        return modelMapper.map(e, EmployeeDTO.class);
     }
 
     @PostMapping("/employee/{employeeId}")
     public EmployeeDTO getEmployee(@PathVariable long employeeId) {
-        throw new UnsupportedOperationException();
+        ModelMapper modelMapper = new ModelMapper();
+        Employee e = userService.findEmployee(employeeId);
+        if(e != null) {
+           return modelMapper.map(e, EmployeeDTO.class);
+        }
+        return null; //throw exception?
     }
 
     @PutMapping("/employee/{employeeId}")

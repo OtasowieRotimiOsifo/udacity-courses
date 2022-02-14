@@ -61,7 +61,7 @@ public class CritterFunctionalTest {
         Assertions.assertTrue(retrievedCustomer.getId() > 0);
     }
 
-   // @Test
+   @Test
     public void testCreateEmployee(){
         EmployeeDTO employeeDTO = createEmployeeDTO();
         EmployeeDTO newEmployee = userController.saveEmployee(employeeDTO);

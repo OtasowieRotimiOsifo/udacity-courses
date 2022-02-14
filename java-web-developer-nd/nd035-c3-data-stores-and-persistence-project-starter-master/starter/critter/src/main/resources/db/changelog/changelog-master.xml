@@ -45,10 +45,8 @@ http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibas
                 <constraints nullable="false"/>
             </column>
             <column name="days_available" type="varchar(20)">
-                <constraints nullable="false"/>
             </column>
             <column name="employee_skills" type="varchar(20)">
-                <constraints nullable="false"/>
             </column>
         </createTable>
         <createTable tableName="schedule">

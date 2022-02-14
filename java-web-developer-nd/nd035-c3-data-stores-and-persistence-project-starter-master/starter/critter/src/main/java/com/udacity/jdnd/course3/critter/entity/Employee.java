@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.DayOfWeek;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -27,11 +28,43 @@ public class Employee {
     @CollectionTable(name="daysAvailable")
     @Enumerated(EnumType.STRING)
     @Column(name="daysAvailable", nullable = false)
-    private Set<DayOfWeek> daysAvailable;
+    private Set<DayOfWeek> daysAvailable = new HashSet<>();
 
     @ElementCollection
     @CollectionTable(name="skills")
     @Enumerated(EnumType.STRING)
     @Column(name="skills", nullable = false)
-    private Set<EmployeeSkill> employeeSkills;
+    private Set<EmployeeSkill> employeeSkills = new HashSet<>();
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Set<DayOfWeek> getDaysAvailable() {
+        return daysAvailable;
+    }
+
+    public void setDaysAvailable(Set<DayOfWeek> daysAvailable) {
+        this.daysAvailable = daysAvailable;
+    }
+
+    public Set<EmployeeSkill> getEmployeeSkills() {
+        return employeeSkills;
+    }
+
+    public void setEmployeeSkills(Set<EmployeeSkill> employeeSkills) {
+        this.employeeSkills = employeeSkills;
+    }
 }
