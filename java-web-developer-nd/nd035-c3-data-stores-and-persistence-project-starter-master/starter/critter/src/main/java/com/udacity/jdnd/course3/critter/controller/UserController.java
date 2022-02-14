@@ -51,8 +51,6 @@ public class UserController {
         } else {
             c = modelMapper.map(customerDTO, Customer.class);
         }
-
-        List<Long> petIds = Optional.ofNullable(customerDTO.getPetIds()).orElseGet(ArrayList::new);
         c = userService.save(c);
         return modelMapper.map(c, CustomerDTO.class);
     }
