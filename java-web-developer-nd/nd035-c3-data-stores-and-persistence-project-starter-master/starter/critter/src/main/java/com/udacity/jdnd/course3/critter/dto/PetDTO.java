@@ -16,6 +16,10 @@ public class PetDTO {
     private LocalDate birthDate;
     private String notes;
 
+    /*public PetDTO() {
+        this.id = 1;
+    }*/
+
     public PetType getType() {
         return type;
     }

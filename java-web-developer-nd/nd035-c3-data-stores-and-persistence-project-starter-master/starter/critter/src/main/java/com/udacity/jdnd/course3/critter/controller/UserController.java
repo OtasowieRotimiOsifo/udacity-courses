@@ -28,16 +28,15 @@ import java.util.Set;
 @RestController
 @RequestMapping("/user")
 public class UserController {
-    private static final String []  PROPERTIES_TO_IGNORE_ON_COPY = { "id" };
 
     @Autowired
     private UserService userService;
 
     @Autowired
-    CustomerMapper customerMapper;
+    private CustomerMapper customerMapper;
 
     @Autowired
-    EmployeeMapper employeeMapper;
+    private EmployeeMapper employeeMapper;
 
     @PostMapping("/customer")
     public CustomerDTO saveCustomer(@RequestBody CustomerDTO customerDTO){

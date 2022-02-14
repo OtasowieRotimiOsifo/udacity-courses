@@ -28,13 +28,10 @@ http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibas
             </column>
             <column name="pet" type="varchar(20)"></column>
             <column name="birth_date" type="date">
-                <constraints nullable="false"/>
             </column>
             <column name="notes" type="varchar(250)">
-                <constraints nullable="false"/>
             </column>
-            <column name="customer_id" type="bigint">
-                <constraints nullable="false"/>
+            <column name="owner_id" type="bigint">
             </column>
         </createTable>
         <createTable tableName="employee">
