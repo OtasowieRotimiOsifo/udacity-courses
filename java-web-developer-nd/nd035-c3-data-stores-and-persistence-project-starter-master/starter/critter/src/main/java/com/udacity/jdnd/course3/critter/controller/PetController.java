@@ -61,8 +61,8 @@ public class PetController {
     }
 
     @GetMapping("/owner/{ownerId}")
-    public List<PetDTO> getPetsByOwner(@PathVariable Customer c) {
-        List<Pet> pets = petService.findPetByOwner(c);
+    public List<PetDTO> getPetsByOwner(@PathVariable Long customerId) {
+        List<Pet> pets = petService.findPetByOwner(customerId);
         List<PetDTO> petDTOS = new ArrayList<>();
         if(pets != null) {
             ModelMapper modelMapper = new ModelMapper();

@@ -268,6 +268,7 @@ public class CritterFunctionalTest {
         PetDTO petDTO = new PetDTO();
         petDTO.setName("TestPet");
         petDTO.setType(PetType.CAT);
+        //petDTO.setId(1l);
         return petDTO;
     }
 

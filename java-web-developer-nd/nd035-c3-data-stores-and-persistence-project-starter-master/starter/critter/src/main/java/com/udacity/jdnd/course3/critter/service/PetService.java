@@ -21,20 +21,17 @@ public class PetService {
     private CustomerRepository customerRepository;
 
     @Transactional
-    public Pet save(Pet e) {
-        return petRepository.save(e);
-    }
-
     public Pet save(Pet p, Long ownerId) {
         Optional<Customer> op = customerRepository.findById(ownerId);
         if(op.isPresent()) {
             Customer c = op.get();
+
             p.setCustomer(c);
+            Pet savedPet = petRepository.save(p);
 
-            c.addPet(p);
+            c.addPet(savedPet);
             customerRepository.save(c);
-
-            return petRepository.save(p);
+            return savedPet;
         }
         return null;
     }
@@ -46,7 +43,7 @@ public class PetService {
         return null;
     }
 
-    public List<Pet> findPetByOwner(Customer c) {
-        return petRepository.findByCustomer(c);
+    public List<Pet> findPetByOwner(Long customerId) {
+        return petRepository.findByCustomerId(customerId);
     }
 }

@@ -26,7 +26,7 @@ public class Customer {
     @Column(nullable = false)
     private String notes;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "customer", cascade = CascadeType.ALL, targetEntity = Pet.class)
+    @OneToMany(mappedBy = "customer")
     @Column(nullable = false)
     private List<Pet> pets = new ArrayList<>();
     public void addPet(Pet pet) {

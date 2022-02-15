@@ -1,5 +1,6 @@
 package com.udacity.jdnd.course3.critter.dto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -13,7 +14,9 @@ public class CustomerDTO {
     private String notes;
     private List<Long> petIds;
 
-    public CustomerDTO() {}
+    public CustomerDTO() {
+        petIds = new ArrayList<>();
+    }
     public long getId() {
         return id;
     }

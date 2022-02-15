@@ -5,6 +5,7 @@ import com.udacity.jdnd.course3.critter.dto.EmployeeDTO;
 import com.udacity.jdnd.course3.critter.dto.EmployeeRequestDTO;
 import com.udacity.jdnd.course3.critter.entity.Customer;
 import com.udacity.jdnd.course3.critter.entity.Employee;
+import com.udacity.jdnd.course3.critter.entity.Pet;
 import com.udacity.jdnd.course3.critter.mapping.CustomerMapper;
 import com.udacity.jdnd.course3.critter.mapping.EmployeeMapper;
 import com.udacity.jdnd.course3.critter.service.UserService;
@@ -105,18 +106,18 @@ public class UserController {
     private CustomerDTO copyCustomerToDTO(Customer c){
         CustomerDTO dto = new CustomerDTO();
         BeanUtils.copyProperties(c, dto);
-        c.getPets().forEach( pet -> {
+        for(Pet pet : c.getPets()){
             dto.getPetIds().add(pet.getId());
-        });
+        }
         return dto;
     }
 
     private List<CustomerDTO> copyCustomersToDTOs (List<Customer> customers) {
         List dtoArrayList = new ArrayList<CustomerDTO>();
         // convert to DTO
-        customers.forEach(c -> {
+        for(Customer c : customers) {
             dtoArrayList.add(this.copyCustomerToDTO((Customer)c));
-        });
+        }
         return dtoArrayList;
     }
 }
