@@ -8,6 +8,7 @@ import com.udacity.jdnd.course3.critter.entity.Employee;
 import com.udacity.jdnd.course3.critter.entity.Pet;
 import com.udacity.jdnd.course3.critter.mapping.CustomerMapper;
 import com.udacity.jdnd.course3.critter.mapping.EmployeeMapper;
+import com.udacity.jdnd.course3.critter.service.PetService;
 import com.udacity.jdnd.course3.critter.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
@@ -32,6 +33,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private PetService petService;
 
     @Autowired
     private CustomerMapper customerMapper;
@@ -64,7 +68,13 @@ public class UserController {
 
     @GetMapping("/customer/pet/{petId}")
     public CustomerDTO getOwnerByPet(@PathVariable long petId){
-        throw new UnsupportedOperationException();
+
+        Pet pet = petService.findPet(petId);
+        if(pet != null) {
+            Customer c = pet.getCustomer();
+            return copyCustomerToDTO(c);
+        }
+        return null;
     }
 
     @PostMapping("/employee")
@@ -78,7 +88,6 @@ public class UserController {
             e = modelMapper.map(employeeDTO, Employee.class);
         }
 
-       // List<Long> petIds = Optional.ofNullable(customerDTO.getPetIds()).orElseGet(ArrayList::new);
         e = userService.save(e);
         return modelMapper.map(e, EmployeeDTO.class);
     }
