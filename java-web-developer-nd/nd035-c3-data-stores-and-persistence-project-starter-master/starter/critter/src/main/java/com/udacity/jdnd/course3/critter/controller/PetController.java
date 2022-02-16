@@ -40,7 +40,9 @@ public class PetController {
         }
 
         p = petService.save(p, petDTO.getOwnerId());
-        return modelMapper.map(p, PetDTO.class);
+        PetDTO pDTO = modelMapper.map(p, PetDTO.class);
+        pDTO.setOwnerId(petDTO.getOwnerId());
+        return pDTO;
     }
 
     @GetMapping("/{petId}")
@@ -67,7 +69,9 @@ public class PetController {
         if(pets != null) {
             ModelMapper modelMapper = new ModelMapper();
             for(Pet pet : pets) {
-                petDTOS.add(modelMapper.map(pet, PetDTO.class));
+                PetDTO pDTO = modelMapper.map(pet, PetDTO.class);
+                pDTO.setOwnerId(customerId);
+                petDTOS.add(pDTO);
             }
         }
         return petDTOS;
