@@ -3,6 +3,8 @@ package com.udacity.jdnd.course3.critter.dto;
 import com.udacity.jdnd.course3.critter.model.EmployeeSkill;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -16,6 +18,12 @@ public class ScheduleDTO {
     private List<Long> petIds;
     private LocalDate date;
     private Set<EmployeeSkill> activities;
+
+    public ScheduleDTO() {
+        employeeIds = new ArrayList<>();
+        petIds = new ArrayList<>();
+        activities = new HashSet<>();
+    }
 
     public List<Long> getEmployeeIds() {
         return employeeIds;

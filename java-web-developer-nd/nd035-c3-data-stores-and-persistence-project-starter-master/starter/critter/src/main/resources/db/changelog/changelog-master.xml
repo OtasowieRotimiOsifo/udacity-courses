@@ -68,17 +68,14 @@ http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibas
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="schedule_id_pk" />
             </column>
-            <column name="employee" type="bigint">
-                <constraints nullable="false"/>
+            <column name="employee_id" type="bigint">
             </column>
-            <column name="pets" type="bigint">
-                <constraints nullable="false"/>
+            <column name="pet_id" type="bigint">
             </column>
             <column name="schedule_date" type="date">
                 <constraints nullable="false"/>
             </column>
             <column name="activities" type="varchar(20)">
-                <constraints nullable="false"/>
             </column>
         </createTable>
         <createTable tableName="user">
