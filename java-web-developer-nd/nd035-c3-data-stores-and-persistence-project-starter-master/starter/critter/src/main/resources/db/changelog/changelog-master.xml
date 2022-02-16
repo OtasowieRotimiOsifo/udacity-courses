@@ -34,6 +34,24 @@ http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibas
             <column name="owner_id" type="bigint">
             </column>
         </createTable>
+        <createTable tableName="days_available">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="employee_id_pk"/>
+            </column>
+            <column name="days_available" type="varchar(20)">
+            </column>
+            <column name="employee_id" type="bigint">
+            </column>
+        </createTable>
+        <createTable tableName="skills">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="employee_id_pk"/>
+            </column>
+            <column name="skills" type="varchar(20)">
+            </column>
+            <column name="employee_id" type="bigint">
+            </column>
+        </createTable>
         <createTable tableName="employee">
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="employee_id_pk" />
@@ -43,7 +61,7 @@ http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibas
             </column>
             <column name="days_available" type="varchar(20)">
             </column>
-            <column name="employee_skills" type="varchar(20)">
+            <column name="skills" type="varchar(20)">
             </column>
         </createTable>
         <createTable tableName="schedule">
@@ -76,5 +94,7 @@ http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibas
         <addAutoIncrement tableName="user" columnName="id" columnDataType="bigint" startWith="1" incrementBy="1" />
         <addAutoIncrement tableName="employee" columnName="id" columnDataType="bigint" startWith="1" incrementBy="1" />
         <addAutoIncrement tableName="schedule" columnName="id" columnDataType="bigint" startWith="1" incrementBy="1" />
+        <addAutoIncrement tableName="skills" columnName="id" columnDataType="bigint" startWith="1" incrementBy="1" />
+        <addAutoIncrement tableName="days_available" columnName="id" columnDataType="bigint" startWith="1" incrementBy="1" />
     </changeSet>
 </databaseChangeLog>

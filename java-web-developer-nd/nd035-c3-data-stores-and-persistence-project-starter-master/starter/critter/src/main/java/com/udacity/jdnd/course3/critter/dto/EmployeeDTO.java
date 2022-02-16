@@ -12,7 +12,7 @@ import java.util.Set;
 public class EmployeeDTO {
     private long id;
     private String name;
-    private Set<EmployeeSkill> skills;
+    private Set<EmployeeSkill> employeeSkills;
     private Set<DayOfWeek> daysAvailable;
 
     public long getId() {
@@ -31,12 +31,12 @@ public class EmployeeDTO {
         this.name = name;
     }
 
-    public Set<EmployeeSkill> getSkills() {
-        return skills;
+    public Set<EmployeeSkill> getEmployeeSkills() {
+        return employeeSkills;
     }
 
-    public void setSkills(Set<EmployeeSkill> skills) {
-        this.skills = skills;
+    public void setEmployeeSkills(Set<EmployeeSkill> employeeSkills) {
+        this.employeeSkills = employeeSkills;
     }
 
     public Set<DayOfWeek> getDaysAvailable() {

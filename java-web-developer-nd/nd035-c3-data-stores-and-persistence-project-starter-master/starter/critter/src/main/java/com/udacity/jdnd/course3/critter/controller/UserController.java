@@ -104,12 +104,23 @@ public class UserController {
 
     @PutMapping("/employee/{employeeId}")
     public void setAvailability(@RequestBody Set<DayOfWeek> daysAvailable, @PathVariable long employeeId) {
-        throw new UnsupportedOperationException();
+        Employee e = userService.findEmployee(employeeId);
+        e.setDaysAvailable(daysAvailable);
+        userService.save(e);
     }
 
     @GetMapping("/employee/availability")
     public List<EmployeeDTO> findEmployeesForService(@RequestBody EmployeeRequestDTO employeeDTO) {
-        throw new UnsupportedOperationException();
+        List<Employee> employees = userService.findAvailableEmployees(employeeDTO.getSkills(), employeeDTO.getDate());
+        List<EmployeeDTO> employeeDTOs = new ArrayList<>();
+        if (employees != null) {
+            ModelMapper modelMapper = new ModelMapper();
+            for (Employee e : employees) {
+                EmployeeDTO employeeDTOLoc = modelMapper.map(e, EmployeeDTO.class);
+                employeeDTOs.add(employeeDTOLoc);
+            }
+        }
+        return employeeDTOs;
     }
 
     private CustomerDTO copyCustomerToDTO(Customer c){

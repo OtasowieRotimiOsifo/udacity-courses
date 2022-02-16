@@ -25,7 +25,7 @@ public class Employee {
     private String name;
 
     @ElementCollection
-    @CollectionTable(name="daysAvailable")
+    @CollectionTable(name="days_available")
     @Enumerated(EnumType.STRING)
     @Column(name="daysAvailable", nullable = false)
     private Set<DayOfWeek> daysAvailable = new HashSet<>();

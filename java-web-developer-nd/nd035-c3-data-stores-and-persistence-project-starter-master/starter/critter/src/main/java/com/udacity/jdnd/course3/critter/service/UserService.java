@@ -2,14 +2,18 @@ package com.udacity.jdnd.course3.critter.service;
 
 import com.udacity.jdnd.course3.critter.entity.Customer;
 import com.udacity.jdnd.course3.critter.entity.Employee;
+import com.udacity.jdnd.course3.critter.model.EmployeeSkill;
 import com.udacity.jdnd.course3.critter.repository.CustomerRepository;
 import com.udacity.jdnd.course3.critter.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -46,7 +50,17 @@ public class UserService {
         return null;
     }
 
+    public List<Employee> findAvailableEmployees(Set<EmployeeSkill> skills, LocalDate date) {
+
+        List<Employee> employees = employeeRepository
+                .getAllByDaysAvailableContains(date.getDayOfWeek()).stream()
+                .filter(employee -> employee.getEmployeeSkills().containsAll(skills))
+                .collect(Collectors.toList());
+        return employees;
+    }
+
     public List<Employee> getAllEmployees() {
+
         return employeeRepository.findAll();
     }
 }
