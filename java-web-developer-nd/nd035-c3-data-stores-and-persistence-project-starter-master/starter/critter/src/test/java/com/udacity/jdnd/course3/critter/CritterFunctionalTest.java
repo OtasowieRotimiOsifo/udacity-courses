@@ -168,7 +168,7 @@ public class CritterFunctionalTest {
         Set<Long> eIds1expected = Sets.newHashSet(emp1n.getId(), emp2n.getId());
         Assertions.assertEquals(eIds1, eIds1expected);
 
-        //make a request that matches only employee 3
+        //make a request that matches only em//ployee 3
         EmployeeRequestDTO er2 = new EmployeeRequestDTO();
         er2.setDate(LocalDate.of(2019, 12, 27)); //friday
         er2.setSkills(Sets.newHashSet(EmployeeSkill.WALKING, EmployeeSkill.SHAVING));
@@ -268,7 +268,6 @@ public class CritterFunctionalTest {
         PetDTO petDTO = new PetDTO();
         petDTO.setName("TestPet");
         petDTO.setType(PetType.CAT);
-        //petDTO.setId(1l);
         return petDTO;
     }
 

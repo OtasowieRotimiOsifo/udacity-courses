@@ -8,7 +8,7 @@ http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibas
     <changeSet id="20220210" author="Otasowie Osifo">
         <createTable tableName="customer">
             <column name="id" type="bigint" autoIncrement="true">
-                <constraints nullable="false" unique="true" primaryKey="true" primaryKeyName="owner_id_pk" />
+                <constraints nullable="false" unique="true" primaryKey="true" primaryKeyName="owner_id_pk"/>
             </column>
             <column name="name" type="varchar(250)">
                 <constraints nullable="false"/>
@@ -21,7 +21,7 @@ http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibas
         </createTable>
         <createTable tableName="pet">
             <column name="id" type="bigint" autoIncrement="true">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="pet_id_pk" />
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pet_id_pk"/>
             </column>
             <column name="name" type="varchar(250)">
                 <constraints nullable="false"/>
@@ -54,7 +54,7 @@ http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibas
         </createTable>
         <createTable tableName="employee">
             <column name="id" type="bigint" autoIncrement="true">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="employee_id_pk" />
+                <constraints nullable="false" primaryKey="true" primaryKeyName="employee_id_pk"/>
             </column>
             <column name="name" type="varchar(250)">
                 <constraints nullable="false"/>
@@ -93,7 +93,7 @@ http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibas
         </createTable>
         <createTable tableName="schedule">
             <column name="id" type="bigint" autoIncrement="true">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="schedule_id_pk" />
+                <constraints nullable="false" primaryKey="true" primaryKeyName="schedule_id_pk"/>
             </column>
             <column name="employee_id" type="bigint">
             </column>
@@ -107,21 +107,25 @@ http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibas
         </createTable>
         <createTable tableName="user">
             <column name="id" type="bigint" autoIncrement="true">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="user_id_pk" />
+                <constraints nullable="false" primaryKey="true" primaryKeyName="user_id_pk"/>
             </column>
             <column name="name" type="varchar(250)">
-                <constraints nullable="false" unique="true" />
+                <constraints nullable="false" unique="true"/>
             </column>
         </createTable>
-        <addAutoIncrement tableName="customer" columnName="id" columnDataType="bigint" startWith="1" incrementBy="1" />
-        <addAutoIncrement tableName="pet" columnName="id" columnDataType="bigint" startWith="1" incrementBy="1" />
-        <addAutoIncrement tableName="user" columnName="id" columnDataType="bigint" startWith="1" incrementBy="1" />
-        <addAutoIncrement tableName="employee" columnName="id" columnDataType="bigint" startWith="1" incrementBy="1" />
-        <addAutoIncrement tableName="schedule" columnName="id" columnDataType="bigint" startWith="1" incrementBy="1" />
-        <addAutoIncrement tableName="skills" columnName="id" columnDataType="bigint" startWith="1" incrementBy="1" />
-        <addAutoIncrement tableName="activities" columnName="id" columnDataType="bigint" startWith="1" incrementBy="1" />
-        <addAutoIncrement tableName="schedule_employee" columnName="id" columnDataType="bigint" startWith="1" incrementBy="1" />
-        <addAutoIncrement tableName="schedule.pet" columnName="id" columnDataType="bigint" startWith="1" incrementBy="1" />
-        <addAutoIncrement tableName="days_available" columnName="id" columnDataType="bigint" startWith="1" incrementBy="1" />
+        <addAutoIncrement tableName="customer" columnName="id" columnDataType="bigint" startWith="1" incrementBy="1"/>
+        <addAutoIncrement tableName="pet" columnName="id" columnDataType="bigint" startWith="1" incrementBy="1"/>
+        <addAutoIncrement tableName="employee" columnName="id" columnDataType="bigint" startWith="1" incrementBy="1"/>
+        <addAutoIncrement tableName="days_available" columnName="id" columnDataType="bigint" startWith="1"
+                          incrementBy="1"/>
+        <addAutoIncrement tableName="skills" columnName="id" columnDataType="bigint" startWith="1" incrementBy="1"/>
+        <addAutoIncrement tableName="activities" columnName="id" columnDataType="bigint" startWith="1" incrementBy="1"/>
+        <addAutoIncrement tableName="schedule_employee" columnName="id" columnDataType="bigint" startWith="1"
+                          incrementBy="1"/>
+        <addAutoIncrement tableName="schedule_pet" columnName="id" columnDataType="bigint" startWith="1"
+                          incrementBy="1"/>
+        <addAutoIncrement tableName="user" columnName="id" columnDataType="bigint" startWith="1" incrementBy="1"/>
+
+        <addAutoIncrement tableName="schedule" columnName="id" columnDataType="bigint" startWith="1" incrementBy="1"/>
     </changeSet>
 </databaseChangeLog>
