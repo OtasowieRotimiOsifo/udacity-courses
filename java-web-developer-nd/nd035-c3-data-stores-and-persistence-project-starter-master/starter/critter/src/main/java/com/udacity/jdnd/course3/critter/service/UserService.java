@@ -51,12 +51,10 @@ public class UserService {
     }
 
     public List<Employee> findAvailableEmployees(Set<EmployeeSkill> skills, LocalDate date) {
-
-        List<Employee> employees = employeeRepository
-                .getAllByDaysAvailableContains(date.getDayOfWeek()).stream()
+        List<Employee> employees = employeeRepository.getAllByDaysAvailableContains(date.getDayOfWeek());
+        return employees.stream()
                 .filter(employee -> employee.getEmployeeSkills().containsAll(skills))
                 .collect(Collectors.toList());
-        return employees;
     }
 
     public List<Employee> getAllEmployees() {
