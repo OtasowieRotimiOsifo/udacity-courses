@@ -23,6 +23,11 @@ public class Schedule {
     private Long id;
 
     @ManyToMany(targetEntity = Employee.class)
+    @JoinTable(
+            name = "schedule_employee",
+            joinColumns = { @JoinColumn(name = "schedule_id")},
+            inverseJoinColumns = { @JoinColumn(name = "employee_id")}
+    )
     private List<Employee>  employees;
 
     public List<Employee> getEmployees() {
@@ -50,6 +55,11 @@ public class Schedule {
     }
 
     @ManyToMany(targetEntity = Pet.class)
+    @JoinTable(
+            name = "schedule_pet",
+            joinColumns = { @JoinColumn(name = "schedule_id")},
+            inverseJoinColumns = { @JoinColumn(name = "pet_id")}
+    )
     private List<Pet>  pets;
 
     public List<Pet> getPets() {

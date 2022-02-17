@@ -42,40 +42,37 @@ public class ScheduleController {
     public List<ScheduleDTO> getAllSchedules() {
 
         List<Schedule> schedules = scheduleService.getAllSchedules();
-        List< ScheduleDTO> dtos = new ArrayList<>();
-        for(Schedule schedule : schedules) {
-            dtos.add(scheduleToDto(schedule));
-        }
-        return dtos;
+        return scheduleListToDTOList(schedules);
     }
 
     @GetMapping("/pet/{petId}")
     public List<ScheduleDTO> getScheduleForPet(@PathVariable long petId) {
         Pet pet = petService.findPet(petId);
-        List<Schedule> schedules = scheduleService.findByPets(pet);
-        List< ScheduleDTO> dtos = new ArrayList<>();
-        for(Schedule schedule : schedules) {
-            dtos.add(scheduleToDto(schedule));
-        }
-        return dtos;
+        List<Schedule> schedules = scheduleService.findByPet(pet);
+        return scheduleListToDTOList(schedules);
     }
 
     @GetMapping("/employee/{employeeId}")
     public List<ScheduleDTO> getScheduleForEmployee(@PathVariable long employeeId) {
         Employee e = userService.findEmployee(employeeId);
         List<Schedule> schedules = scheduleService.findByEmployee(e);
-        List< ScheduleDTO> dtos = new ArrayList<>();
-        for(Schedule schedule : schedules) {
-            dtos.add(scheduleToDto(schedule));
-        }
-        return dtos;
+        return scheduleListToDTOList(schedules);
     }
 
     @GetMapping("/customer/{customerId}")
     public List<ScheduleDTO> getScheduleForCustomer(@PathVariable long customerId) {
         Customer c = userService.findCustomer(customerId).get();
-        List<Pet> pets = c.getPets();
-       return null;
+        List<Schedule> schedules = scheduleService.getAllSchedulesForCustomer(c);
+
+        return scheduleListToDTOList(schedules);
+    }
+
+    private List<ScheduleDTO> scheduleListToDTOList(List<Schedule> schedules) {
+        List< ScheduleDTO> dtoList = new ArrayList<>();
+        for(Schedule schedule : schedules) {
+            dtoList.add(scheduleToDto(schedule));
+        }
+        return dtoList;
     }
 
     private ScheduleDTO scheduleToDto(Schedule s) {

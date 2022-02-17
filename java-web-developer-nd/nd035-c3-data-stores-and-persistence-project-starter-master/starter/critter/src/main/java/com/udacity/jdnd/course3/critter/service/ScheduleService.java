@@ -1,5 +1,6 @@
 package com.udacity.jdnd.course3.critter.service;
 
+import com.udacity.jdnd.course3.critter.entity.Customer;
 import com.udacity.jdnd.course3.critter.entity.Employee;
 import com.udacity.jdnd.course3.critter.entity.Pet;
 import com.udacity.jdnd.course3.critter.entity.Schedule;
@@ -15,17 +16,18 @@ public class ScheduleService {
     @Autowired
     private ScheduleRepository scheduleRepository;
 
-    @Autowired
-    private CustomerRepository customerRepository;
-
     public Schedule save(Schedule s) {return scheduleRepository.save(s);}
 
-    public List<Schedule> findByPets(Pet pet) {
-        return scheduleRepository.findByPets(pet);
+    public List<Schedule> findByPet(Pet pet) {
+        return scheduleRepository.getAllByPetsContains(pet);
     }
 
     public List<Schedule> findByEmployee(Employee e) {
-        return scheduleRepository.findByEmployees(e);
+        return scheduleRepository.getAllByEmployeesContains(e);
+    }
+
+    public List<Schedule> getAllSchedulesForCustomer(Customer customer) {
+        return scheduleRepository.getAllByPetsIn(customer.getPets());
     }
 
     public List<Schedule> getAllSchedules() {

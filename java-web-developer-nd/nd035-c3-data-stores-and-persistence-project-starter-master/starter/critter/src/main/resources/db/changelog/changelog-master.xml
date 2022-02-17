@@ -36,7 +36,7 @@ http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibas
         </createTable>
         <createTable tableName="days_available">
             <column name="id" type="bigint" autoIncrement="true">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="employee_id_pk"/>
+                <constraints nullable="false" primaryKey="true" primaryKeyName="available_id_pk"/>
             </column>
             <column name="days_available" type="varchar(20)">
             </column>
@@ -45,7 +45,7 @@ http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibas
         </createTable>
         <createTable tableName="skills">
             <column name="id" type="bigint" autoIncrement="true">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="employee_id_pk"/>
+                <constraints nullable="false" primaryKey="true" primaryKeyName="skills_id_pk"/>
             </column>
             <column name="skills" type="varchar(20)">
             </column>
@@ -62,6 +62,33 @@ http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibas
             <column name="days_available" type="varchar(20)">
             </column>
             <column name="skills" type="varchar(20)">
+            </column>
+        </createTable>
+        <createTable tableName="activities">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="activities_id_pk"/>
+            </column>
+            <column name="activities" type="varchar(20)">
+            </column>
+            <column name="schedule_id" type="bigint">
+            </column>
+        </createTable>
+        <createTable tableName="schedule_employee">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="schedule_employee_id_pk"/>
+            </column>
+            <column name="employee_id" type="varchar(20)">
+            </column>
+            <column name="schedule_id" type="bigint">
+            </column>
+        </createTable>
+        <createTable tableName="schedule_pet">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="schedule_pet_id_pk"/>
+            </column>
+            <column name="pet_id" type="varchar(20)">
+            </column>
+            <column name="schedule_id" type="bigint">
             </column>
         </createTable>
         <createTable tableName="schedule">
@@ -92,6 +119,9 @@ http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibas
         <addAutoIncrement tableName="employee" columnName="id" columnDataType="bigint" startWith="1" incrementBy="1" />
         <addAutoIncrement tableName="schedule" columnName="id" columnDataType="bigint" startWith="1" incrementBy="1" />
         <addAutoIncrement tableName="skills" columnName="id" columnDataType="bigint" startWith="1" incrementBy="1" />
+        <addAutoIncrement tableName="activities" columnName="id" columnDataType="bigint" startWith="1" incrementBy="1" />
+        <addAutoIncrement tableName="schedule_employee" columnName="id" columnDataType="bigint" startWith="1" incrementBy="1" />
+        <addAutoIncrement tableName="schedule.pet" columnName="id" columnDataType="bigint" startWith="1" incrementBy="1" />
         <addAutoIncrement tableName="days_available" columnName="id" columnDataType="bigint" startWith="1" incrementBy="1" />
     </changeSet>
 </databaseChangeLog>
