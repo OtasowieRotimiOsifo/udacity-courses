@@ -8,6 +8,8 @@ import com.udacity.jdnd.course3.critter.entity.Pet;
 import com.udacity.jdnd.course3.critter.mapping.PetMapper;
 import com.udacity.jdnd.course3.critter.service.PetService;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,25 +23,28 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/pet")
 public class PetController {
-
+    private static Logger logger = LoggerFactory.getLogger(PetController.class);
     @Autowired
     private PetService petService;
 
     @Autowired
     private PetMapper petMapper;
 
-    @PostMapping
-    public PetDTO savePet(@RequestBody PetDTO petDTO) {
+    @PostMapping("/{ownerId}")
+    public PetDTO savePet(@PathVariable(name="ownerId") Long ownerId, @RequestBody PetDTO petDTO) {
+        logger.info("petDTO = {}", petDTO);
         Long id = Optional.ofNullable(petDTO.getId()).orElse(Long.valueOf(-1));
         ModelMapper modelMapper = new ModelMapper();
         Pet p = petService.findPet(id);
         if(p != null) {
             petMapper.updatePetFromDto(petDTO, p);
         } else {
-            p = modelMapper.map(petDTO, Pet.class);
+            logger.info("petDTO = {}, id = {}", petDTO.getNotes(), id);
+            //p = modelMapper.map(petDTO, Pet.class);
+            p = dtoToPet(petDTO);
         }
 
-        p = petService.save(p, petDTO.getOwnerId());
+        p = petService.save(p, ownerId);
         PetDTO pDTO = modelMapper.map(p, PetDTO.class);
         pDTO.setOwnerId(petDTO.getOwnerId());
         return pDTO;
@@ -75,5 +80,15 @@ public class PetController {
             }
         }
         return petDTOS;
+    }
+
+    private Pet dtoToPet(PetDTO petDTO) {
+        Pet p = new Pet();
+        p.setName(petDTO.getName());
+        p.setBirthDate(petDTO.getBirthDate());
+        p.setType(petDTO.getType());
+        p.setNotes(petDTO.getNotes());
+        petDTO.setOwnerId(petDTO.getOwnerId());
+        return p;
     }
 }

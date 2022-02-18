@@ -78,7 +78,7 @@ public class CritterFunctionalTest {
 
         PetDTO petDTO = createPetDTO();
         petDTO.setOwnerId(newCustomer.getId());
-        PetDTO newPet = petController.savePet(petDTO);
+        PetDTO newPet = petController.savePet(newCustomer.getId(), petDTO);
 
         //make sure pet contains customer id
         PetDTO retrievedPet = petController.getPet(newPet.getId());
@@ -103,10 +103,10 @@ public class CritterFunctionalTest {
 
         PetDTO petDTO = createPetDTO();
         petDTO.setOwnerId(newCustomer.getId());
-        PetDTO newPet = petController.savePet(petDTO);
+        PetDTO newPet = petController.savePet(newCustomer.getId(),petDTO);
         petDTO.setType(PetType.DOG);
         petDTO.setName("DogName");
-        PetDTO newPet2 = petController.savePet(petDTO);
+        PetDTO newPet2 = petController.savePet(newCustomer.getId(),petDTO);
 
         List<PetDTO> pets = petController.getPetsByOwner(newCustomer.getId());
         Assertions.assertEquals(pets.size(), 2);
@@ -121,7 +121,7 @@ public class CritterFunctionalTest {
 
         PetDTO petDTO = createPetDTO();
         petDTO.setOwnerId(newCustomer.getId());
-        PetDTO newPet = petController.savePet(petDTO);
+        PetDTO newPet = petController.savePet(newCustomer.getId(),petDTO);
 
         CustomerDTO owner = userController.getOwnerByPet(newPet.getId());
         Assertions.assertEquals(owner.getId(), newCustomer.getId());
@@ -186,7 +186,7 @@ public class CritterFunctionalTest {
         CustomerDTO customerDTO = userController.saveCustomer(createCustomerDTO());
         PetDTO petTemp = createPetDTO();
         petTemp.setOwnerId(customerDTO.getId());
-        PetDTO petDTO = petController.savePet(petTemp);
+        PetDTO petDTO = petController.savePet(customerDTO.getId(), petTemp);
 
         LocalDate date = LocalDate.of(2019, 12, 25);
         List<Long> petList = Lists.newArrayList(petDTO.getId());
@@ -222,13 +222,13 @@ public class CritterFunctionalTest {
          */
 
         //Employee 1 in is both schedule 1 and 3
-       /* List<ScheduleDTO> scheds1e = scheduleController.getScheduleForEmployee(sched1.getEmployeeIds().get(0));
+       List<ScheduleDTO> scheds1e = scheduleController.getScheduleForEmployee(sched1.getEmployeeIds().get(0));
         compareSchedules(sched1, scheds1e.get(0));
         compareSchedules(sched3, scheds1e.get(1));
 
         //Employee 2 is only in schedule 2
         List<ScheduleDTO> scheds2e = scheduleController.getScheduleForEmployee(sched2.getEmployeeIds().get(0));
-        compareSchedules(sched2, scheds2e.get(0));*/
+        compareSchedules(sched2, scheds2e.get(0));
 
         //Pet 1 is only in schedule 1
         List<ScheduleDTO> scheds1p = scheduleController.getScheduleForPet(sched1.getPetIds().get(0));
@@ -245,8 +245,8 @@ public class CritterFunctionalTest {
 
         //Owner of pet from schedule 2 will be in both schedules 2 and 3
         List<ScheduleDTO> scheds2c = scheduleController.getScheduleForCustomer(userController.getOwnerByPet(sched2.getPetIds().get(0)).getId());
-        compareSchedules(sched2, scheds2c.get(0));
-        compareSchedules(sched3, scheds2c.get(1));
+        compareSchedules(sched2, scheds2c.get(2));
+        compareSchedules(sched3, scheds2c.get(3));
     }
 
 
@@ -300,7 +300,7 @@ public class CritterFunctionalTest {
                 .mapToObj(i -> createPetDTO())
                 .map(p -> {
                     p.setOwnerId(cust.getId());
-                    return petController.savePet(p).getId();
+                    return petController.savePet(cust.getId(), p).getId();
                 }).collect(Collectors.toList());
         return scheduleController.createSchedule(createScheduleDTO(petIds, employeeIds, date, activities));
     }
