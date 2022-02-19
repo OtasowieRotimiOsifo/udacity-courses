@@ -1,9 +1,7 @@
 package com.udacity.jdnd.course3.critter.controller;
 
-import com.udacity.jdnd.course3.critter.dto.EmployeeDTO;
 import com.udacity.jdnd.course3.critter.dto.PetDTO;
 import com.udacity.jdnd.course3.critter.entity.Customer;
-import com.udacity.jdnd.course3.critter.entity.Employee;
 import com.udacity.jdnd.course3.critter.entity.Pet;
 import com.udacity.jdnd.course3.critter.mapping.PetMapper;
 import com.udacity.jdnd.course3.critter.service.PetService;
@@ -40,8 +38,7 @@ public class PetController {
             petMapper.updatePetFromDto(petDTO, p);
         } else {
             logger.info("petDTO = {}, id = {}", petDTO.getNotes(), id);
-            //p = modelMapper.map(petDTO, Pet.class);
-            p = dtoToPet(petDTO);
+            p = modelMapper.map(petDTO, Pet.class);
         }
 
         p = petService.save(p, ownerId);
@@ -64,22 +61,35 @@ public class PetController {
 
     @GetMapping
     public List<PetDTO> getPets(){
-        throw new UnsupportedOperationException();
-    }
-
-    @GetMapping("/owner/{ownerId}")
-    public List<PetDTO> getPetsByOwner(@PathVariable Long customerId) {
-        List<Pet> pets = petService.findPetByOwner(customerId);
-        List<PetDTO> petDTOS = new ArrayList<>();
+        List<Pet> pets = petService.findPetAll();
+        logger.info("pets.get(0).getCustomer().getName() = {}", pets.get(0).getCustomer().getName());
+        List<PetDTO> petDTOList = new ArrayList<>();
         if(pets != null) {
             ModelMapper modelMapper = new ModelMapper();
             for(Pet pet : pets) {
                 PetDTO pDTO = modelMapper.map(pet, PetDTO.class);
-                pDTO.setOwnerId(customerId);
-                petDTOS.add(pDTO);
+                Customer c = pet.getCustomer();
+                pDTO.setOwnerId(c.getId());
+                petDTOList.add(pDTO);
             }
         }
-        return petDTOS;
+        return petDTOList;
+    }
+
+    @GetMapping("/owner/{ownerId}")
+    public List<PetDTO> getPetsByOwner(@PathVariable(name="ownerId") Long ownerId) {
+        List<Pet> pets = petService.findPetByOwner(ownerId);
+        logger.info("pets.get(0).getCustomer().getName() = {}", pets.get(0).getCustomer().getName());
+        List<PetDTO> petDTOList = new ArrayList<>();
+        if(pets != null) {
+            ModelMapper modelMapper = new ModelMapper();
+            for(Pet pet : pets) {
+                PetDTO pDTO = modelMapper.map(pet, PetDTO.class);
+                pDTO.setOwnerId(ownerId);
+                petDTOList.add(pDTO);
+            }
+        }
+        return petDTOList;
     }
 
     private Pet dtoToPet(PetDTO petDTO) {

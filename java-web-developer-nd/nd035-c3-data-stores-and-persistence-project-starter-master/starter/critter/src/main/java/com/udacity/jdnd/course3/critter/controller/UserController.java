@@ -3,9 +3,11 @@ package com.udacity.jdnd.course3.critter.controller;
 import com.udacity.jdnd.course3.critter.dto.CustomerDTO;
 import com.udacity.jdnd.course3.critter.dto.EmployeeDTO;
 import com.udacity.jdnd.course3.critter.dto.EmployeeRequestDTO;
+import com.udacity.jdnd.course3.critter.dto.ScheduleDTO;
 import com.udacity.jdnd.course3.critter.entity.Customer;
 import com.udacity.jdnd.course3.critter.entity.Employee;
 import com.udacity.jdnd.course3.critter.entity.Pet;
+import com.udacity.jdnd.course3.critter.entity.Schedule;
 import com.udacity.jdnd.course3.critter.mapping.CustomerMapper;
 import com.udacity.jdnd.course3.critter.mapping.EmployeeMapper;
 import com.udacity.jdnd.course3.critter.service.PetService;
@@ -47,6 +49,7 @@ public class UserController {
 
     @PostMapping("/customer")
     public CustomerDTO saveCustomer(@RequestBody CustomerDTO customerDTO){
+
         Long id = Optional.ofNullable(customerDTO.getId()).orElse(Long.valueOf(-1));
         ModelMapper modelMapper = new ModelMapper();
         Optional<Customer> op = userService.findCustomer(id);
@@ -81,6 +84,8 @@ public class UserController {
 
     @PostMapping("/employee")
     public EmployeeDTO saveEmployee(@RequestBody EmployeeDTO employeeDTO) {
+        logger.info("employeeDTO.getEmployeeSkills().stream().toArray()[0] = {}", employeeDTO.getSkills().stream().toArray()[0]);
+        logger.info("employeeDTO.getEmployeeSkills().stream().toArray()[1] = {}", employeeDTO.getSkills().stream().toArray()[1]);
         Long id = Optional.ofNullable(employeeDTO.getId()).orElse(Long.valueOf(-1));
         ModelMapper modelMapper = new ModelMapper();
         Employee e = userService.findEmployee(id);
@@ -89,6 +94,10 @@ public class UserController {
         } else {
             e = modelMapper.map(employeeDTO, Employee.class);
         }
+
+        e.setEmployeeSkills(employeeDTO.getSkills());
+        e.setDaysAvailable(employeeDTO.getDaysAvailable());
+        e.setName(employeeDTO.getName());
 
         e = userService.save(e);
         return modelMapper.map(e, EmployeeDTO.class);
@@ -105,20 +114,28 @@ public class UserController {
     }
 
     @PutMapping("/employee/{employeeId}")
-    public void setAvailability(@RequestBody Set<DayOfWeek> daysAvailable, @PathVariable long employeeId) {
+    public EmployeeDTO setAvailability(@RequestBody Set<DayOfWeek> daysAvailable, @PathVariable long employeeId) {
         Employee e = userService.findEmployee(employeeId);
         e.setDaysAvailable(daysAvailable);
-        userService.save(e);
+        Employee savedEmployee = userService.save(e);
+        ModelMapper modelMapper = new ModelMapper();
+        EmployeeDTO dto = modelMapper.map(savedEmployee, EmployeeDTO.class);
+        dto.setSkills(savedEmployee .getEmployeeSkills());
+        return dto;
     }
 
     @GetMapping("/employee/availability")
     public List<EmployeeDTO> findEmployeesForService(@RequestBody EmployeeRequestDTO employeeDTO) {
+        logger.info("employeeDTO.getDate() = {}", employeeDTO.getDate());
         List<Employee> employees = userService.findAvailableEmployees(employeeDTO.getSkills(), employeeDTO.getDate());
         List<EmployeeDTO> employeeDTOs = new ArrayList<>();
         if (employees != null) {
-            ModelMapper modelMapper = new ModelMapper();
             for (Employee e : employees) {
-                EmployeeDTO employeeDTOLoc = modelMapper.map(e, EmployeeDTO.class);
+                EmployeeDTO employeeDTOLoc =  new EmployeeDTO();
+                employeeDTOLoc.setSkills(e.getEmployeeSkills());
+                employeeDTOLoc.setDaysAvailable(e.getDaysAvailable());
+                employeeDTOLoc.setName(e.getName());
+                employeeDTOLoc.setId(e.getId());
                 employeeDTOs.add(employeeDTOLoc);
             }
         }

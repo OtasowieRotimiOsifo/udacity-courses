@@ -1,5 +1,7 @@
 package com.udacity.jdnd.course3.critter.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.udacity.jdnd.course3.critter.model.EmployeeSkill;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -8,7 +10,9 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.DayOfWeek;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
