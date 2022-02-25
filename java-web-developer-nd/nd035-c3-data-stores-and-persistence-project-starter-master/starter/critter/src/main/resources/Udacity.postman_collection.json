@@ -204,7 +204,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"employeeIds\" : [37],\n    \"petIds\" : [33],\n    \"date\" : \"2021-01-10\", \n    \"activities\" : [\n        \"PETTING\"\n    ]\n}",
+					"raw": "{\n    \"employeeIds\" : [11],\n    \"petIds\" : [9],\n    \"date\" : \"2021-01-10\", \n    \"activities\" : [\n        \"PETTING\"\n    ]\n}",
 					"options": {
 						"raw": {
 							"language": "json"
