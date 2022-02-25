@@ -35,14 +35,23 @@ public class ScheduleController {
 
     @PostMapping
     public ScheduleDTO createSchedule(@RequestBody ScheduleDTO scheduleDTO) {
-        Schedule schedule = dtoToSchedule(scheduleDTO);
         Schedule s = new Schedule();
 
         s.setScheduleDate(scheduleDTO.getDate());
         s.setActivities(scheduleDTO.getActivities());
         s.setEmployees(userService.findEmployees(scheduleDTO.getEmployeeIds()));
         s.setPets(petService.findPets(scheduleDTO.getPetIds()));
-        Schedule savedSchedule = scheduleService.save(schedule);
+        Schedule savedSchedule = scheduleService.save(s);
+
+        for(Pet pet : s.getPets()) {
+            pet.addSchedule(s);
+            petService.save(pet, pet.getCustomer().getId());
+        }
+
+        for(Employee employee : s.getEmployees()) {
+            employee.addSchedule(s);
+            userService.save(employee);
+        }
 
         return scheduleToDto(savedSchedule);
     }
@@ -92,44 +101,18 @@ public class ScheduleController {
     private ScheduleDTO scheduleToDto(Schedule s) {
         ModelMapper modelMapper = new ModelMapper();
         ScheduleDTO scheduleDTO = modelMapper.map(s, ScheduleDTO.class);
-        for(Employee e: s.getEmployees()) {
-            scheduleDTO.getEmployeeIds().add(e.getId());
+
+        for (Employee e : s.getEmployees()) {
+            scheduleDTO.addEmployeeId(e.getId());
         }
 
-        for(Pet p: s.getPets()) {
-            scheduleDTO.getPetIds().add(p.getId());
+
+        for (Pet p : s.getPets()) {
+            scheduleDTO.addPetId(p.getId());
         }
+
 
         scheduleDTO.setActivities(s.getActivities());
         return scheduleDTO;
-    }
-
-    private Schedule dtoToSchedule(ScheduleDTO scheduleDTO) {
-
-        ModelMapper modelMapper = new ModelMapper();
-        Schedule schedule = new Schedule();
-        schedule.setScheduleDate(scheduleDTO.getDate());
-        List<Employee>  employees = new ArrayList<>();
-
-        List<Pet>  pets = new ArrayList<>();
-
-        for(Long petId: scheduleDTO.getPetIds()) {
-            Pet pet = petService.findPet(petId);
-            logger.info("loop: pet name", pet.getName());
-            pets.add(pet);
-        }
-        schedule.setPets(pets);
-
-        for(Long employeeId: scheduleDTO.getEmployeeIds()) {
-            Employee  employee = userService.findEmployee(employeeId);
-            logger.info("loop: employee name", employee.getName());
-            employees.add(employee);
-        }
-
-        schedule.setEmployees(employees);
-
-        schedule.setActivities(scheduleDTO.getActivities());
-
-        return schedule;
     }
 }

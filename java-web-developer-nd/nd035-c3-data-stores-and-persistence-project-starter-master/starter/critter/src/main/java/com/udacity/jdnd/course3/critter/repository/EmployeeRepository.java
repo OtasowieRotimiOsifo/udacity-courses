@@ -9,7 +9,6 @@ import java.time.DayOfWeek;
 import java.util.List;
 
 @Repository
-@Transactional
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     List<Employee> getAllByDaysAvailableContains(DayOfWeek dayOfWeek);
 }

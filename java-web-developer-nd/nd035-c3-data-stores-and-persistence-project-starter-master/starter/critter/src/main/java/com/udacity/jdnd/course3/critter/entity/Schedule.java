@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -28,7 +29,7 @@ public class Schedule {
             joinColumns = { @JoinColumn(name = "schedule_id")},
             inverseJoinColumns = { @JoinColumn(name = "employee_id")}
     )
-    private List<Employee>  employees;
+    private List<Employee>  employees = new ArrayList<>();
     public void addEmployee(Employee employee) {
         employees.add(employee);
     }
@@ -63,7 +64,7 @@ public class Schedule {
             joinColumns = { @JoinColumn(name = "schedule_id")},
             inverseJoinColumns = { @JoinColumn(name = "pet_id")}
     )
-    private List<Pet>  pets;
+    private List<Pet>  pets = new ArrayList<>();;
     public void addPet(Pet pet) {
         pets.add(pet);
     }

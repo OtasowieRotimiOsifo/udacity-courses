@@ -32,9 +32,15 @@ public class ScheduleDTO {
     public void setEmployeeIds(List<Long> employeeIds) {
         this.employeeIds = employeeIds;
     }
+    public void addEmployeeId(Long employeeId) {
+        employeeIds.add(employeeId);
+    }
 
     public List<Long> getPetIds() {
         return petIds;
+    }
+    public void addPetId(Long petId) {
+        petIds.add(petId);
     }
 
     public void setPetIds(List<Long> petIds) {

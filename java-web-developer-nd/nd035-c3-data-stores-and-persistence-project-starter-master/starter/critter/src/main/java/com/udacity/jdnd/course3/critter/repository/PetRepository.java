@@ -8,7 +8,6 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 @Repository
-@Transactional
 public interface PetRepository extends JpaRepository<Pet, Long>{
     List<Pet> findByCustomerId(Long customerId);
 }

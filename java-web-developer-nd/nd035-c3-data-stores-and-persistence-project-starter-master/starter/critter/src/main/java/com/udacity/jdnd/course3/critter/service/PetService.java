@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -44,15 +45,12 @@ public class PetService {
     }
 
     public List<Pet> findPets(List<Long> petIds) {
-        List<Pet> pets = petRepository.findAllById(petIds);
-
-        if (petIds.size() != pets.size()) {
-            List<Long> found = pets.stream().map(p -> p.getId()).collect(Collectors.toList());
-            String missing = (String) petIds
-                    .stream()
-                    .filter( id -> !found.contains(id) )
-                    .map(String::valueOf)
-                    .collect(Collectors.joining(", "));
+        List<Pet>  pets = new ArrayList<>();;
+        for(Long petId: petIds) {
+            Pet pet = findPet(petId);
+            if(null != pet) {
+                pets.add(pet);
+            }
         }
         return pets;
     }
