@@ -9,7 +9,9 @@ import com.udacity.jdnd.course3.critter.repository.ScheduleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ScheduleService {
@@ -30,6 +32,9 @@ public class ScheduleService {
         return scheduleRepository.getAllByPetsIn(customer.getPets());
     }
 
+    public Optional<Schedule> findSchedule(Long id) {
+        return scheduleRepository.findById(id);
+    }
     public List<Schedule> getAllSchedules() {
         return scheduleRepository.findAll();
     }

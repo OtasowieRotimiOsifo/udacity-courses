@@ -8,6 +8,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "pet")
@@ -40,6 +42,22 @@ public class Pet {
 
     public void setNotes(String notes) {
         this.notes = notes;
+    }
+
+    public List<Schedule> getSchedules() {
+        return schedules;
+    }
+
+    public void setSchedules(List<Schedule> schedules) {
+        this.schedules = schedules;
+    }
+
+    @ManyToMany(
+            mappedBy = "pets")
+    private List<Schedule> schedules = new ArrayList<>();
+    public void addSchedule(Schedule s) {
+
+        schedules.add(s);
     }
 
     public void setBirthDate(LocalDate birthDate) {

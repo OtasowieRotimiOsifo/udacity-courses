@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class PetService {
@@ -40,6 +41,20 @@ public class PetService {
             return op.get();
         }
         return null;
+    }
+
+    public List<Pet> findPets(List<Long> petIds) {
+        List<Pet> pets = petRepository.findAllById(petIds);
+
+        if (petIds.size() != pets.size()) {
+            List<Long> found = pets.stream().map(p -> p.getId()).collect(Collectors.toList());
+            String missing = (String) petIds
+                    .stream()
+                    .filter( id -> !found.contains(id) )
+                    .map(String::valueOf)
+                    .collect(Collectors.joining(", "));
+        }
+        return pets;
     }
 
     public List<Pet> findPetByOwner(Long customerId) {

@@ -85,7 +85,7 @@ public class UserController {
     @PostMapping("/employee")
     public EmployeeDTO saveEmployee(@RequestBody EmployeeDTO employeeDTO) {
         logger.info("employeeDTO.getEmployeeSkills().stream().toArray()[0] = {}", employeeDTO.getSkills().stream().toArray()[0]);
-        logger.info("employeeDTO.getEmployeeSkills().stream().toArray()[1] = {}", employeeDTO.getSkills().stream().toArray()[1]);
+        //logger.info("employeeDTO.getEmployeeSkills().stream().toArray()[1] = {}", employeeDTO.getSkills().stream().toArray()[1]);
         Long id = Optional.ofNullable(employeeDTO.getId()).orElse(Long.valueOf(-1));
         ModelMapper modelMapper = new ModelMapper();
         Employee e = userService.findEmployee(id);

@@ -32,13 +32,28 @@ public class Employee {
     @CollectionTable(name="days_available")
     @Enumerated(EnumType.STRING)
     @Column(name="daysAvailable", nullable = false)
-    private Set<DayOfWeek> daysAvailable = new HashSet<>();
+    private Set<DayOfWeek> daysAvailable;
 
     @ElementCollection
     @CollectionTable(name="skills")
     @Enumerated(EnumType.STRING)
     @Column(name="skills", nullable = false)
-    private Set<EmployeeSkill> employeeSkills = new HashSet<>();
+    private Set<EmployeeSkill> employeeSkills;
+
+    @ManyToMany(
+            mappedBy = "employees")
+    private List<Schedule> schedules = new ArrayList<>();
+    public void addSchedule(Schedule s) {
+        schedules.add(s);
+    }
+
+    public List<Schedule> getSchedules() {
+        return schedules;
+    }
+
+    public void setSchedules(List<Schedule> schedules) {
+        this.schedules = schedules;
+    }
 
     public Long getId() {
         return id;

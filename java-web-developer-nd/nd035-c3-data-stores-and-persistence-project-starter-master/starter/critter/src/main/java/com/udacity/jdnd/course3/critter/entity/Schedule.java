@@ -29,6 +29,9 @@ public class Schedule {
             inverseJoinColumns = { @JoinColumn(name = "employee_id")}
     )
     private List<Employee>  employees;
+    public void addEmployee(Employee employee) {
+        employees.add(employee);
+    }
 
     public List<Employee> getEmployees() {
         return employees;
@@ -61,6 +64,9 @@ public class Schedule {
             inverseJoinColumns = { @JoinColumn(name = "pet_id")}
     )
     private List<Pet>  pets;
+    public void addPet(Pet pet) {
+        pets.add(pet);
+    }
 
     public List<Pet> getPets() {
         return pets;

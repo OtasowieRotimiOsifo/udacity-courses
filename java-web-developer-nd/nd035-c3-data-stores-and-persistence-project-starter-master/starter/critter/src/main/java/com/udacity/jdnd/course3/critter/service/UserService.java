@@ -57,6 +57,11 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
+    public List<Employee> findEmployees(List<Long> employeeIds) {
+        List<Employee> employees = employeeRepository.findAllById(employeeIds);
+        return employees;
+    }
+
     public List<Employee> getAllEmployees() {
 
         return employeeRepository.findAll();
