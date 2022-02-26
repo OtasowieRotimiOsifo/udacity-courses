@@ -26,40 +26,53 @@ public class ScheduleDTO {
     }
 
     public List<Long> getEmployeeIds() {
-        return employeeIds;
+
+        return this.employeeIds;
     }
 
     public void setEmployeeIds(List<Long> employeeIds) {
         this.employeeIds = employeeIds;
     }
     public void addEmployeeId(Long employeeId) {
-        employeeIds.add(employeeId);
+        this.employeeIds.add(employeeId);
     }
 
     public List<Long> getPetIds() {
-        return petIds;
+        return
+                this.petIds;
     }
     public void addPetId(Long petId) {
-        petIds.add(petId);
+
+        this.petIds.add(petId);
     }
 
     public void setPetIds(List<Long> petIds) {
+
         this.petIds = petIds;
     }
 
     public LocalDate getDate() {
-        return date;
+
+        return this.date;
     }
 
     public void setDate(LocalDate date) {
+
         this.date = date;
     }
 
     public Set<EmployeeSkill> getActivities() {
-        return activities;
+
+        return this.activities;
+    }
+
+    public void addEmployeeSkill(EmployeeSkill skill) {
+
+        this.activities.add(skill);
     }
 
     public void setActivities(Set<EmployeeSkill> activities) {
+
         this.activities = activities;
     }
 }

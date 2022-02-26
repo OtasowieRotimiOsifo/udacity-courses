@@ -15,45 +15,56 @@ public class CustomerDTO {
     private List<Long> petIds;
 
     public CustomerDTO() {
-        petIds = new ArrayList<>();
+
+        this.petIds = new ArrayList<>();
     }
     public long getId() {
-        return id;
+
+        return this.id;
     }
 
     public void setId(long id) {
+
         this.id = id;
     }
 
     public String getName() {
-        return name;
+
+        return this.name;
     }
 
     public void setName(String name) {
+
         this.name = name;
     }
 
     public String getPhoneNumber() {
-        return phoneNumber;
+
+        return this.phoneNumber;
     }
 
     public void setPhoneNumber(String phoneNumber) {
+
         this.phoneNumber = phoneNumber;
     }
 
     public String getNotes() {
-        return notes;
+
+        return this.notes;
     }
 
     public void setNotes(String notes) {
+
         this.notes = notes;
     }
 
     public List<Long> getPetIds() {
-        return petIds;
+
+        return this.petIds;
     }
 
     public void setPetIds(List<Long> petIds) {
+
         this.petIds = petIds;
     }
 }

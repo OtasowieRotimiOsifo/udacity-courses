@@ -1,7 +1,5 @@
 package com.udacity.jdnd.course3.critter.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.udacity.jdnd.course3.critter.model.EmployeeSkill;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -11,7 +9,6 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.time.DayOfWeek;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -48,7 +45,7 @@ public class Employee {
     }
 
     public List<Schedule> getSchedules() {
-        return schedules;
+        return this.schedules;
     }
 
     public void setSchedules(List<Schedule> schedules) {
@@ -56,34 +53,42 @@ public class Employee {
     }
 
     public Long getId() {
-        return id;
+
+        return this.id;
     }
 
     public void setId(Long id) {
+
         this.id = id;
     }
 
     public String getName() {
-        return name;
+
+        return this.name;
     }
 
     public void setName(String name) {
+
         this.name = name;
     }
 
     public Set<DayOfWeek> getDaysAvailable() {
-        return daysAvailable;
+
+        return this.daysAvailable;
     }
 
     public void setDaysAvailable(Set<DayOfWeek> daysAvailable) {
+
         this.daysAvailable = daysAvailable;
     }
 
     public Set<EmployeeSkill> getEmployeeSkills() {
-        return employeeSkills;
+
+        return this.employeeSkills;
     }
 
     public void setEmployeeSkills(Set<EmployeeSkill> employeeSkills) {
+
         this.employeeSkills = employeeSkills;
     }
 }

@@ -20,6 +20,7 @@ import java.util.Set;
 @EqualsAndHashCode
 public class Schedule {
     @Id
+    @Column(nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -29,32 +30,43 @@ public class Schedule {
             joinColumns = { @JoinColumn(name = "schedule_id")},
             inverseJoinColumns = { @JoinColumn(name = "employee_id")}
     )
+
+    @Column(nullable = false)
+    private LocalDate scheduleDate;
+
     private List<Employee>  employees = new ArrayList<>();
     public void addEmployee(Employee employee) {
-        employees.add(employee);
+
+        this.employees.add(employee);
     }
 
     public List<Employee> getEmployees() {
-        return employees;
+
+        return this.employees;
     }
 
     public void setEmployees(List<Employee> employees) {
+
         this.employees = employees;
     }
 
     public LocalDate getScheduleDate() {
-        return scheduleDate;
+
+        return this.scheduleDate;
     }
 
     public Set<EmployeeSkill> getActivities() {
-        return activities;
+
+        return this.activities;
     }
 
     public void setActivities(Set<EmployeeSkill> activities) {
+
         this.activities = activities;
     }
 
     public void setScheduleDate(LocalDate scheduleDate) {
+
         this.scheduleDate = scheduleDate;
     }
 
@@ -66,18 +78,19 @@ public class Schedule {
     )
     private List<Pet>  pets = new ArrayList<>();;
     public void addPet(Pet pet) {
-        pets.add(pet);
+
+        this.pets.add(pet);
     }
 
     public List<Pet> getPets() {
-        return pets;
+
+        return this.pets;
     }
 
     public void setPets(List<Pet> pets) {
+
         this.pets = pets;
     }
-
-    private LocalDate scheduleDate;
 
     @ElementCollection(targetClass = EmployeeSkill.class)
     @CollectionTable(name="activities")
@@ -86,10 +99,12 @@ public class Schedule {
     private Set<EmployeeSkill> activities;
 
     public Long getId() {
-        return id;
+
+        return this.id;
     }
 
     public void setId(Long id) {
+
         this.id = id;
     }
 }

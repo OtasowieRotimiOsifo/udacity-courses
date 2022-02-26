@@ -17,31 +17,38 @@ public class PetDTO {
     private String notes;
 
     public PetType getType() {
-        return type;
+
+        return this.type;
     }
 
     public void setType(PetType type) {
+
         this.type = type;
     }
 
     public String getName() {
-        return name;
+
+        return this.name;
     }
 
     public void setName(String name) {
+
         this.name = name;
     }
 
     public long getOwnerId() {
-        return ownerId;
+
+        return this.ownerId;
     }
 
     public void setOwnerId(long ownerId) {
+
         this.ownerId = ownerId;
     }
 
     public LocalDate getBirthDate() {
-        return birthDate;
+
+        return this.birthDate;
     }
 
     public void setBirthDate(LocalDate birthDate) {
@@ -49,15 +56,18 @@ public class PetDTO {
     }
 
     public String getNotes() {
-        return notes;
+
+        return this.notes;
     }
 
     public void setNotes(String notes) {
+
         this.notes = notes;
     }
 
     public long getId() {
-        return id;
+
+        return this.id;
     }
 
     public void setId(long id) {

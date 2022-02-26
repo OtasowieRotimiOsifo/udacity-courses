@@ -30,14 +30,12 @@ public class PetController {
 
     @PostMapping("/{ownerId}")
     public PetDTO savePet(@PathVariable(name="ownerId") Long ownerId, @RequestBody PetDTO petDTO) {
-        logger.info("petDTO = {}", petDTO);
         Long id = Optional.ofNullable(petDTO.getId()).orElse(Long.valueOf(-1));
         ModelMapper modelMapper = new ModelMapper();
         Pet p = petService.findPet(id);
         if(p != null) {
             petMapper.updatePetFromDto(petDTO, p);
         } else {
-            logger.info("petDTO = {}, id = {}", petDTO.getNotes(), id);
             p = modelMapper.map(petDTO, Pet.class);
         }
 
@@ -62,7 +60,6 @@ public class PetController {
     @GetMapping
     public List<PetDTO> getPets(){
         List<Pet> pets = petService.findPetAll();
-        logger.info("pets.get(0).getCustomer().getName() = {}", pets.get(0).getCustomer().getName());
         List<PetDTO> petDTOList = new ArrayList<>();
         if(pets != null) {
             ModelMapper modelMapper = new ModelMapper();
@@ -79,7 +76,6 @@ public class PetController {
     @GetMapping("/owner/{ownerId}")
     public List<PetDTO> getPetsByOwner(@PathVariable(name="ownerId") Long ownerId) {
         List<Pet> pets = petService.findPetByOwner(ownerId);
-        logger.info("pets.get(0).getCustomer().getName() = {}", pets.get(0).getCustomer().getName());
         List<PetDTO> petDTOList = new ArrayList<>();
         if(pets != null) {
             ModelMapper modelMapper = new ModelMapper();
@@ -90,15 +86,5 @@ public class PetController {
             }
         }
         return petDTOList;
-    }
-
-    private Pet dtoToPet(PetDTO petDTO) {
-        Pet p = new Pet();
-        p.setName(petDTO.getName());
-        p.setBirthDate(petDTO.getBirthDate());
-        p.setType(petDTO.getType());
-        p.setNotes(petDTO.getNotes());
-        petDTO.setOwnerId(petDTO.getOwnerId());
-        return p;
     }
 }

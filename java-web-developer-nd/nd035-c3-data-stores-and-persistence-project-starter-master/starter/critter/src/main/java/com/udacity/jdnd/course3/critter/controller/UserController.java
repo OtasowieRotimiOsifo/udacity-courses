@@ -3,11 +3,9 @@ package com.udacity.jdnd.course3.critter.controller;
 import com.udacity.jdnd.course3.critter.dto.CustomerDTO;
 import com.udacity.jdnd.course3.critter.dto.EmployeeDTO;
 import com.udacity.jdnd.course3.critter.dto.EmployeeRequestDTO;
-import com.udacity.jdnd.course3.critter.dto.ScheduleDTO;
 import com.udacity.jdnd.course3.critter.entity.Customer;
 import com.udacity.jdnd.course3.critter.entity.Employee;
 import com.udacity.jdnd.course3.critter.entity.Pet;
-import com.udacity.jdnd.course3.critter.entity.Schedule;
 import com.udacity.jdnd.course3.critter.mapping.CustomerMapper;
 import com.udacity.jdnd.course3.critter.mapping.EmployeeMapper;
 import com.udacity.jdnd.course3.critter.service.PetService;
@@ -27,7 +25,7 @@ import java.util.Set;
 
 /**
  * Handles web requests related to Users.
- *
+ * <p>
  * Includes requests for both customers and employees. Splitting this into separate user and customer controllers
  * would be fine too, though that is not part of the required scope for this class.
  */
@@ -35,6 +33,7 @@ import java.util.Set;
 @RequestMapping("/user")
 public class UserController {
     private static Logger logger = LoggerFactory.getLogger(UserController.class);
+
     @Autowired
     private UserService userService;
 
@@ -48,13 +47,13 @@ public class UserController {
     private EmployeeMapper employeeMapper;
 
     @PostMapping("/customer")
-    public CustomerDTO saveCustomer(@RequestBody CustomerDTO customerDTO){
+    public CustomerDTO saveCustomer(@RequestBody CustomerDTO customerDTO) {
 
         Long id = Optional.ofNullable(customerDTO.getId()).orElse(Long.valueOf(-1));
         ModelMapper modelMapper = new ModelMapper();
         Optional<Customer> op = userService.findCustomer(id);
         Customer c = null;
-        if(op.isPresent()) {
+        if (op.isPresent()) {
             c = op.get();
             customerMapper.updateCustomerFromDto(customerDTO, c);
         } else {
@@ -66,16 +65,16 @@ public class UserController {
 
 
     @GetMapping("/customer")
-    public List<CustomerDTO> getAllCustomers(){
+    public List<CustomerDTO> getAllCustomers() {
         List<Customer> customers = userService.getAllCustomers();
         return copyCustomersToDTOs(customers);
     }
 
     @GetMapping("/customer/pet/{petId}")
-    public CustomerDTO getOwnerByPet(@PathVariable long petId){
+    public CustomerDTO getOwnerByPet(@PathVariable long petId) {
 
         Pet pet = petService.findPet(petId);
-        if(pet != null) {
+        if (pet != null) {
             Customer c = pet.getCustomer();
             return copyCustomerToDTO(c);
         }
@@ -84,12 +83,10 @@ public class UserController {
 
     @PostMapping("/employee")
     public EmployeeDTO saveEmployee(@RequestBody EmployeeDTO employeeDTO) {
-        logger.info("employeeDTO.getEmployeeSkills().stream().toArray()[0] = {}", employeeDTO.getSkills().stream().toArray()[0]);
-        //logger.info("employeeDTO.getEmployeeSkills().stream().toArray()[1] = {}", employeeDTO.getSkills().stream().toArray()[1]);
         Long id = Optional.ofNullable(employeeDTO.getId()).orElse(Long.valueOf(-1));
         ModelMapper modelMapper = new ModelMapper();
         Employee e = userService.findEmployee(id);
-        if(e != null) {
+        if (e != null) {
             employeeMapper.updateEmployeeFromDto(employeeDTO, e);
         } else {
             e = modelMapper.map(employeeDTO, Employee.class);
@@ -99,39 +96,38 @@ public class UserController {
         e.setDaysAvailable(employeeDTO.getDaysAvailable());
         e.setName(employeeDTO.getName());
 
-        e = userService.save(e);
-        return modelMapper.map(e, EmployeeDTO.class);
+        Employee savedEmployee = userService.save(e);
+        return modelMapper.map(savedEmployee, EmployeeDTO.class);
     }
 
     @PostMapping("/employee/{employeeId}")
     public EmployeeDTO getEmployee(@PathVariable long employeeId) {
         ModelMapper modelMapper = new ModelMapper();
-        Employee e = userService.findEmployee(employeeId);
-        if(e != null) {
-           return modelMapper.map(e, EmployeeDTO.class);
+        Employee employee = userService.findEmployee(employeeId);
+        if (employee != null) {
+            return modelMapper.map(employee, EmployeeDTO.class);
         }
         return null; //throw exception?
     }
 
     @PutMapping("/employee/{employeeId}")
     public EmployeeDTO setAvailability(@RequestBody Set<DayOfWeek> daysAvailable, @PathVariable long employeeId) {
-        Employee e = userService.findEmployee(employeeId);
-        e.setDaysAvailable(daysAvailable);
-        Employee savedEmployee = userService.save(e);
+        Employee employee = userService.findEmployee(employeeId);
+        employee.setDaysAvailable(daysAvailable);
+        Employee savedEmployee = userService.save(employee);
         ModelMapper modelMapper = new ModelMapper();
         EmployeeDTO dto = modelMapper.map(savedEmployee, EmployeeDTO.class);
-        dto.setSkills(savedEmployee .getEmployeeSkills());
+        dto.setSkills(savedEmployee.getEmployeeSkills());
         return dto;
     }
 
     @GetMapping("/employee/availability")
     public List<EmployeeDTO> findEmployeesForService(@RequestBody EmployeeRequestDTO employeeDTO) {
-        logger.info("employeeDTO.getDate() = {}", employeeDTO.getDate());
         List<Employee> employees = userService.findAvailableEmployees(employeeDTO.getSkills(), employeeDTO.getDate());
         List<EmployeeDTO> employeeDTOs = new ArrayList<>();
         if (employees != null) {
             for (Employee e : employees) {
-                EmployeeDTO employeeDTOLoc =  new EmployeeDTO();
+                EmployeeDTO employeeDTOLoc = new EmployeeDTO();
                 employeeDTOLoc.setSkills(e.getEmployeeSkills());
                 employeeDTOLoc.setDaysAvailable(e.getDaysAvailable());
                 employeeDTOLoc.setName(e.getName());
@@ -142,20 +138,20 @@ public class UserController {
         return employeeDTOs;
     }
 
-    private CustomerDTO copyCustomerToDTO(Customer c){
+    private CustomerDTO copyCustomerToDTO(Customer c) {
         CustomerDTO dto = new CustomerDTO();
         BeanUtils.copyProperties(c, dto);
-        for(Pet pet : c.getPets()){
+        for (Pet pet : c.getPets()) {
             dto.getPetIds().add(pet.getId());
         }
         return dto;
     }
 
-    private List<CustomerDTO> copyCustomersToDTOs (List<Customer> customers) {
+    private List<CustomerDTO> copyCustomersToDTOs(List<Customer> customers) {
         List dtoArrayList = new ArrayList<CustomerDTO>();
         // convert to DTO
-        for(Customer c : customers) {
-            dtoArrayList.add(this.copyCustomerToDTO((Customer)c));
+        for (Customer c : customers) {
+            dtoArrayList.add(this.copyCustomerToDTO((Customer) c));
         }
         return dtoArrayList;
     }

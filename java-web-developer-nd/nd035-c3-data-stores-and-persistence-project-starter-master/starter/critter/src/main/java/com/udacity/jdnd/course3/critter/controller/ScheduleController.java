@@ -65,7 +65,6 @@ public class ScheduleController {
 
     @GetMapping("/pet/{petId}")
     public List<ScheduleDTO> getScheduleForPet(@PathVariable long petId) {
-        logger.info("pet id = {}", petId);
         Pet pet = petService.findPet(petId);
         List<Schedule> schedules = pet.getSchedules();
         return scheduleListToDTOList(schedules);
@@ -73,7 +72,6 @@ public class ScheduleController {
 
     @GetMapping("/employee/{employeeId}")
     public List<ScheduleDTO> getScheduleForEmployee(@PathVariable long employeeId) {
-        logger.info("employee id = {}", employeeId);
         Employee e = userService.findEmployee(employeeId);
         List<Schedule> schedules = e.getSchedules();
         return scheduleListToDTOList(schedules);
@@ -81,12 +79,8 @@ public class ScheduleController {
 
     @GetMapping("/customer/{customerId}")
     public List<ScheduleDTO> getScheduleForCustomer(@PathVariable long customerId) {
-        logger.info("customer id = {}", customerId);
         Customer c = userService.findCustomer(customerId).get();
-        logger.info("customer name = {}", c.getName());
-        logger.info("customers pet name = {}", c.getPets().get(0).getName());
         List<Schedule> schedules = scheduleService.getAllSchedulesForCustomer(c);
-        logger.info("schedule for customer = {}", schedules.get(0).getId());
         return scheduleListToDTOList(schedules);
     }
 

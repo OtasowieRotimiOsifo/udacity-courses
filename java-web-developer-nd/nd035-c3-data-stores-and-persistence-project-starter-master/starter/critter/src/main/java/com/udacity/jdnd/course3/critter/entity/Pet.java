@@ -1,10 +1,6 @@
 package com.udacity.jdnd.course3.critter.entity;
 
 import com.udacity.jdnd.course3.critter.model.PetType;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -33,19 +29,22 @@ public class Pet {
     private String notes;
 
     public LocalDate getBirthDate() {
-        return birthDate;
+
+        return this.birthDate;
     }
 
     public String getNotes() {
-        return notes;
+
+        return this.notes;
     }
 
     public void setNotes(String notes) {
+
         this.notes = notes;
     }
 
     public List<Schedule> getSchedules() {
-        return schedules;
+        return this.schedules;
     }
 
     public void setSchedules(List<Schedule> schedules) {
@@ -61,14 +60,17 @@ public class Pet {
     }
 
     public void setBirthDate(LocalDate birthDate) {
+
         this.birthDate = birthDate;
     }
 
     public Customer getCustomer() {
-        return customer;
+
+        return this.customer;
     }
 
     public void setCustomer(Customer customer) {
+
         this.customer = customer;
     }
 
@@ -77,26 +79,32 @@ public class Pet {
     private Customer customer;
 
     public Long getId() {
-        return id;
+
+        return this.id;
     }
 
     public PetType getType() {
-        return type;
+
+        return this.type;
     }
 
     public void setType(PetType type) {
+
         this.type = type;
     }
 
     public void setId(Long id) {
+
         this.id = id;
     }
 
     public String getName() {
-        return name;
+
+        return this.name;
     }
 
     public void setName(String name) {
+
         this.name = name;
     }
 }

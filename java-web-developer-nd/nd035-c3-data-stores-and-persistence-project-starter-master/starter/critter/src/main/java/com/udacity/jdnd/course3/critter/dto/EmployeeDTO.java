@@ -3,7 +3,6 @@ package com.udacity.jdnd.course3.critter.dto;
 import com.udacity.jdnd.course3.critter.model.EmployeeSkill;
 
 import java.time.DayOfWeek;
-import java.time.LocalDate;
 import java.util.Set;
 
 /**
@@ -18,34 +17,40 @@ public class EmployeeDTO {
     private Set<EmployeeSkill> skills;
 
     public Set<EmployeeSkill> getSkills() {
-        return skills;
+
+        return this.skills;
     }
 
     public void setSkills(Set<EmployeeSkill> skills) {
+
         this.skills = skills;
     }
 
     public long getId() {
-        return id;
+
+        return this.id;
     }
 
     public void setId(long id) {
+
         this.id = id;
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public void setName(String name) {
+
         this.name = name;
     }
 
     public Set<DayOfWeek> getDaysAvailable() {
-        return daysAvailable;
+        return this.daysAvailable;
     }
 
     public void setDaysAvailable(Set<DayOfWeek> daysAvailable) {
+
         this.daysAvailable = daysAvailable;
     }
 }
