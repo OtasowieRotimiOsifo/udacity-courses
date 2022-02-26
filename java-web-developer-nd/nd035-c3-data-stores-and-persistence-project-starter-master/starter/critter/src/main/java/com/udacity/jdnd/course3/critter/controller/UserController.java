@@ -98,7 +98,7 @@ public class UserController {
         return modelMapper.map(savedEmployee, EmployeeDTO.class);
     }
 
-    @PostMapping("/employee/{employeeId}")
+    @GetMapping("/employee/{employeeId}")
     public EmployeeDTO getEmployee(@PathVariable long employeeId) {
         ModelMapper modelMapper = new ModelMapper();
         Employee employee = userService.findEmployee(employeeId);

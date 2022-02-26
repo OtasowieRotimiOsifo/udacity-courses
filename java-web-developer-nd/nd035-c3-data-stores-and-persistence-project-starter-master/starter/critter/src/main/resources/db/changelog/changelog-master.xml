@@ -105,14 +105,6 @@ http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibas
             <column name="activities" type="varchar(20)">
             </column>
         </createTable>
-        <createTable tableName="user">
-            <column name="id" type="bigint" autoIncrement="true">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="user_id_pk"/>
-            </column>
-            <column name="name" type="varchar(250)">
-                <constraints nullable="false" unique="true"/>
-            </column>
-        </createTable>
         <addAutoIncrement tableName="customer" columnName="id" columnDataType="bigint" startWith="1" incrementBy="1"/>
         <addAutoIncrement tableName="pet" columnName="id" columnDataType="bigint" startWith="1" incrementBy="1"/>
         <addAutoIncrement tableName="employee" columnName="id" columnDataType="bigint" startWith="1" incrementBy="1"/>
@@ -124,8 +116,6 @@ http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibas
                           incrementBy="1"/>
         <addAutoIncrement tableName="schedule_pet" columnName="id" columnDataType="bigint" startWith="1"
                           incrementBy="1"/>
-        <addAutoIncrement tableName="user" columnName="id" columnDataType="bigint" startWith="1" incrementBy="1"/>
-
         <addAutoIncrement tableName="schedule" columnName="id" columnDataType="bigint" startWith="1" incrementBy="1"/>
     </changeSet>
 </databaseChangeLog>
