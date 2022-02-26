@@ -24,16 +24,15 @@ public class Schedule {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
+    private LocalDate scheduleDate;
+    
     @ManyToMany(targetEntity = Employee.class)
     @JoinTable(
             name = "schedule_employee",
             joinColumns = { @JoinColumn(name = "schedule_id")},
             inverseJoinColumns = { @JoinColumn(name = "employee_id")}
     )
-
-    @Column(nullable = false)
-    private LocalDate scheduleDate;
-
     private List<Employee>  employees = new ArrayList<>();
     public void addEmployee(Employee employee) {
 
