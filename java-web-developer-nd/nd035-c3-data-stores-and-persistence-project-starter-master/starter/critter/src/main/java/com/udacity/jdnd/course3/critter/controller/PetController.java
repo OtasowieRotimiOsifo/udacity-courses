@@ -6,8 +6,7 @@ import com.udacity.jdnd.course3.critter.entity.Pet;
 import com.udacity.jdnd.course3.critter.mapping.PetMapper;
 import com.udacity.jdnd.course3.critter.service.PetService;
 import org.modelmapper.ModelMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,7 +20,6 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/pet")
 public class PetController {
-    private static Logger logger = LoggerFactory.getLogger(PetController.class);
     @Autowired
     private PetService petService;
 

@@ -26,7 +26,7 @@ public class Schedule {
 
     @Column(nullable = false)
     private LocalDate scheduleDate;
-    
+
     @ManyToMany(targetEntity = Employee.class)
     @JoinTable(
             name = "schedule_employee",
