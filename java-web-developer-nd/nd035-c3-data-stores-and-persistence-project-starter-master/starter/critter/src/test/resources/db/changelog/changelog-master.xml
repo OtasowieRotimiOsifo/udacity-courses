@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd
+http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.1.xsd">
+    <changeSet id="20220210" author="Otasowie Osifo">
+        <createTable tableName="customer">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints nullable="false" unique="true" primaryKey="true" primaryKeyName="owner_id_pk"/>
+            </column>
+            <column name="name" type="varchar(250)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="phone_number" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="notes" type="varchar(250)">
+            </column>
+        </createTable>
+        <createTable tableName="pet">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pet_id_pk"/>
+            </column>
+            <column name="name" type="varchar(250)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="pet" type="varchar(20)"></column>
+            <column name="birth_date" type="date">
+            </column>
+            <column name="notes" type="varchar(250)">
+            </column>
+            <column name="owner_id" type="bigint">
+            </column>
+        </createTable>
+        <createTable tableName="days_available">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="available_id_pk"/>
+            </column>
+            <column name="days_available" type="varchar(20)">
+            </column>
+            <column name="employee_id" type="bigint">
+            </column>
+        </createTable>
+        <createTable tableName="skills">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="skills_id_pk"/>
+            </column>
+            <column name="skills" type="varchar(20)">
+            </column>
+            <column name="employee_id" type="bigint">
+            </column>
+        </createTable>
+        <createTable tableName="employee">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="employee_id_pk"/>
+            </column>
+            <column name="name" type="varchar(250)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="days_available" type="varchar(20)">
+            </column>
+            <column name="skills" type="varchar(20)">
+            </column>
+        </createTable>
+        <createTable tableName="activities">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="activities_id_pk"/>
+            </column>
+            <column name="activities" type="varchar(20)">
+            </column>
+            <column name="schedule_id" type="bigint">
+            </column>
+        </createTable>
+        <createTable tableName="schedule_employee">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="schedule_employee_id_pk"/>
+            </column>
+            <column name="employee_id" type="varchar(20)">
+            </column>
+            <column name="schedule_id" type="bigint">
+            </column>
+        </createTable>
+        <createTable tableName="schedule_pet">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="schedule_pet_id_pk"/>
+            </column>
+            <column name="pet_id" type="varchar(20)">
+            </column>
+            <column name="schedule_id" type="bigint">
+            </column>
+        </createTable>
+        <createTable tableName="schedule">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="schedule_id_pk"/>
+            </column>
+            <column name="employee_id" type="bigint">
+            </column>
+            <column name="pet_id" type="bigint">
+            </column>
+            <column name="schedule_date" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="activities" type="varchar(20)">
+            </column>
+        </createTable>
+        <addAutoIncrement tableName="customer" columnName="id" columnDataType="bigint" startWith="1" incrementBy="1"/>
+        <addAutoIncrement tableName="pet" columnName="id" columnDataType="bigint" startWith="1" incrementBy="1"/>
+        <addAutoIncrement tableName="employee" columnName="id" columnDataType="bigint" startWith="1" incrementBy="1"/>
+        <addAutoIncrement tableName="days_available" columnName="id" columnDataType="bigint" startWith="1"
+                          incrementBy="1"/>
+        <addAutoIncrement tableName="skills" columnName="id" columnDataType="bigint" startWith="1" incrementBy="1"/>
+        <addAutoIncrement tableName="activities" columnName="id" columnDataType="bigint" startWith="1" incrementBy="1"/>
+        <addAutoIncrement tableName="schedule_employee" columnName="id" columnDataType="bigint" startWith="1"
+                          incrementBy="1"/>
+        <addAutoIncrement tableName="schedule_pet" columnName="id" columnDataType="bigint" startWith="1"
+                          incrementBy="1"/>
+        <addAutoIncrement tableName="schedule" columnName="id" columnDataType="bigint" startWith="1" incrementBy="1"/>
+    </changeSet>
+</databaseChangeLog>
