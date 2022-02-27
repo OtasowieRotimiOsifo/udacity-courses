@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class PetService {
     @Autowired
     private PetRepository petRepository;
@@ -20,7 +21,6 @@ public class PetService {
     @Autowired
     private CustomerRepository customerRepository;
 
-    @Transactional
     public Pet save(Pet p, Long ownerId) {
         Optional<Customer> op = customerRepository.findById(ownerId);
         if(op.isPresent()) {

@@ -16,19 +16,18 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class UserService {
     @Autowired
     private CustomerRepository customerRepository;
 
     @Autowired
     private EmployeeRepository employeeRepository;
-
-    @Transactional
+    
     public Customer save(Customer c) {
         return customerRepository.save(c);
     }
 
-    @Transactional
     public Employee save(Employee e) {
         return employeeRepository.save(e);
     }
