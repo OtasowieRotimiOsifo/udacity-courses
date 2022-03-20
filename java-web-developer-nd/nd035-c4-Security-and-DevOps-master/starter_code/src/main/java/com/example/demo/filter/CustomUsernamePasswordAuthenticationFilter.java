@@ -1,0 +1,38 @@
+package com.example.demo.filter;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+public class CustomUsernamePasswordAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
+    private static Logger logger = LoggerFactory.getLogger(CustomUsernamePasswordAuthenticationFilter.class);
+
+    @Override
+    public Authentication attemptAuthentication(
+            HttpServletRequest request,
+            HttpServletResponse response)
+            throws AuthenticationException {
+
+        UsernamePasswordAuthenticationToken authRequest = getAuthRequest(request);
+        setDetails(request, authRequest);
+
+        return this.getAuthenticationManager().authenticate(authRequest);
+    }
+
+    private UsernamePasswordAuthenticationToken getAuthRequest(
+            HttpServletRequest request) {
+
+        String username = obtainUsername(request);
+        String password = obtainPassword(request);
+
+        logger.info("username: {}, password: {}", username, password);
+        return new UsernamePasswordAuthenticationToken(
+                username, password);
+    }
+}
