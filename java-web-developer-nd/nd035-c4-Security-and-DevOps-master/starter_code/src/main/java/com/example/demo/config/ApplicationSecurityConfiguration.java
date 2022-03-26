@@ -1,6 +1,6 @@
 package com.example.demo.config;
 
-import com.example.demo.filter.CustomUsernamePasswordAuthenticationFilter;
+import com.example.demo.filter.JWTUsernamePasswordAuthenticationFilter;
 import com.example.demo.model.persistence.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -22,7 +22,7 @@ public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapt
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .httpBasic().disable()
-                .addFilterBefore(new CustomUsernamePasswordAuthenticationFilter(),
+                .addFilterBefore(new JWTUsernamePasswordAuthenticationFilter(),
                 UsernamePasswordAuthenticationFilter.class);
        http = http
                .cors()
