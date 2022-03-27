@@ -25,8 +25,8 @@ public class JWTBuilder {
             Date validity = Date.from(Instant.ofEpochMilli((Instant.now().toEpochMilli()) + jwt_time_to_live_ms));
             return JWT.create()
                     .withSubject(username)
-                    .withExpiresAt(validity)
-                    .sign(Algorithm.HMAC512(jwt_token_secret));
+                    .withExpiresAt(new Date(System.currentTimeMillis() + 10 * 60 * 1000))
+                    .sign(Algorithm.HMAC256(jwt_token_secret.getBytes()));
         } catch (Exception e) {
             throw new JWTCreationException("unable to create jwt token", null);
         }

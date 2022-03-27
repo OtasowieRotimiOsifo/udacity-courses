@@ -3,9 +3,11 @@ package com.example.demo.filter;
 import com.example.demo.jwt.JWTBuilder;
 import com.example.demo.model.persistence.User;
 import liquibase.pro.packaged.as;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -17,11 +19,15 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 
+@Slf4j
 public class JWTUsernamePasswordAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private static Logger logger = LoggerFactory.getLogger(JWTUsernamePasswordAuthenticationFilter.class);
 
-    public JWTUsernamePasswordAuthenticationFilter() {
-        setFilterProcessesUrl("/login");
+    private final AuthenticationManager authenticationManager;
+
+    public JWTUsernamePasswordAuthenticationFilter(AuthenticationManager authenticationManager) {
+        this.authenticationManager = authenticationManager;
+
     }
 
     @Override
@@ -31,10 +37,14 @@ public class JWTUsernamePasswordAuthenticationFilter extends UsernamePasswordAut
             throws AuthenticationException {
 
         try {
+            String username = request.getParameter("username");
+            String password = request.getParameter("password");
+            logger.info("username 1: {}, password 1: {}", username, password);
+            logger.info("path 1: {}", request.getPathInfo());
             UsernamePasswordAuthenticationToken authRequest = getAuthRequest(request);
             setDetails(request, authRequest);
 
-            return this.getAuthenticationManager().authenticate(authRequest);
+            return this.authenticationManager.authenticate(authRequest);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -50,9 +60,11 @@ public class JWTUsernamePasswordAuthenticationFilter extends UsernamePasswordAut
 
         JWTBuilder builder = new JWTBuilder();
 
-        String username = ((User) auth.getPrincipal()).getUsername();
+        org.springframework.security.core.userdetails.User u = (org.springframework.security.core.userdetails.User) auth.getPrincipal();
+        String username = u.getUsername();
 
         try {
+            logger.info("username 2: {}", username);
             String token = builder.buildToken(username);
             String body = username  + " " + token;
 
@@ -68,10 +80,10 @@ public class JWTUsernamePasswordAuthenticationFilter extends UsernamePasswordAut
     private UsernamePasswordAuthenticationToken getAuthRequest(
             HttpServletRequest request) {
 
-        String username = obtainUsername(request);
-        String password = obtainPassword(request);
-
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
         logger.info("username: {}, password: {}", username, password);
+        logger.info("path: {}", request.getPathInfo());
         return new UsernamePasswordAuthenticationToken(
                 username, password, new ArrayList<>());
     }
