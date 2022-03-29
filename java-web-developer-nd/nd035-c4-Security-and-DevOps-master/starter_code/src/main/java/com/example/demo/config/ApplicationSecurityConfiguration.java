@@ -31,8 +31,6 @@ public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapt
                .and()
                .csrf()
                .disable();
-
-        // Set session management to stateless
         http = http
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -40,13 +38,7 @@ public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapt
         http
                 .authorizeRequests()
                 .antMatchers("/api/user/create").permitAll()
-                .antMatchers("/login").permitAll()
-                //.antMatchers("/login").permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .logout()
-                .permitAll();
-
+                .anyRequest().authenticated();
     }
 
     @Override

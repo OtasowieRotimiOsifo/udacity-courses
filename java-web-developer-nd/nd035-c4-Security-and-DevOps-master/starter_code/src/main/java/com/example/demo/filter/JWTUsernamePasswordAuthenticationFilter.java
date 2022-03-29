@@ -1,8 +1,7 @@
 package com.example.demo.filter;
 
 import com.example.demo.jwt.JWTBuilder;
-import com.example.demo.model.persistence.User;
-import liquibase.pro.packaged.as;
+
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
