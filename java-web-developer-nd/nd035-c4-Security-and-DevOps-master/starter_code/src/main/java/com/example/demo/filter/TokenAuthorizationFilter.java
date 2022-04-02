@@ -3,6 +3,7 @@ package com.example.demo.filter;
 import com.example.demo.jwt.JWTValidator;
 import com.example.demo.service.JWTService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -20,6 +21,7 @@ import java.util.Map;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
+@Slf4j
 public class TokenAuthorizationFilter extends BasicAuthenticationFilter {
 
     private JWTService jwtService;
@@ -33,18 +35,20 @@ public class TokenAuthorizationFilter extends BasicAuthenticationFilter {
     protected void doFilterInternal(HttpServletRequest req,
                                     HttpServletResponse res,
                                     FilterChain chain) throws IOException, ServletException {
-
+        String header = req.getHeader(org.springframework.http.HttpHeaders.AUTHORIZATION);
+        log.info("header: {}", header);
         try {
             if (req.getServletPath().equals("/login")) {
                 chain.doFilter(req, res);
                 return;
-            } /*else  if (header == null || !header.startsWith( jwtService.getJwt_token_prefix())) {
+            } else  if (header == null || !header.startsWith( jwtService.getJwt_token_prefix())) {
             chain.doFilter(req, res);
             return;
-        }*/
+        }
 
-            String header = req.getHeader(org.springframework.http.HttpHeaders.AUTHORIZATION);
+
             String token = header.substring(jwtService.getJwt_token_prefix().length());
+            token = token.trim();
             UsernamePasswordAuthenticationToken authentication = jwtService.getAuthenticationToken(token);
 
             SecurityContextHolder.getContext().setAuthentication(authentication);

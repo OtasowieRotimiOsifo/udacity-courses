@@ -1,6 +1,7 @@
 package com.example.demo.config;
 
 import com.example.demo.filter.JWTUsernamePasswordAuthenticationFilter;
+import com.example.demo.filter.TokenAuthorizationFilter;
 import com.example.demo.service.JWTService;
 import com.example.demo.service.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -34,6 +36,9 @@ public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapt
         http
 
                 .addFilter(new JWTUsernamePasswordAuthenticationFilter(authenticationManagerBean(), jwtService));
+        http
+                .addFilterBefore(new TokenAuthorizationFilter(authenticationManagerBean(), jwtService), UsernamePasswordAuthenticationFilter.class);
+
        http = http
                .cors()
                .and()
