@@ -12,6 +12,7 @@ com/example/demo/controllers/CartController.class
 com/example/demo/service/UserService.class
 com/example/demo/model/persistence/UserOrder.class
 com/example/demo/model/persistence/Item.class
+com/example/demo/service/JWTService.class
 com/example/demo/model/persistence/repositories/CartRepository.class
 com/example/demo/controllers/UserController.class
 com/example/demo/jwt/JWTBuilder.class

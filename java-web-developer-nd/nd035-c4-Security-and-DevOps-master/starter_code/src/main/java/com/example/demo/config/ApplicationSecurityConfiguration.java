@@ -1,8 +1,11 @@
 package com.example.demo.config;
 
 import com.example.demo.filter.JWTUsernamePasswordAuthenticationFilter;
+import com.example.demo.service.JWTService;
 import com.example.demo.service.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,14 +21,19 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapter {
+
     private final UserDetailsServiceImpl userDetailsService;
+
     private final PasswordEncoder bCryptPasswordEncoder;
+
+    @Autowired
+    private JWTService jwtService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
 
-                .addFilter(new JWTUsernamePasswordAuthenticationFilter(authenticationManagerBean()));
+                .addFilter(new JWTUsernamePasswordAuthenticationFilter(authenticationManagerBean(), jwtService));
        http = http
                .cors()
                .and()

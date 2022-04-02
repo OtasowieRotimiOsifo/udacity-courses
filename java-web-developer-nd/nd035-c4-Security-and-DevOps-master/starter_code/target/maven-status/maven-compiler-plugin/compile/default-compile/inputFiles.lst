@@ -1,4 +1,5 @@
 /home/otasowie/code-dev/projects/udacity-courses/java-web-developer-nd/nd035-c4-Security-and-DevOps-master/starter_code/src/main/java/com/example/demo/filter/TokenAuthorizationFilter.java
+/home/otasowie/code-dev/projects/udacity-courses/java-web-developer-nd/nd035-c4-Security-and-DevOps-master/starter_code/src/main/java/com/example/demo/service/JWTService.java
 /home/otasowie/code-dev/projects/udacity-courses/java-web-developer-nd/nd035-c4-Security-and-DevOps-master/starter_code/src/main/java/com/example/demo/model/persistence/repositories/UserRepository.java
 /home/otasowie/code-dev/projects/udacity-courses/java-web-developer-nd/nd035-c4-Security-and-DevOps-master/starter_code/src/main/java/com/example/demo/service/UserSserviceImpl.java
 /home/otasowie/code-dev/projects/udacity-courses/java-web-developer-nd/nd035-c4-Security-and-DevOps-master/starter_code/src/main/java/com/example/demo/model/persistence/repositories/ItemRepository.java

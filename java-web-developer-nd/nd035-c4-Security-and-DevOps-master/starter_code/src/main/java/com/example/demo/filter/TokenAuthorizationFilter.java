@@ -1,6 +1,7 @@
 package com.example.demo.filter;
 
 import com.example.demo.jwt.JWTValidator;
+import com.example.demo.service.JWTService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -14,29 +15,28 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class TokenAuthorizationFilter extends BasicAuthenticationFilter {
-    @Value("${header}")
-    private String header_str;
 
-    @Value("${jwt_token_prefix}")
-    private String  jwt_token_prefix;
+    private JWTService jwtService;
 
-    private com.example.demo.jwt.JWTValidator validator = new JWTValidator();
-    public TokenAuthorizationFilter(AuthenticationManager authManager) {
+    public TokenAuthorizationFilter(AuthenticationManager authManager, JWTService jwtService) {
         super(authManager);
+        this.jwtService = jwtService;
     }
 
     @Override
     protected void doFilterInternal(HttpServletRequest req,
                                     HttpServletResponse res,
                                     FilterChain chain) throws IOException, ServletException {
-        String header = req.getHeader(header_str);
-
-        if (header == null || !header.startsWith( jwt_token_prefix)) {
+        String header = req.getHeader(jwtService.getHeader());
+        if(req.getServletPath().equals("/login")) {
+            chain.doFilter(req, res);
+            return ;
+        } else  if (header == null || !header.startsWith( jwtService.getJwt_token_prefix())) {
             chain.doFilter(req, res);
             return;
         }
 
-        UsernamePasswordAuthenticationToken authentication =  validator.getAuthenticationToken(req);
+        UsernamePasswordAuthenticationToken authentication =  jwtService.getAuthenticationToken(req);
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
         chain.doFilter(req, res);

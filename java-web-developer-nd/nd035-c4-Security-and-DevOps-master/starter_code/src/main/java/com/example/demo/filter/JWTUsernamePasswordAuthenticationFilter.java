@@ -2,6 +2,8 @@ package com.example.demo.filter;
 
 import com.example.demo.jwt.JWTBuilder;
 
+import com.example.demo.service.JWTService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +19,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @Slf4j
 public class JWTUsernamePasswordAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
@@ -24,9 +30,11 @@ public class JWTUsernamePasswordAuthenticationFilter extends UsernamePasswordAut
 
     private final AuthenticationManager authenticationManager;
 
-    public JWTUsernamePasswordAuthenticationFilter(AuthenticationManager authenticationManager) {
-        this.authenticationManager = authenticationManager;
+    private JWTService jwtService;
 
+    public JWTUsernamePasswordAuthenticationFilter(AuthenticationManager authenticationManager, JWTService jwtService) {
+        this.authenticationManager = authenticationManager;
+        this.jwtService = jwtService;
     }
 
     @Override
@@ -56,24 +64,24 @@ public class JWTUsernamePasswordAuthenticationFilter extends UsernamePasswordAut
                                             FilterChain chain,
                                             Authentication auth) throws IOException {
 
-
-        JWTBuilder builder = new JWTBuilder();
-
         org.springframework.security.core.userdetails.User u = (org.springframework.security.core.userdetails.User) auth.getPrincipal();
         String username = u.getUsername();
+        logger.info("username 2: {}", username);
 
         try {
-            logger.info("username 2: {}", username);
-            String token = builder.buildToken(username);
-            String body = username  + " " + token;
+            String token = jwtService.buildToken(username);
 
-            res.getWriter().write(body);
-            res.getWriter().flush();
+            Map<String, String> tokens = new HashMap<>();
+            tokens.put("access_token", token);
+
+            res.setContentType(APPLICATION_JSON_VALUE);
+
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.writeValue(res.getOutputStream(), tokens);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     private UsernamePasswordAuthenticationToken getAuthRequest(

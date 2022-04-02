@@ -12,20 +12,23 @@ import java.util.Date;
 @Slf4j
 public class JWTBuilder {
 
-    @Value("${jwt_token_secret}")
     private String jwt_token_secret;
 
-    @Value("${jwt_time_to_live_ms}")
     private long jwt_time_to_live_ms;
 
+    public JWTBuilder(long jwt_time_to_live_ms, String jwt_token_secret) {
+        this.jwt_time_to_live_ms = jwt_time_to_live_ms;
+        this.jwt_token_secret = jwt_token_secret;
+    }
     public String buildToken(String username) throws Exception {
         try {
-            Date validity = Date.from(Instant.ofEpochMilli((Instant.now().toEpochMilli()) + 600000));
+            Algorithm algorithm = Algorithm.HMAC512(this.jwt_token_secret.getBytes());
+            Date validity = Date.from(Instant.ofEpochMilli((Instant.now().toEpochMilli()) + this.jwt_time_to_live_ms));
 
             return JWT.create()
                     .withSubject(username)
                     .withExpiresAt(validity)
-                    .sign(Algorithm.HMAC512("dGhlX2FyZ29uYXV0cw".getBytes()));
+                    .sign(algorithm);
         } catch (Exception e) {
             e.printStackTrace();
             throw new JWTCreationException("unable to create jwt token", null);
