@@ -2,6 +2,7 @@ package com.example.demo.controllers;
 
 import java.util.List;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +20,7 @@ import com.example.demo.model.persistence.repositories.UserRepository;
 
 @RestController
 @RequestMapping("/api/order")
+@Slf4j
 public class OrderController {
 	
 	
@@ -31,6 +33,7 @@ public class OrderController {
 	
 	@PostMapping("/submit/{username}")
 	public ResponseEntity<UserOrder> submit(@PathVariable String username) {
+		log.info("order controller: username = {}", username);
 		User user = userRepository.findByUsername(username);
 		if(user == null) {
 			return ResponseEntity.notFound().build();
