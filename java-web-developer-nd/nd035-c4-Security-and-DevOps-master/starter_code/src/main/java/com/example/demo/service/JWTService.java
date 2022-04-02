@@ -31,10 +31,6 @@ public class JWTService {
     @Value("${jwt_token_prefix}")
     private String jwt_token_prefix;
 
-    @Value("${header}")
-    @Getter
-    private String header;
-
     public String buildToken(String username) throws Exception {
         try {
             JWTBuilder builder = new JWTBuilder(jwt_time_to_live_ms, jwt_token_secret);
@@ -45,12 +41,11 @@ public class JWTService {
         }
     }
 
-    public UsernamePasswordAuthenticationToken getAuthenticationToken(HttpServletRequest request) {
-        String token = request.getHeader(header);
-
+    public UsernamePasswordAuthenticationToken getAuthenticationToken(String token) {
+        log.info("jwt token : {}", token);
         if (token != null) {
-            JWTValidator validator = new JWTValidator(jwt_token_secret, jwt_token_prefix, header);
-           return validator.getAuthenticationToken(token);
+            JWTValidator validator = new JWTValidator(jwt_token_secret, jwt_token_prefix);
+            return validator.getAuthenticationToken(token);
         }
         return null;
     }

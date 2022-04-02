@@ -1,7 +1,9 @@
 package com.example.demo.jwt;
 
 import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.sun.istack.NotNull;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -15,10 +17,7 @@ public class JWTValidator {
 
     private String  jwt_token_prefix;
 
-    private String header;
-
-    public JWTValidator(String jwt_token_secret, String jwt_token_prefix, String header) {
-        this.header = header;
+    public JWTValidator(String jwt_token_secret, String jwt_token_prefix) {
         this.jwt_token_prefix = jwt_token_prefix;
         this.jwt_token_secret = jwt_token_secret;
     }
@@ -27,7 +26,7 @@ public class JWTValidator {
         Algorithm algorithm = Algorithm.HMAC512(this.jwt_token_secret.getBytes());
         String user = JWT.require(algorithm)
                 .build()
-                .verify(token.replace(jwt_token_prefix, ""))
+                .verify(token)
                 .getSubject();
 
         if (user != null) {
