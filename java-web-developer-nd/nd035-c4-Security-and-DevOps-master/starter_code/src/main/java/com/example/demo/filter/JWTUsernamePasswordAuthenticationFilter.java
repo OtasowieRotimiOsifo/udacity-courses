@@ -46,8 +46,8 @@ public class JWTUsernamePasswordAuthenticationFilter extends UsernamePasswordAut
         try {
             String username = request.getParameter("username");
             String password = request.getParameter("password");
-            logger.info("username 1: {}, password 1: {}", username, password);
-            logger.info("path 1: {}", request.getPathInfo());
+            //logger.info("username 1: {}, password 1: {}", username, password);
+            //logger.info("path 1: {}", request.getPathInfo());
             UsernamePasswordAuthenticationToken authRequest = getAuthRequest(request);
             setDetails(request, authRequest);
 

@@ -5,6 +5,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.example.demo.jwt.JWTBuilder;
 import com.example.demo.jwt.JWTValidator;
+import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -41,12 +42,7 @@ public class JWTService {
         }
     }
 
-    public UsernamePasswordAuthenticationToken getAuthenticationToken(String token) {
-        log.info("jwt token : {}", token);
-        if (token != null) {
-            JWTValidator validator = new JWTValidator(jwt_token_secret, jwt_token_prefix);
-            return validator.getAuthenticationToken(token);
-        }
-        return null;
+    public JWTValidator getJWTValidator(@NotNull String token) {
+        return new JWTValidator(jwt_token_secret, jwt_token_prefix, token);
     }
 }

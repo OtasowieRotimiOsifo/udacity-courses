@@ -2,9 +2,9 @@ package com.example.demo.filter;
 
 import com.example.demo.jwt.JWTValidator;
 import com.example.demo.service.JWTService;
+import com.example.demo.utils.ErrorUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -35,34 +35,51 @@ public class TokenAuthorizationFilter extends BasicAuthenticationFilter {
     protected void doFilterInternal(HttpServletRequest req,
                                     HttpServletResponse res,
                                     FilterChain chain) throws IOException, ServletException {
-        String header = req.getHeader(org.springframework.http.HttpHeaders.AUTHORIZATION);
-        log.info("header: {}", header);
-        try {
-            if (req.getServletPath().equals("/login")) {
-                chain.doFilter(req, res);
-                return;
-            } else  if (header == null || !header.startsWith( jwtService.getJwt_token_prefix())) {
+
+        if (req.getServletPath().equals("/login") || req.getServletPath().equals("/api/user/create")) {
             chain.doFilter(req, res);
             return;
         }
 
+        try {
 
-            String token = header.substring(jwtService.getJwt_token_prefix().length());
-            token = token.trim();
-            UsernamePasswordAuthenticationToken authentication = jwtService.getAuthenticationToken(token);
+            String header = req.getHeader(org.springframework.http.HttpHeaders.AUTHORIZATION);
 
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            chain.doFilter(req, res);
-        } catch (Exception exception) {
+            if(header != null && header.startsWith(jwtService.getJwt_token_prefix())) {
 
-            res.setHeader("error", exception.getMessage());
-            res.setStatus(FORBIDDEN.value());
+                log.info("Authorization header: {}", header);
+                String token = header.substring(jwtService.getJwt_token_prefix().length());
+                if(token != null) {
+                    String trimmed = token.trim();
+                    JWTValidator validator = jwtService.getJWTValidator(trimmed);
 
-            Map<String, String> error = new HashMap<>();
-            error.put("error_message", exception.getMessage());
+                    if(!validator.hasTokenNotExpired()) {
+                        Map<String, String>  error = ErrorUtils.getErrorMap(res, "The JWT token has expired!");
+                        ObjectMapper mapper = new ObjectMapper();
+                        mapper.writeValue(res.getOutputStream(), error);
+                        return;
+                    }
+                    if(!validator.hasTokenSubject()) {
+                        Map<String, String>  error = ErrorUtils.getErrorMap(res, "The JWT has no subject!");
+                        ObjectMapper mapper = new ObjectMapper();
+                        mapper.writeValue(res.getOutputStream(), error);
+                        return;
+                    }
 
-            res.setContentType(APPLICATION_JSON_VALUE);
+                    UsernamePasswordAuthenticationToken authentication = validator.getAuthenticationToken();
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                    chain.doFilter(req, res);
+                    return;
+                }
+            } else {
+                Map<String, String>  error = ErrorUtils.getErrorMap(res, "Not authorized!");
+                ObjectMapper mapper = new ObjectMapper();
+                mapper.writeValue(res.getOutputStream(), error);
+                return;
+            }
 
+        } catch (Exception e) {
+            Map<String, String>  error = ErrorUtils.getErrorMap(res, e.getMessage());
             ObjectMapper mapper = new ObjectMapper();
             mapper.writeValue(res.getOutputStream(), error);
         }
