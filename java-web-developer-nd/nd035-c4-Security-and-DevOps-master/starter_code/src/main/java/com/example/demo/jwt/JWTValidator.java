@@ -32,7 +32,7 @@ public class JWTValidator {
 
 
     public void verifyToken(@NotNull String token) {
-        this.decoded = verifier.verify(token);
+        this.decoded = verifier.verify(token); // throws JWTVerificationException if verification fails.
     }
 
     public boolean verifyHasSubject(@NotNull String token) {
