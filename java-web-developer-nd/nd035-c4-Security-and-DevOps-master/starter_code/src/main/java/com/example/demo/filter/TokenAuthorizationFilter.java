@@ -15,11 +15,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
-
-import static org.springframework.http.HttpStatus.FORBIDDEN;
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @Slf4j
 public class TokenAuthorizationFilter extends BasicAuthenticationFilter {
@@ -53,24 +49,26 @@ public class TokenAuthorizationFilter extends BasicAuthenticationFilter {
                     String trimmed = token.trim();
                     JWTValidator validator = jwtService.getJWTValidator(trimmed);
 
-                    if(!validator.hasTokenNotExpired()) {
-                        Map<String, String>  error = ErrorUtils.getErrorMap(res, "The JWT token has expired!");
-                        ObjectMapper mapper = new ObjectMapper();
-                        mapper.writeValue(res.getOutputStream(), error);
-                        return;
-                    }
-                    if(!validator.hasTokenSubject()) {
+                    validator.verifyToken(trimmed);
+
+                    if(!validator.verifyHasSubject(trimmed)) {
                         Map<String, String>  error = ErrorUtils.getErrorMap(res, "The JWT has no subject!");
                         ObjectMapper mapper = new ObjectMapper();
                         mapper.writeValue(res.getOutputStream(), error);
                         return;
                     }
 
-                    UsernamePasswordAuthenticationToken authentication = validator.getAuthenticationToken();
+                    UsernamePasswordAuthenticationToken authentication = validator.getAuthenticationToken(trimmed);
                     SecurityContextHolder.getContext().setAuthentication(authentication);
                     chain.doFilter(req, res);
                     return;
                 }
+
+                Map<String, String>  error = ErrorUtils.getErrorMap(res, "JWT token is null!");
+                ObjectMapper mapper = new ObjectMapper();
+                mapper.writeValue(res.getOutputStream(), error);
+
+                return;
             } else {
                 Map<String, String>  error = ErrorUtils.getErrorMap(res, "Not authorized!");
                 ObjectMapper mapper = new ObjectMapper();

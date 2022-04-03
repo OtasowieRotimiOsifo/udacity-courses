@@ -17,6 +17,7 @@ com/example/demo/model/persistence/repositories/CartRepository.class
 com/example/demo/controllers/UserController.class
 com/example/demo/jwt/JWTBuilder.class
 com/example/demo/model/persistence/repositories/UserRepository.class
+com/example/demo/utils/ErrorUtils.class
 com/example/demo/model/persistence/repositories/ItemRepository.class
 com/example/demo/filter/JWTUsernamePasswordAuthenticationFilter.class
 com/example/demo/controllers/ItemController.class

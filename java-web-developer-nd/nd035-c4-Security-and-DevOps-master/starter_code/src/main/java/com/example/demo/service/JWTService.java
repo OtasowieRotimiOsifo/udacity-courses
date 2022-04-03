@@ -43,6 +43,6 @@ public class JWTService {
     }
 
     public JWTValidator getJWTValidator(@NotNull String token) {
-        return new JWTValidator(jwt_token_secret, jwt_token_prefix, token);
+        return new JWTValidator(jwt_token_secret, jwt_token_prefix);
     }
 }

@@ -17,24 +17,25 @@ public class JWTValidator {
 
     private String  jwt_token_prefix;
 
+    private JWTVerifier verifier;
+
     private DecodedJWT decoded;
-    public JWTValidator(String jwt_token_secret, String jwt_token_prefix, @NotNull String token) {
+
+    public JWTValidator(String jwt_token_secret, String jwt_token_prefix) {
         this.jwt_token_prefix = jwt_token_prefix;
         this.jwt_token_secret = jwt_token_secret;
         Algorithm algorithm = Algorithm.HMAC512(this.jwt_token_secret.getBytes());
-        JWTVerifier verifier = JWT.require(algorithm).build();
+        this.verifier = JWT.require(algorithm).build();
+        this.decoded = null;
+
+    }
+
+
+    public void verifyToken(@NotNull String token) {
         this.decoded = verifier.verify(token);
     }
 
-    public boolean hasTokenNotExpired() {
-        Date expiringDate = this.decoded.getExpiresAt();
-        if(expiringDate.after(Date.from(Instant.ofEpochMilli((Instant.now().toEpochMilli()))))) {
-            return true;
-        }
-        return false;
-    }
-
-    public boolean hasTokenSubject() {
+    public boolean verifyHasSubject(@NotNull String token) {
         String user = this.decoded.getSubject();
         if(user != null) {
             return true;
@@ -42,7 +43,7 @@ public class JWTValidator {
         return false;
     }
 
-    public UsernamePasswordAuthenticationToken getAuthenticationToken() {
+    public UsernamePasswordAuthenticationToken getAuthenticationToken(@NotNull String token) {
         String user = this.decoded.getSubject();
         return new UsernamePasswordAuthenticationToken(user, null, new ArrayList<>());
     }
