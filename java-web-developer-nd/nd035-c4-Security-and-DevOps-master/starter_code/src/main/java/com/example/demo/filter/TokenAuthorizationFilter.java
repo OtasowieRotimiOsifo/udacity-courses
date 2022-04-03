@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Map;
+import java.util.Set;
 
 @Slf4j
 public class TokenAuthorizationFilter extends BasicAuthenticationFilter {
@@ -42,17 +43,26 @@ public class TokenAuthorizationFilter extends BasicAuthenticationFilter {
             String header = req.getHeader(org.springframework.http.HttpHeaders.AUTHORIZATION);
 
             if(header != null && header.startsWith(jwtService.getJwt_token_prefix())) {
-
                 log.info("Authorization header: {}", header);
+                Map<String, String[]> parameters = req.getParameterMap();
+                log.info("query string: {}", req.getQueryString());
+                log.info("path: {}", req.getPathInfo());
+                for (String k : parameters.keySet()) {
+                    String[] p = parameters.get(k);
+                    for (int i = 0; i < p.length; i++) {
+                        log.info("key: {}, parameter: {}", k, p[i]);
+                    }
+                }
                 String token = header.substring(jwtService.getJwt_token_prefix().length());
-                if(token != null) {
+                log.info("JWT token in controller: {}", token);
+                if (token != null) {
                     String trimmed = token.trim();
                     JWTValidator validator = jwtService.getJWTValidator(trimmed);
 
                     validator.verifyToken(trimmed);
 
-                    if(!validator.verifyHasSubject(trimmed)) {
-                        Map<String, String>  error = ErrorUtils.getErrorMap(res, "The JWT has no subject!");
+                    if (!validator.verifyHasSubject(trimmed)) {
+                        Map<String, String> error = ErrorUtils.getErrorMap(res, "The JWT has no subject!");
                         ObjectMapper mapper = new ObjectMapper();
                         mapper.writeValue(res.getOutputStream(), error);
                         return;
@@ -64,20 +74,20 @@ public class TokenAuthorizationFilter extends BasicAuthenticationFilter {
                     return;
                 }
 
-                Map<String, String>  error = ErrorUtils.getErrorMap(res, "JWT token is null!");
+                Map<String, String> error = ErrorUtils.getErrorMap(res, "JWT token is null!");
                 ObjectMapper mapper = new ObjectMapper();
                 mapper.writeValue(res.getOutputStream(), error);
 
                 return;
             } else {
-                Map<String, String>  error = ErrorUtils.getErrorMap(res, "Not authorized!");
+                Map<String, String> error = ErrorUtils.getErrorMap(res, "Not authorized!");
                 ObjectMapper mapper = new ObjectMapper();
                 mapper.writeValue(res.getOutputStream(), error);
                 return;
             }
 
         } catch (Exception e) {
-            Map<String, String>  error = ErrorUtils.getErrorMap(res, e.getMessage());
+            Map<String, String> error = ErrorUtils.getErrorMap(res, e.getMessage());
             ObjectMapper mapper = new ObjectMapper();
             mapper.writeValue(res.getOutputStream(), error);
         }

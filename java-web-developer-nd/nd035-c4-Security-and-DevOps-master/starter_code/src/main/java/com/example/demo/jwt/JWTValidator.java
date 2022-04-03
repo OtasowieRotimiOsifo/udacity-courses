@@ -5,12 +5,12 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.sun.istack.NotNull;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
-import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
 
+@Slf4j
 public class JWTValidator {
 
     private String jwt_token_secret;
@@ -33,10 +33,14 @@ public class JWTValidator {
 
     public void verifyToken(@NotNull String token) {
         this.decoded = verifier.verify(token); // throws JWTVerificationException if verification fails.
+        String user = this.decoded.getSubject();
+        log.info("user in validator verify: {}", user);
     }
 
     public boolean verifyHasSubject(@NotNull String token) {
+
         String user = this.decoded.getSubject();
+        log.info("user in validator: {}", user);
         if(user != null) {
             return true;
         }

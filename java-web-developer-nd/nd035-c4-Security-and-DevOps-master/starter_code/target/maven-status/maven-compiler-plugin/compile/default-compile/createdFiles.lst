@@ -20,6 +20,7 @@ com/example/demo/model/persistence/repositories/UserRepository.class
 com/example/demo/utils/ErrorUtils.class
 com/example/demo/model/persistence/repositories/ItemRepository.class
 com/example/demo/filter/JWTUsernamePasswordAuthenticationFilter.class
+com/example/demo/model/requests/OrdersRequest.class
 com/example/demo/controllers/ItemController.class
 com/example/demo/model/persistence/repositories/OrderRepository.class
 com/example/demo/service/UserSserviceImpl.class
