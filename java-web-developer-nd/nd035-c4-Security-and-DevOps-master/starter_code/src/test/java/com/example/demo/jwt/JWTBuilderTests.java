@@ -13,7 +13,7 @@ public class JWTBuilderTests {
     @Test
     public void validateCreateJWT() throws Exception {
         String jwt_token_secret = "dGhlX2FyZ29uYXV0cw==";
-        long jwt_time_to_live_ms = 3600000;
+        long jwt_time_to_live_ms =  60000;
         String userName = "test1";
 
         JWTBuilder builder = new JWTBuilder(jwt_time_to_live_ms, jwt_token_secret);
@@ -32,7 +32,7 @@ public class JWTBuilderTests {
     @Test
     public void validateJWTAlgorithm() throws Exception {
         String jwt_token_secret = "dGhlX2FyZ29uYXV0cw==";
-        long jwt_time_to_live_ms = 3600000;
+        long jwt_time_to_live_ms =  60000;
         String userName = "test1";
         JWTVerifier verifier;
 
@@ -53,7 +53,7 @@ public class JWTBuilderTests {
     @Test
     public void validateJWTSubject() throws Exception {
         String jwt_token_secret = "dGhlX2FyZ29uYXV0cw==";
-        long jwt_time_to_live_ms = 3600000;
+        long jwt_time_to_live_ms =  60000;
         String userName = "test1";
 
         JWTBuilder builder = new JWTBuilder(jwt_time_to_live_ms, jwt_token_secret);

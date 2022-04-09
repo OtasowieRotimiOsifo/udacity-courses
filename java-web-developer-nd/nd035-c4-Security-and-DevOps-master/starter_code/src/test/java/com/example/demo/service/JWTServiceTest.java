@@ -4,20 +4,16 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.example.demo.jwt.JWTBuilder;
-import lombok.Getter;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Value;
 
 @ExtendWith(MockitoExtension.class)
 public class JWTServiceTest {
     String jwt_token_secret = "dGhlX2FyZ29uYXV0cw==";
-    long jwt_time_to_live_ms = 3600000;
+    long jwt_time_to_live_ms = 60000;
     String userName = "test1";
     String jwt_token_prefix = "Bearer";
 
