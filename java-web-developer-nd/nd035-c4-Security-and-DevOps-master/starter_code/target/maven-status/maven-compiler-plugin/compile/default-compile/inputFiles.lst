@@ -1,5 +1,4 @@
 /home/otasowie/code-dev/projects/udacity-courses/java-web-developer-nd/nd035-c4-Security-and-DevOps-master/starter_code/src/main/java/com/example/demo/model/persistence/repositories/UserRepository.java
-/home/otasowie/code-dev/projects/udacity-courses/java-web-developer-nd/nd035-c4-Security-and-DevOps-master/starter_code/src/main/java/com/example/demo/service/UserSserviceImpl.java
 /home/otasowie/code-dev/projects/udacity-courses/java-web-developer-nd/nd035-c4-Security-and-DevOps-master/starter_code/src/main/java/com/example/demo/model/persistence/repositories/ItemRepository.java
 /home/otasowie/code-dev/projects/udacity-courses/java-web-developer-nd/nd035-c4-Security-and-DevOps-master/starter_code/src/main/java/com/example/demo/service/UserDetailsServiceImpl.java
 /home/otasowie/code-dev/projects/udacity-courses/java-web-developer-nd/nd035-c4-Security-and-DevOps-master/starter_code/src/main/java/com/example/demo/utils/ErrorUtils.java
@@ -22,5 +21,6 @@
 /home/otasowie/code-dev/projects/udacity-courses/java-web-developer-nd/nd035-c4-Security-and-DevOps-master/starter_code/src/main/java/com/example/demo/service/UserService.java
 /home/otasowie/code-dev/projects/udacity-courses/java-web-developer-nd/nd035-c4-Security-and-DevOps-master/starter_code/src/main/java/com/example/demo/model/requests/OrdersRequest.java
 /home/otasowie/code-dev/projects/udacity-courses/java-web-developer-nd/nd035-c4-Security-and-DevOps-master/starter_code/src/main/java/com/example/demo/controllers/ItemController.java
+/home/otasowie/code-dev/projects/udacity-courses/java-web-developer-nd/nd035-c4-Security-and-DevOps-master/starter_code/src/main/java/com/example/demo/service/UserServiceImpl.java
 /home/otasowie/code-dev/projects/udacity-courses/java-web-developer-nd/nd035-c4-Security-and-DevOps-master/starter_code/src/main/java/com/example/demo/jwt/JWTValidator.java
 /home/otasowie/code-dev/projects/udacity-courses/java-web-developer-nd/nd035-c4-Security-and-DevOps-master/starter_code/src/main/java/com/example/demo/model/persistence/Item.java
