@@ -9,4 +9,5 @@ public interface UserService {
     public User saveUser(User user);
     public User findByUserName(String username);
     public Optional<User> findById(long id);
+    public boolean matches(String raw, String encrypted);
 }

@@ -39,7 +39,7 @@ public class UserServiceTests {
         User savedUser = userService.saveUser(user);
 
         Assertions.assertNotNull(savedUser);
-        Assertions.assertNotEquals("pegasus", savedUser.getPassword());
+        Assertions.assertNotEquals(password, savedUser.getPassword());
         Assertions.assertTrue(bCryptPasswordEncoder.matches(password, savedUser.getPassword()));
     }
 

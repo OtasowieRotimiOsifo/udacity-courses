@@ -36,4 +36,9 @@ public class UserServiceImpl implements UserService{
     public Optional<User> findById(long id) {
         return userRepository.findById(id);
     }
+
+    @Override
+    public boolean matches(String raw, String encrypted) {
+        return bCryptPasswordEncoder.matches(raw, encrypted);
+    }
 }
