@@ -28,8 +28,9 @@ public class UserServiceTests {
 
     @Test
     public void userIsSuccessfullyCreatedAndSavedWithEncryptedPassword() {
+        String password= "pegasus";
         User user = new User();
-        user.setPassword("pegasus");
+        user.setPassword(password);
         user.setUsername("test1");
 
         Mockito.when(userRepository.save(user)).thenReturn(user);
@@ -39,12 +40,14 @@ public class UserServiceTests {
 
         Assertions.assertNotNull(savedUser);
         Assertions.assertNotEquals("pegasus", savedUser.getPassword());
+        Assertions.assertTrue(bCryptPasswordEncoder.matches(password, savedUser.getPassword()));
     }
 
     @Test
-    public void whenValidName_thenUserShouldBeFound() {
+    public void whenValidName_thenCreatedUserShouldBeFound() {
+        String password= "pegasus";
         User user = new User();
-        user.setPassword("pegasus");
+        user.setPassword(password);
         user.setUsername("test1");
 
         Mockito.when(userRepository.findByUsername(user.getUsername())).thenReturn(user);
@@ -55,6 +58,7 @@ public class UserServiceTests {
         User foundUser = userService.findByUserName(savedUser.getUsername());
 
         Assertions.assertNotNull(savedUser);
-        Assertions.assertNotEquals("pegasus", foundUser.getPassword());
+        Assertions.assertNotEquals(password, foundUser.getPassword());
+        Assertions.assertTrue(bCryptPasswordEncoder.matches(password, foundUser.getPassword()));
     }
 }
