@@ -14,13 +14,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.Optional;
+
 @ExtendWith(MockitoExtension.class)
 public class UserServiceTests {
 
-
-
     private PasswordEncoder bCryptPasswordEncoder =  new BCryptPasswordEncoder();
-    //@InjectMocks
+
     private UserServiceImpl userService;
 
     @Mock
