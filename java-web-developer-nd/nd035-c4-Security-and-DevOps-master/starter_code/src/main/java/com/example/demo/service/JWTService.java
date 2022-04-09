@@ -32,6 +32,11 @@ public class JWTService {
     @Value("${jwt_token_prefix}")
     private String jwt_token_prefix;
 
+    public JWTService(String jwt_token_prefix, long jwt_time_to_live_ms, String jwt_token_secret) {
+        this.jwt_token_prefix = jwt_token_prefix;
+        this.jwt_time_to_live_ms = jwt_time_to_live_ms;
+        this.jwt_token_secret = jwt_token_secret;
+    }
     public String buildToken(String username) throws Exception {
         try {
             JWTBuilder builder = new JWTBuilder(jwt_time_to_live_ms, jwt_token_secret);
