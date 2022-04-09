@@ -20,16 +20,16 @@ import java.util.ArrayList;
 @RequiredArgsConstructor
 @Slf4j
 public class JWTService {
-    @Value("${jwt_token_secret}")
+    @Value("${jwt_token_secret:dGhlX2FyZ29uYXV0cw==}")
     @Getter
     private String jwt_token_secret;
 
-    @Value("${jwt_time_to_live_ms}")
+    @Value("${jwt_time_to_live_ms:3600000}")
     private @Getter
     long jwt_time_to_live_ms;
 
     @Getter
-    @Value("${jwt_token_prefix}")
+    @Value("${jwt_token_prefix:Bearer}")
     private String jwt_token_prefix;
 
     public JWTService(String jwt_token_prefix, long jwt_time_to_live_ms, String jwt_token_secret) {

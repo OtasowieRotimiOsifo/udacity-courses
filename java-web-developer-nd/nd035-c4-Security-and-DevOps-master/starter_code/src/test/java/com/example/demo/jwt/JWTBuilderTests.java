@@ -10,13 +10,15 @@ import org.junit.jupiter.api.Test;
 
 
 public class JWTBuilderTests {
+    private String jwt_token_secret = "dGhlX2FyZ29uYXV0cw==";
+    private long jwt_time_to_live_ms =  60000;
+    private String userName = "test1";
+
+    private JWTBuilder builder = new JWTBuilder(jwt_time_to_live_ms, jwt_token_secret);
+
+
     @Test
     public void validateCreateJWT() throws Exception {
-        String jwt_token_secret = "dGhlX2FyZ29uYXV0cw==";
-        long jwt_time_to_live_ms =  60000;
-        String userName = "test1";
-
-        JWTBuilder builder = new JWTBuilder(jwt_time_to_live_ms, jwt_token_secret);
 
         String token = builder.buildToken(userName);
 
@@ -31,12 +33,6 @@ public class JWTBuilderTests {
 
     @Test
     public void validateJWTAlgorithm() throws Exception {
-        String jwt_token_secret = "dGhlX2FyZ29uYXV0cw==";
-        long jwt_time_to_live_ms =  60000;
-        String userName = "test1";
-        JWTVerifier verifier;
-
-        JWTBuilder builder = new JWTBuilder(jwt_time_to_live_ms, jwt_token_secret);
 
         String token = builder.buildToken(userName);
 
@@ -52,11 +48,6 @@ public class JWTBuilderTests {
 
     @Test
     public void validateJWTSubject() throws Exception {
-        String jwt_token_secret = "dGhlX2FyZ29uYXV0cw==";
-        long jwt_time_to_live_ms =  60000;
-        String userName = "test1";
-
-        JWTBuilder builder = new JWTBuilder(jwt_time_to_live_ms, jwt_token_secret);
 
         String token = builder.buildToken(userName);
 

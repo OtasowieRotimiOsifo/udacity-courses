@@ -7,15 +7,13 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 
-@ExtendWith(MockitoExtension.class)
+
 public class JWTServiceTest {
-    String jwt_token_secret = "dGhlX2FyZ29uYXV0cw==";
-    long jwt_time_to_live_ms = 60000;
-    String userName = "test1";
-    String jwt_token_prefix = "Bearer";
+    private String jwt_token_secret = "dGhlX2FyZ29uYXV0cw==";
+    private long jwt_time_to_live_ms = 60000;
+    private String userName = "test1";
+    private String jwt_token_prefix = "Bearer";
 
     private JWTService jwtService = new JWTService(jwt_token_prefix, jwt_time_to_live_ms, jwt_token_secret);
 
@@ -25,8 +23,8 @@ public class JWTServiceTest {
 
         Assertions.assertNotNull(token);
 
-        Algorithm algorithm =  Algorithm.HMAC512(jwt_token_secret.getBytes());
-        JWTVerifier verifier =  JWT.require(algorithm).build();
+        Algorithm algorithm = Algorithm.HMAC512(jwt_token_secret.getBytes());
+        JWTVerifier verifier = JWT.require(algorithm).build();
         DecodedJWT decoded = verifier.verify(token);
 
         Assertions.assertNotNull(decoded);
@@ -35,14 +33,13 @@ public class JWTServiceTest {
     @Test
     public void validateJWTAlgorithm() throws Exception {
 
-
         String token = jwtService.buildToken(userName);
 
         Assertions.assertNotNull(token);
 
         DecodedJWT decoded = JWT.decode(token);
 
-        String algorithm =  Algorithm.HMAC512(jwt_token_secret.getBytes()).getName();
+        String algorithm = Algorithm.HMAC512(jwt_token_secret.getBytes()).getName();
         String expected = decoded.getAlgorithm();
 
         Assertions.assertEquals(algorithm.hashCode(), expected.hashCode());
