@@ -35,7 +35,7 @@ public class UserCartTests {
         String password = "pegasus";
         user = new User();
         user.setPassword(bCryptPasswordEncoder.encode(password));
-        user.setUsername("test1");
+        user.setUsername("test3");
 
         Item item = new Item();
         item.setName("Round Widget");
@@ -58,7 +58,7 @@ public class UserCartTests {
         Assertions.assertNotNull(cart.getItems());
         Assertions.assertNotNull(cart.getTotal());
         Assertions.assertEquals(cart.getItems().size(), 1);
-        Assertions.assertEquals(cart.getUser().getUsername(), "test1");
+        Assertions.assertEquals(cart.getUser().getUsername(), "test3");
     }
 
     @AfterEach

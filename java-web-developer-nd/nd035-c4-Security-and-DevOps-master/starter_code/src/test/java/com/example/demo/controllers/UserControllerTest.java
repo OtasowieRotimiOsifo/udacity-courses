@@ -12,7 +12,6 @@ import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 
 @SpringBootTest
@@ -27,12 +26,15 @@ public class UserControllerTest {
 
     private CreateUserRequest createUserRequest;
 
+    private String userName;
+
     @BeforeEach
     public void beforeEach() {
         password = "pegasus";
+        userName = "test1";
         createUserRequest = new CreateUserRequest();
         createUserRequest.setPassword(password);
-        createUserRequest.setUsername("test1");
+        createUserRequest.setUsername(userName);
     }
 
     @Test

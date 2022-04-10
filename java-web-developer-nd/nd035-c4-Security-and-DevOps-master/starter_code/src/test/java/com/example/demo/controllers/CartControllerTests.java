@@ -6,17 +6,15 @@ import com.example.demo.model.persistence.User;
 import com.example.demo.model.persistence.repositories.CartRepository;
 import com.example.demo.model.persistence.repositories.ItemRepository;
 import com.example.demo.model.persistence.repositories.UserRepository;
-import com.example.demo.model.requests.CreateUserRequest;
 import com.example.demo.model.requests.ModifyCartRequest;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
-
-import java.math.BigDecimal;
 
 @SpringBootTest
 public class CartControllerTests {

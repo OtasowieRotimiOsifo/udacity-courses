@@ -31,7 +31,7 @@ public class UserServiceTests {
         String password= "pegasus";
         User user = new User();
         user.setPassword(password);
-        user.setUsername("test1");
+        user.setUsername("test8");
 
         Mockito.when(userRepository.save(user)).thenReturn(user);
 
@@ -48,7 +48,7 @@ public class UserServiceTests {
         String password= "pegasus";
         User user = new User();
         user.setPassword(password);
-        user.setUsername("test1");
+        user.setUsername("test9");
 
         Mockito.when(userRepository.findByUsername(user.getUsername())).thenReturn(user);
         Mockito.when(userRepository.save(user)).thenReturn(user);

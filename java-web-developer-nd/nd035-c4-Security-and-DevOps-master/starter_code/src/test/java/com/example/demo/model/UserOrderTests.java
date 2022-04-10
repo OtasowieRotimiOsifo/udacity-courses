@@ -37,7 +37,7 @@ public class UserOrderTests {
         String password = "pegasus";
         user = new User();
         user.setPassword(bCryptPasswordEncoder.encode(password));
-        user.setUsername("test1");
+        user.setUsername("test5");
 
         Item item = new Item();
         item.setName("Round Widget");
@@ -64,6 +64,6 @@ public class UserOrderTests {
         Assertions.assertNotNull(savedOrder.getItems());
         Assertions.assertNotNull(savedOrder.getTotal());
         Assertions.assertEquals(savedOrder.getItems().size(), 1);
-        Assertions.assertEquals(savedOrder.getUser().getUsername(), "test1");
+        Assertions.assertEquals(savedOrder.getUser().getUsername(), "test5");
     }
 }

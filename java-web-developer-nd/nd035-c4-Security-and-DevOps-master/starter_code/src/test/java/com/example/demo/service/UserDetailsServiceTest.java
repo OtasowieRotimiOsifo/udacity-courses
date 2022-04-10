@@ -25,7 +25,7 @@ public class UserDetailsServiceTest {
         password = "pegasus";
         user = new User();
         user.setPassword(password);
-        user.setUsername("test1");
+        user.setUsername("test7");
 
         User savedUser = userService.saveUser(user);
     }

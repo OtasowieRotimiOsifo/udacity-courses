@@ -30,7 +30,7 @@ public class UserTests {
         password = "pegasus";
         user = new User();
         user.setPassword(bCryptPasswordEncoder.encode(password));
-        user.setUsername("test1");
+        user.setUsername("test6");
 
         entityManager.persist(user);
         entityManager.flush();

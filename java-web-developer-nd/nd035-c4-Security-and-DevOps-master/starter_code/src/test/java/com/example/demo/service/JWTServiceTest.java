@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 public class JWTServiceTest {
     private String jwt_token_secret = "dGhlX2FyZ29uYXV0cw==";
     private long jwt_time_to_live_ms = 60000;
-    private String userName = "test1";
+    private String userName = "test10";
     private String jwt_token_prefix = "Bearer";
 
     private JWTService jwtService = new JWTService(jwt_token_prefix, jwt_time_to_live_ms, jwt_token_secret);
