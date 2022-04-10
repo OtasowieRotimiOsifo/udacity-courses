@@ -24,7 +24,7 @@ public class UserControllerTest {
 
     @Autowired
     private UserRepository userRepository;
-    
+
     private String password;
 
     private CreateUserRequest createUserRequest;
