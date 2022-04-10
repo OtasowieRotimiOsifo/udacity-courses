@@ -6,6 +6,6 @@
 /home/otasowie/code-dev/projects/udacity-courses/java-web-developer-nd/nd035-c4-Security-and-DevOps-master/starter_code/src/test/java/com/example/demo/jwt/JWTBuilderTests.java
 /home/otasowie/code-dev/projects/udacity-courses/java-web-developer-nd/nd035-c4-Security-and-DevOps-master/starter_code/src/test/java/com/example/demo/controllers/UserControllerTest.java
 /home/otasowie/code-dev/projects/udacity-courses/java-web-developer-nd/nd035-c4-Security-and-DevOps-master/starter_code/src/test/java/com/example/demo/model/UserTests.java
-/home/otasowie/code-dev/projects/udacity-courses/java-web-developer-nd/nd035-c4-Security-and-DevOps-master/starter_code/src/test/java/com/example/demo/controllers/OrderControlerTests.java
+/home/otasowie/code-dev/projects/udacity-courses/java-web-developer-nd/nd035-c4-Security-and-DevOps-master/starter_code/src/test/java/com/example/demo/controllers/OrderControllerTests.java
 /home/otasowie/code-dev/projects/udacity-courses/java-web-developer-nd/nd035-c4-Security-and-DevOps-master/starter_code/src/test/java/com/example/demo/model/UserCartTests.java
 /home/otasowie/code-dev/projects/udacity-courses/java-web-developer-nd/nd035-c4-Security-and-DevOps-master/starter_code/src/test/java/com/example/demo/service/UserDetailsServiceTest.java
