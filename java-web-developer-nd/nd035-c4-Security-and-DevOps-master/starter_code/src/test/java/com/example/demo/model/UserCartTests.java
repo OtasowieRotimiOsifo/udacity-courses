@@ -6,6 +6,7 @@ import com.example.demo.model.persistence.User;
 
 import com.example.demo.model.persistence.repositories.CartRepository;
 import com.example.demo.model.persistence.repositories.UserRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -58,5 +59,13 @@ public class UserCartTests {
         Assertions.assertNotNull(cart.getTotal());
         Assertions.assertEquals(cart.getItems().size(), 1);
         Assertions.assertEquals(cart.getUser().getUsername(), "test1");
+    }
+
+    @AfterEach
+    public void afterEach() {
+        Cart cart = cartRepository.findByUser(user);
+        cartRepository.delete(cart);
+
+        userRepository.delete(user);
     }
 }

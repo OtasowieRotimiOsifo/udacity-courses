@@ -49,8 +49,9 @@ public class UserController {
 		User user = new User();
 		user.setUsername(createUserRequest.getUsername());
 		user.setPassword(createUserRequest.getPassword()); //must be encrypted: a class should do this.
+
 		Cart cart = new Cart();
-		cartRepository.save(cart);
+
 		user.setCart(cart);
 		User savedUser = userService.saveUser(user);
 		return ResponseEntity.ok(user);
