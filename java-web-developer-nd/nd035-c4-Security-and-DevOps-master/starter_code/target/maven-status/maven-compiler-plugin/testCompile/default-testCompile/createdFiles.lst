@@ -4,6 +4,7 @@ com/example/demo/SareetaApplicationTests.class
 com/example/demo/service/JWTServiceTest.class
 com/example/demo/service/UserDetailsServiceTest.class
 com/example/demo/model/UserCartTests.class
+com/example/demo/controllers/CartControllerTests.class
 com/example/demo/model/UserOrderTests.class
 com/example/demo/controllers/UserControllerTest.class
 com/example/demo/model/UserTests.class

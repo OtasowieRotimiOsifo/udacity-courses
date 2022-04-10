@@ -12,12 +12,10 @@ import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 
 @SpringBootTest
-
 public class UserControllerTest {
     @Autowired
     private UserController userController;
@@ -39,8 +37,7 @@ public class UserControllerTest {
 
     @Test
     public void givenCreateUserPostRequest_UserIsCreatedAndStored() throws Exception {
-        HttpEntity<CreateUserRequest> request = new HttpEntity<>(createUserRequest);
-        ResponseEntity<User> createdUser = userController.createUser(createUserRequest);//restTemplate.postForEntity(createResourceUrl, request, User.class);
+        ResponseEntity<User> createdUser = userController.createUser(createUserRequest);
         Assertions.assertNotNull(createdUser);
 
         Cart cart = createdUser.getBody().getCart();

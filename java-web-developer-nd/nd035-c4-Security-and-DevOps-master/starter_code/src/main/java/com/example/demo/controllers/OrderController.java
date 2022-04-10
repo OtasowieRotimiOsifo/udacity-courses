@@ -13,8 +13,11 @@ import com.example.demo.model.persistence.UserOrder;
 import com.example.demo.model.persistence.repositories.OrderRepository;
 import com.example.demo.model.persistence.repositories.UserRepository;
 
+import javax.transaction.Transactional;
+
 @RestController
 @RequestMapping("/api/order")
+@Transactional
 @Slf4j
 public class OrderController {
 	

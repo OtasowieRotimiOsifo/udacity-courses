@@ -19,8 +19,11 @@ import com.example.demo.model.persistence.repositories.ItemRepository;
 import com.example.demo.model.persistence.repositories.UserRepository;
 import com.example.demo.model.requests.ModifyCartRequest;
 
+import javax.transaction.Transactional;
+
 @RestController
 @RequestMapping("/api/cart")
+@Transactional
 public class CartController {
 	
 	@Autowired

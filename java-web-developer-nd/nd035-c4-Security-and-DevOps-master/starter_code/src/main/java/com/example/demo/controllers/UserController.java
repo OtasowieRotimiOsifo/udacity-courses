@@ -21,8 +21,11 @@ import com.example.demo.model.persistence.repositories.CartRepository;
 import com.example.demo.model.persistence.repositories.UserRepository;
 import com.example.demo.model.requests.CreateUserRequest;
 
+import javax.transaction.Transactional;
+
 @RestController
 @RequestMapping("/api/user")
+@Transactional
 public class UserController {
 	private static Logger logger = LoggerFactory.getLogger(UserController.class);
 
