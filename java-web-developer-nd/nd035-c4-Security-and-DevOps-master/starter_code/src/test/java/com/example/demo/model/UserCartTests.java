@@ -11,17 +11,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 
 @DataJpaTest
 public class UserCartTests {
-    //@Autowired
-    //private TestEntityManager entityManager;
 
     @Autowired
     private PasswordEncoder bCryptPasswordEncoder;
@@ -33,11 +28,10 @@ public class UserCartTests {
     private UserRepository userRepository;
 
     private User user;
-    private String password;
 
     @BeforeEach
     public void beforeEach() {
-        password = "pegasus";
+        String password = "pegasus";
         user = new User();
         user.setPassword(bCryptPasswordEncoder.encode(password));
         user.setUsername("test1");
