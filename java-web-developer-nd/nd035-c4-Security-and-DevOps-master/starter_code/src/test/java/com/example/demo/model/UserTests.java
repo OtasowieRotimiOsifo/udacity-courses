@@ -3,6 +3,7 @@ package com.example.demo.model;
 import com.example.demo.model.persistence.User;
 import com.example.demo.model.persistence.repositories.UserRepository;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -21,18 +22,23 @@ public class UserTests {
     @Autowired
     private PasswordEncoder bCryptPasswordEncoder;
 
-    @Test
-    public void whenFindByUsername_thenReturnUser() {
+    private User user;
+    private String password;
 
-        String password= "pegasus";
-        User user = new User();
+    @BeforeEach
+    public void beforeEach() {
+        password = "pegasus";
+        user = new User();
         user.setPassword(bCryptPasswordEncoder.encode(password));
         user.setUsername("test1");
 
-
         entityManager.persist(user);
         entityManager.flush();
+    }
 
+    @Test
+    public void whenFindByUsername_thenReturnUser() {
+        
         User found = userRepository.findByUsername(user.getUsername());
 
         Assertions.assertNotNull(found);

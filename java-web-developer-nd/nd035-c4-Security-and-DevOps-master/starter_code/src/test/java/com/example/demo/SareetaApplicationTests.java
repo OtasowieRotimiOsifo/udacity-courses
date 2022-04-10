@@ -12,7 +12,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-//@RunWith(SpringRunner.class)
 @SpringBootTest
 public class SareetaApplicationTests {
 
