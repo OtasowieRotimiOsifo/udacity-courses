@@ -38,7 +38,7 @@ public class UserTests {
 
     @Test
     public void whenFindByUsername_thenReturnUser() {
-        
+
         User found = userRepository.findByUsername(user.getUsername());
 
         Assertions.assertNotNull(found);
