@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 @SpringBootTest
@@ -28,30 +29,43 @@ public class UserControllerTest {
 
     private String userName;
 
-    @BeforeEach
-    public void beforeEach() {
-        password = "pegasus";
+    @Test
+    public void givenCreateUserPostRequest_UserWithValidPasswordIsCreatedAndStored() throws Exception {
+        password = "pegAsu%s9";
         userName = "test1";
+
         createUserRequest = new CreateUserRequest();
         createUserRequest.setPassword(password);
         createUserRequest.setUsername(userName);
-    }
 
-    @Test
-    public void givenCreateUserPostRequest_UserIsCreatedAndStored() throws Exception {
-        ResponseEntity<User> createdUser = userController.createUser(createUserRequest);
-        Assertions.assertNotNull(createdUser);
+        ResponseEntity<Object> createdObject = userController.createUser(createUserRequest);
+        Assertions.assertNotNull(createdObject);
 
-        Cart cart = createdUser.getBody().getCart();
+        User createdUser = (User)createdObject.getBody();
+
+        Cart cart = createdUser.getCart();
         Assertions.assertNotNull(cart);
 
         ResponseEntity<User> user =  userController.findByUserName(createUserRequest.getUsername());
         Assertions.assertNotNull(user.getBody());
     }
 
-    @AfterEach
-    public void afterEach() {
-        User user = userRepository.findByUsername( createUserRequest.getUsername());
-        userRepository.delete(user);
+    @Test
+    public void givenCreateUserPostRequest_UserIsNotCreatedDueToInValidPassword() throws Exception {
+            password = "pegAsu%s";
+            userName = "test1";
+
+            createUserRequest = new CreateUserRequest();
+            createUserRequest.setPassword(password);
+            createUserRequest.setUsername(userName);
+
+            ResponseEntity<Object> createdObject = userController.createUser(createUserRequest);
+            Assertions.assertNotNull(createdObject);
+
+            Assertions.assertEquals(createdObject.getStatusCode(), HttpStatus.NOT_ACCEPTABLE);
+
+            String message = (String) createdObject.getBody();
+        Assertions.assertEquals(message, "Password must contain at least 8 characters, digits,lower case, upper case and special characters");
     }
+
 }
