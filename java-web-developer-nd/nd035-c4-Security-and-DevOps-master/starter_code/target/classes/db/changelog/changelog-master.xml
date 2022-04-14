@@ -8,7 +8,7 @@ http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibas
     <changeSet id="20220320" author="Otasowie Osifo">
         <createTable tableName="item">
             <column name="id" type="bigint" autoIncrement="true">
-                <constraints nullable="false" unique="true" primaryKey="true" primaryKeyName="owner_id_pk"/>
+                <constraints nullable="false" unique="true" primaryKey="true" primaryKeyName="item_id_pk"/>
             </column>
             <column name="name" type="varchar(250)">
                 <constraints nullable="false"/>
@@ -18,6 +18,18 @@ http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibas
             </column>
             <column name="description" type="varchar(250)">
             </column>
+        </createTable>
+        <createTable tableName="user">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints nullable="false" unique="true" primaryKey="true" primaryKeyName="user_id_pk"/>
+            </column>
+            <column name="username" type="varchar(250)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="password" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="cart_id" type="bigint"></column>
         </createTable>
         <createTable tableName="user_order">
             <column name="id" type="bigint" autoIncrement="true">

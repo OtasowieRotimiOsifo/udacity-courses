@@ -62,6 +62,8 @@ public class UserController {
 
 			user.setCart(cart);
 			User savedUser = userService.saveUser(user);
+			cart.setUser(user);
+			cartRepository.save(cart);
 			return ResponseEntity.ok(savedUser);
 		} else {
 			return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("Password must contain at least 8 characters, digits,lower case, upper case and special characters");
