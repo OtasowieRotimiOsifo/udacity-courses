@@ -42,7 +42,7 @@ public class JWTService {
             JWTBuilder builder = new JWTBuilder(jwt_time_to_live_ms, jwt_token_secret);
             return builder.buildToken(username);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("JWTService: unable to create jwt token for user with user name: {}", username);
             throw new JWTCreationException("JWTService: unable to create jwt token", null);
         }
     }

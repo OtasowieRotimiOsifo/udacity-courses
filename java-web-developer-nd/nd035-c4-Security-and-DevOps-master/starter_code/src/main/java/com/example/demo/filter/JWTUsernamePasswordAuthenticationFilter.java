@@ -26,10 +26,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @Slf4j
 public class JWTUsernamePasswordAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
-    private static Logger logger = LoggerFactory.getLogger(JWTUsernamePasswordAuthenticationFilter.class);
-
     private final AuthenticationManager authenticationManager;
-
     private JWTService jwtService;
 
     public JWTUsernamePasswordAuthenticationFilter(AuthenticationManager authenticationManager, JWTService jwtService) {
@@ -44,10 +41,6 @@ public class JWTUsernamePasswordAuthenticationFilter extends UsernamePasswordAut
             throws AuthenticationException {
 
         try {
-            String username = request.getParameter("username");
-            String password = request.getParameter("password");
-            //logger.info("username 1: {}, password 1: {}", username, password);
-            //logger.info("path 1: {}", request.getPathInfo());
             UsernamePasswordAuthenticationToken authRequest = getAuthRequest(request);
             setDetails(request, authRequest);
 
@@ -66,7 +59,7 @@ public class JWTUsernamePasswordAuthenticationFilter extends UsernamePasswordAut
 
         org.springframework.security.core.userdetails.User u = (org.springframework.security.core.userdetails.User) auth.getPrincipal();
         String username = u.getUsername();
-        logger.info("username 2: {}", username);
+        log.info("user name in successfulAuthentication: {}", username);
 
         try {
             String token = jwtService.buildToken(username);
@@ -80,7 +73,7 @@ public class JWTUsernamePasswordAuthenticationFilter extends UsernamePasswordAut
             mapper.writeValue(res.getOutputStream(), tokens);
 
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Authentication failed for user with user name: {}", username);
         }
     }
 
@@ -89,8 +82,7 @@ public class JWTUsernamePasswordAuthenticationFilter extends UsernamePasswordAut
 
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        logger.info("username: {}, password: {}", username, password);
-        logger.info("path: {}", request.getPathInfo());
+        log.info("Authentication token will be created for user with user name: {}", username);
         return new UsernamePasswordAuthenticationToken(
                 username, password, new ArrayList<>());
     }

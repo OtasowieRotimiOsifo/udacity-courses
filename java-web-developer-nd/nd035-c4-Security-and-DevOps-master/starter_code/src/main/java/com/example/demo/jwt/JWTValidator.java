@@ -3,6 +3,7 @@ package com.example.demo.jwt;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.sun.istack.NotNull;
 import lombok.extern.slf4j.Slf4j;
@@ -32,9 +33,14 @@ public class JWTValidator {
 
 
     public void verifyToken(@NotNull String token) {
-        this.decoded = verifier.verify(token); // throws JWTVerificationException if verification fails.
-        String user = this.decoded.getSubject();
-        log.info("user in validator verify: {}", user);
+        try {
+            this.decoded = verifier.verify(token); // throws JWTVerificationException if verification fails.
+            String user = this.decoded.getSubject();
+            log.info("user in validator verify: {}", user);
+        } catch (JWTVerificationException e) {
+            log.error("verification of JWT failed with message: {}", e.getMessage());
+        }
+
     }
 
     public boolean verifyHasSubject(@NotNull String token) {

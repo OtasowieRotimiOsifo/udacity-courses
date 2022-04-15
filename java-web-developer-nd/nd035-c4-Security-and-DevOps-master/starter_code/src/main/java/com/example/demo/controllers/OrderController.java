@@ -20,7 +20,6 @@ import javax.transaction.Transactional;
 @Transactional
 @Slf4j
 public class OrderController {
-	
 	@Autowired
 	private UserRepository userRepository;
 	
@@ -29,7 +28,7 @@ public class OrderController {
 
 	@PostMapping("/submit")
 	public ResponseEntity<UserOrder> submit(@RequestBody OrdersRequest request) {
-		log.info("order in controller: username = {}", request.getUsername());
+		log.info("Order submitted for user: {}", request.getUsername());
 		User user = userRepository.findByUsername(request.getUsername());
 		if(user == null) {
 			return ResponseEntity.notFound().build();

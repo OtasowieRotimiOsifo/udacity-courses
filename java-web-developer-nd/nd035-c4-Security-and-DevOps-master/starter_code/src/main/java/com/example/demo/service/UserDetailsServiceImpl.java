@@ -18,13 +18,19 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     private final UserService userService;
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userService.findByUserName(username);
-        if(user == null) {
-            log.error("User not found in the database");
-            throw new UsernameNotFoundException("User not found in the database");
-        } else {
-            log.info("User found in the database: {}", username);
-            return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), new ArrayList<>());
+        try {
+            User user = userService.findByUserName(username);
+            if(user == null) {
+                log.error("User not found in the database");
+                throw new UsernameNotFoundException("User not found in the database");
+            } else {
+                log.info("User found in the database: {}", username);
+                return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), new ArrayList<>());
+            }
+        } catch(UsernameNotFoundException e) {
+            log.error("Error in loadUserByUsername with message: {}", e.getMessage());
+            throw new UsernameNotFoundException(e.getMessage());
         }
+
     }
 }

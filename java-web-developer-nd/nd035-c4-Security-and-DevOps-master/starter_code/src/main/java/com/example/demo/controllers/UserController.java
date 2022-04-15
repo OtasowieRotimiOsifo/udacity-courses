@@ -1,12 +1,10 @@
 package com.example.demo.controllers;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.example.demo.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.model.persistence.Cart;
 import com.example.demo.model.persistence.User;
 import com.example.demo.model.persistence.repositories.CartRepository;
-import com.example.demo.model.persistence.repositories.UserRepository;
 import com.example.demo.model.requests.CreateUserRequest;
 
 import javax.transaction.Transactional;
@@ -30,9 +27,8 @@ import javax.transaction.Transactional;
 @RestController
 @RequestMapping("/api/user")
 @Transactional
+@Slf4j
 public class UserController {
-	private static Logger logger = LoggerFactory.getLogger(UserController.class);
-
 	@Autowired
 	private UserService userService;
 
@@ -52,9 +48,10 @@ public class UserController {
 	
 	@PostMapping("/create")
 	public ResponseEntity<Object> createUser(@RequestBody CreateUserRequest createUserRequest)  {
-		if(passWordIsValid(createUserRequest.getPassword())) {
-			logger.info("user name: {}", createUserRequest.getUsername());
+		if(passwordIsAcceptable(createUserRequest.getPassword())) {
+			log.info("User password meets requirements");
 			User user = new User();
+			log.info("Set user name: {}", createUserRequest.getUsername());
 			user.setUsername(createUserRequest.getUsername());
 			user.setPassword(createUserRequest.getPassword()); //must be encrypted: a class should do this.
 
@@ -62,16 +59,18 @@ public class UserController {
 
 			user.setCart(cart);
 			User savedUser = userService.saveUser(user);
+			log.info("User with user name: {} created and saved", user.getUsername());
 			cart.setUser(user);
 			cartRepository.save(cart);
 			return ResponseEntity.ok(savedUser);
 		} else {
+			log.error("User password does not meet requirements");
 			return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("Password must contain at least 8 characters, digits,lower case, upper case and special characters");
 		}
 
 	}
 
-	private boolean passWordIsValid(String password){
+	private boolean passwordIsAcceptable(String password){
 
 		if (password == null) {
 			return false;
