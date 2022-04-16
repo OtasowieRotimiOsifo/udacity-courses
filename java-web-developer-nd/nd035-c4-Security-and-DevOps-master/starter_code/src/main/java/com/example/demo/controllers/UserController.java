@@ -49,9 +49,9 @@ public class UserController {
 	@PostMapping("/create")
 	public ResponseEntity<Object> createUser(@RequestBody CreateUserRequest createUserRequest)  {
 		if(passwordIsAcceptable(createUserRequest.getPassword())) {
-			log.info("User password meets requirements");
+			log.info("User password for User with user name: {} meets requirements", createUserRequest.getUsername());
 			User user = new User();
-			log.info("Set user name: {}", createUserRequest.getUsername());
+			log.info("Set user for User with user name: {}", createUserRequest.getUsername());
 			user.setUsername(createUserRequest.getUsername());
 			user.setPassword(createUserRequest.getPassword()); //must be encrypted: a class should do this.
 
@@ -60,11 +60,11 @@ public class UserController {
 			user.setCart(cart);
 			User savedUser = userService.saveUser(user);
 			log.info("User with user name: {} created and saved", user.getUsername());
-			cart.setUser(user);
+			cart.setUser(savedUser);
 			cartRepository.save(cart);
 			return ResponseEntity.ok(savedUser);
 		} else {
-			log.error("User password does not meet requirements");
+			log.error("User password for User with user name: {} does not meet requirements", createUserRequest.getUsername());
 			return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("Password must contain at least 8 characters, digits,lower case, upper case and special characters");
 		}
 
@@ -78,7 +78,6 @@ public class UserController {
 
 		String regex = "^(?=.*[0-9])"
 				+ "(?=.*[a-z])(?=.*[A-Z])"
-				+ "(?=.*[@#$%^&+=])"
 				+ "(?=\\S+$).{8,15}$";
 
 		Pattern p = Pattern.compile(regex);

@@ -45,8 +45,6 @@ public class TokenAuthorizationFilter extends BasicAuthenticationFilter {
             if(header != null && header.startsWith(jwtService.getJwt_token_prefix())) {
                 log.info("Authorization header: {}", header);
                 Map<String, String[]> parameters = req.getParameterMap();
-                log.info("query string: {}", req.getQueryString());
-                log.info("path: {}", req.getPathInfo());
                 for (String k : parameters.keySet()) {
                     String[] p = parameters.get(k);
                     for (int i = 0; i < p.length; i++) {

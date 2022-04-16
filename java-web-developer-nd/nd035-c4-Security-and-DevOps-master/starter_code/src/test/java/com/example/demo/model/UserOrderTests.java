@@ -15,14 +15,12 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @DataJpaTest
 public class UserOrderTests {
     @Autowired
     private PasswordEncoder bCryptPasswordEncoder;
-
-    @Autowired
-    private CartRepository cartRepository;
 
     @Autowired
     private UserRepository userRepository;
@@ -31,6 +29,8 @@ public class UserOrderTests {
     private OrderRepository orderRepository;
 
     private User user;
+
+    private Cart cart;
 
     private User savedUser;
 
@@ -46,19 +46,17 @@ public class UserOrderTests {
         item.setDescription("A widget that is round");
         item.setPrice(BigDecimal.valueOf(2.99000));
 
-        Cart cart = new Cart();
+        cart = new Cart();
         cart.addItem(item);
         cart.setUser(user);
 
         user.setCart(cart);
         savedUser = userRepository.save(user);
         cart.setUser(savedUser);
-        cartRepository.save(savedUser.getCart());
     }
 
-    //@Test
+    @Test
     public void whenValidUserWitheItemsInCart_OrderIsSavedFromCart() {
-        Cart cart = cartRepository.findByUser(savedUser);
 
         UserOrder order = UserOrder.createFromCart(cart);
 
@@ -68,5 +66,15 @@ public class UserOrderTests {
         Assertions.assertNotNull(savedOrder.getTotal());
         Assertions.assertEquals(savedOrder.getItems().size(), 1);
         Assertions.assertEquals(savedOrder.getUser().getUsername(), "test5");
+
+        List<UserOrder> userOrders = orderRepository.findByUser(user);
+        Assertions.assertNotNull(userOrders);
+        Assertions.assertEquals(userOrders.size(), 1);
+        for(UserOrder o: userOrders) {
+            Assertions.assertNotNull(o.getItems());
+            Assertions.assertNotNull(o.getTotal());
+            Assertions.assertEquals(o.getItems().size(), 1);
+            Assertions.assertEquals(o.getUser().getUsername(), "test5");
+        }
     }
 }

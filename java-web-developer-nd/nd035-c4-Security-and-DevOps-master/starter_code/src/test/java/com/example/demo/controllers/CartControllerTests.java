@@ -42,14 +42,17 @@ public class CartControllerTests {
     @BeforeEach
     public void beforeEach() {
         password = "pegasus";
-        userName = "test2";
+        userName = "test20";
 
         user = new User();
         user.setPassword(password);
         user.setUsername(userName);
+
         Cart cart = new Cart();
         user.setCart(cart);
+        cart.setUser(user);
         createdUser = userRepository.save(user);
+        cartRepository.save(cart);
 
         Item item = itemRepository.findByName("Round Widget").get(0);
 
@@ -59,7 +62,7 @@ public class CartControllerTests {
         cartRequest.setQuantity(1);
     }
 
-    //@Test
+    @Test
     public void givenAddToCartPostRequest_UserIsModifiedAndStored() throws Exception {
         ResponseEntity<Cart> createdCart = cartController.addTocart(cartRequest);
         Assertions.assertNotNull(createdCart);
@@ -67,7 +70,7 @@ public class CartControllerTests {
         Cart cart = createdCart.getBody();
         Assertions.assertNotNull(cart);
 
-        Cart cartOwnedByUser =  cartRepository.findByUser(createdUser);
+        Cart cartOwnedByUser =  cartRepository.findByUser(user);
         Assertions.assertNotNull(cartOwnedByUser);
     }
 }

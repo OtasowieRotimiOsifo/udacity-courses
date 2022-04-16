@@ -30,7 +30,7 @@ public class JWTBuilder {
                     .withExpiresAt(validity)
                     .sign(algorithm);
         } catch (Exception e) {
-            log.error("Unable to create jwt token for user with user name: {}", username);
+            log.error("Unable to create jwt token for User with user name: {}", username);
             throw new JWTCreationException("Unable to create jwt token for user", null);
         }
     }

@@ -18,12 +18,12 @@ public class UserOrder {
 	@Column
 	private Long id;
 	
-	@ManyToMany(cascade = CascadeType.ALL)
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JsonProperty
 	@Column
     private List<Item> items;
 	
-	@ManyToOne(fetch = FetchType.LAZY, optional = true)
+	@ManyToOne(fetch = FetchType.EAGER, optional = true)
 	@JoinColumn(name="user_id", nullable = false, referencedColumnName = "id")
 	@JsonProperty
     private User user;

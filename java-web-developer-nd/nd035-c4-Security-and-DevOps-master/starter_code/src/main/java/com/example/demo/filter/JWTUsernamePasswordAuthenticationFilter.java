@@ -43,9 +43,10 @@ public class JWTUsernamePasswordAuthenticationFilter extends UsernamePasswordAut
         try {
             UsernamePasswordAuthenticationToken authRequest = getAuthRequest(request);
             setDetails(request, authRequest);
-
+            log.info("Set details made for User with user name: {}", request.getParameter("username"));
             return this.authenticationManager.authenticate(authRequest);
         } catch (Exception e) {
+            log.info("error message: {}", e.getMessage());
             throw new RuntimeException(e);
         }
 

@@ -21,10 +21,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         try {
             User user = userService.findByUserName(username);
             if(user == null) {
-                log.error("User not found in the database");
+                log.error("User with user name: {} not found in the database");
                 throw new UsernameNotFoundException("User not found in the database");
             } else {
-                log.info("User found in the database: {}", username);
+                log.info("User with user name: {} found in the database", username);
                 return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), new ArrayList<>());
             }
         } catch(UsernameNotFoundException e) {

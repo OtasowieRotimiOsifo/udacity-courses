@@ -1,0 +1,295 @@
+{
+	"info": {
+		"_postman_id": "1f1603be-cb33-4745-85b2-7018e31d2f44",
+		"name": "spring-security",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "create_user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"username\":\"test14\",\n\"password\":\"pegAsus9\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:6000/api/user/create",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "6000",
+					"path": [
+						"api",
+						"user",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\":\"test12\",\n    \"password\":\"pegAsu+s9\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:6000/login?username=test14&password=pegAsus9",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "6000",
+					"path": [
+						"login"
+					],
+					"query": [
+						{
+							"key": "username",
+							"value": "test14"
+						},
+						{
+							"key": "password",
+							"value": "pegAsus9"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get_item_by_name",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0MTQiLCJleHAiOjE2NTAwNjU2NjR9.Amj8odMTy7HS2G6TyHFmvWcwytc_t9S5eRl1l30Yjuv6-S_5Fa-3I-9pICNarN96IBtyJeFA4fYdbeYfyXF4SA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:6000/api/item/?name=Round Widget",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "6000",
+					"path": [
+						"api",
+						"item",
+						""
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "Round Widget"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add_item_to_cart",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0MTQiLCJleHAiOjE2NTAwNjU2NjR9.Amj8odMTy7HS2G6TyHFmvWcwytc_t9S5eRl1l30Yjuv6-S_5Fa-3I-9pICNarN96IBtyJeFA4fYdbeYfyXF4SA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"username\":\"test14\",\n\"itemId\":1,\n\"quantity\":5\n}\n\n"
+				},
+				"url": {
+					"raw": "http://localhost:6000/api/cart/addToCart",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "6000",
+					"path": [
+						"api",
+						"cart",
+						"addToCart"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "submit_order",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0MTQiLCJleHAiOjE2NTAwNjU2NjR9.Amj8odMTy7HS2G6TyHFmvWcwytc_t9S5eRl1l30Yjuv6-S_5Fa-3I-9pICNarN96IBtyJeFA4fYdbeYfyXF4SA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"username\":\"test14\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:6000/api/order/submit",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "6000",
+					"path": [
+						"api",
+						"order",
+						"submit"
+					],
+					"query": [
+						{
+							"key": "submit",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "history",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0MTQiLCJleHAiOjE2NTAwNjU2NjR9.Amj8odMTy7HS2G6TyHFmvWcwytc_t9S5eRl1l30Yjuv6-S_5Fa-3I-9pICNarN96IBtyJeFA4fYdbeYfyXF4SA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"username\":\"test14\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:6000/api/order/history",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "6000",
+					"path": [
+						"api",
+						"order",
+						"history"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

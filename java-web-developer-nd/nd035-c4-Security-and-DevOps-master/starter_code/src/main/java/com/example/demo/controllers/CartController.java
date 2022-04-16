@@ -53,8 +53,10 @@ public class CartController {
 		Cart cart = user.getCart();
 		IntStream.range(0, request.getQuantity())
 			.forEach(i -> cart.addItem(item.get()));
-		cartRepository.save(cart);
-		return ResponseEntity.ok(cart);
+
+		Cart savedCart = cartRepository.save(cart);
+		log.info("Added cart total: {}", savedCart.getTotal());
+		return ResponseEntity.ok(savedCart);
 	}
 	
 	@PostMapping("/removeFromCart")
