@@ -60,12 +60,4 @@ public class UserCartTests {
         Assertions.assertEquals(cart.getItems().size(), 1);
         Assertions.assertEquals(cart.getUser().getUsername(), "test3");
     }
-
-    @AfterEach
-    public void afterEach() {
-        Cart cart = cartRepository.findByUser(user);
-        cartRepository.delete(cart);
-
-        userRepository.delete(user);
-    }
 }
