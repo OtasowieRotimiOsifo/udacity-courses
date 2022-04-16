@@ -28,13 +28,14 @@ public class OrderController {
 
 	@PostMapping("/submit")
 	public ResponseEntity<UserOrder> submit(@RequestBody OrdersRequest request) {
-		log.info("Order submitted for user: {}", request.getUsername());
 		User user = userRepository.findByUsername(request.getUsername());
 		if(user == null) {
+			log.error("User with user name: {} not found in the system for submit order", request.getUsername());
 			return ResponseEntity.notFound().build();
 		}
 		UserOrder order = UserOrder.createFromCart(user.getCart());
 		orderRepository.save(order);
+		log.info("Order submitted and saved for User with user name: {}", request.getUsername());
 		return ResponseEntity.ok(order);
 	}
 

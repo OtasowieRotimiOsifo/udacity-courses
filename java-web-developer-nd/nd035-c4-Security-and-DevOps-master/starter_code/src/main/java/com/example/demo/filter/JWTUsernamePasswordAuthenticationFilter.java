@@ -74,7 +74,7 @@ public class JWTUsernamePasswordAuthenticationFilter extends UsernamePasswordAut
             mapper.writeValue(res.getOutputStream(), tokens);
 
         } catch (Exception e) {
-            log.error("Authentication failed for user with user name: {}", username);
+            log.error("Authentication failed for User with user name: {}", username);
         }
     }
 
@@ -83,7 +83,7 @@ public class JWTUsernamePasswordAuthenticationFilter extends UsernamePasswordAut
 
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        log.info("Authentication token will be created for user with user name: {}", username);
+        log.info("Authentication token will be created for User with user name: {}", username);
         return new UsernamePasswordAuthenticationToken(
                 username, password, new ArrayList<>());
     }

@@ -88,7 +88,7 @@ public class TokenAuthorizationFilter extends BasicAuthenticationFilter {
             Map<String, String> error = ErrorUtils.getErrorMap(res, e.getMessage());
             ObjectMapper mapper = new ObjectMapper();
             mapper.writeValue(res.getOutputStream(), error);
-            log.info("JWT authorization failed for user");
+            log.info("JWT authorization failed for User with user name: {}", req.getParameter("username"));
         }
 
     }
